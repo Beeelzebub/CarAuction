@@ -8,7 +8,7 @@ namespace Entity.Models
     public class CarBody
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string CarBodyType { get; set; }
     }

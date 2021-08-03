@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Entity.Models
 {
-    class User : IdentityUser
+    public class User : IdentityUser
     {
-
+        public string Name { get; set; }
     }
 }
