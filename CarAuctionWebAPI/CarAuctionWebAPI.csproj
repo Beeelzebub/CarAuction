@@ -11,9 +11,5 @@
     <None Remove="Controllers\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="sdf\" />
-  </ItemGroup>
-
 
 </Project>
