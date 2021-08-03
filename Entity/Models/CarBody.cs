@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Entity.Models
 {
-    class CarBody
+    public class CarBody
     {
     }
 }
