@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Entity.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Entity
 {
-    public class CarAuctionContext: DbContext
+    public class CarAuctionContext: IdentityDbContext<User>
     {
         public CarAuctionContext(DbContextOptions<CarAuctionContext> options)
             : base(options)
