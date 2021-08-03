@@ -26,7 +26,8 @@ namespace CarAuctionWebAPI
         {
             services.AddControllers();
         }
-        //this is beeelzebub branch
+      
+        //test egor
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
