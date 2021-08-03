@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Entity.Configurations;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,12 @@ namespace Entity
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Bit> Bits { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
 
+            builder.ApplyConfiguration(new RoleConfiguration());
+        }
     }
+    
 }

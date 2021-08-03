@@ -11,7 +11,7 @@ namespace Entity.Models
         [Key]
         public Guid Id { get; set; }
 
-        public DateTime? StartDate { get; set; } 
+        public DateTime StartDate { get; set; } 
 
         public DateTime EndDate { get; set; }
 
@@ -27,6 +27,10 @@ namespace Entity.Models
         public decimal CurrentCost { get; set; }
 
         public User Seller { get; set; }
+
+        [ForeignKey("LastBit")]
+        public Guid LastBitId { get; set; }
+        public Bit LastBit { get; set; }
 
     }
 }
