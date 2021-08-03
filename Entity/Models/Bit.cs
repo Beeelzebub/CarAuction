@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Entity.Models
 {
-    class Bit
+    public class Bit
     {
+        [Key]
+        public int Id { get; set; }
+        
     }
 }
