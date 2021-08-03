@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarAuctionWebAPI", "CarAuctionWebAPI\CarAuctionWebAPI.csproj", "{25A3A5C5-BAA0-4FD7-A759-61F33836AFE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarAuctionWebAPI", "CarAuctionWebAPI\CarAuctionWebAPI.csproj", "{25A3A5C5-BAA0-4FD7-A759-61F33836AFE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csproj", "{68C31C37-C54B-4008-8D01-35DEDBB95033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entity", "Entity\Entity.csproj", "{68C31C37-C54B-4008-8D01-35DEDBB95033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{C4C26325-67A6-4DBC-89F4-100DF4B0DA47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{68C31C37-C54B-4008-8D01-35DEDBB95033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68C31C37-C54B-4008-8D01-35DEDBB95033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68C31C37-C54B-4008-8D01-35DEDBB95033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4C26325-67A6-4DBC-89F4-100DF4B0DA47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4C26325-67A6-4DBC-89F4-100DF4B0DA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4C26325-67A6-4DBC-89F4-100DF4B0DA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4C26325-67A6-4DBC-89F4-100DF4B0DA47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
