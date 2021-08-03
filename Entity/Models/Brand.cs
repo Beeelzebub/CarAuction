@@ -8,7 +8,7 @@ namespace Entity.Models
     public class Brand
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string BrandName { get; set; }
     }

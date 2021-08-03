@@ -8,7 +8,10 @@ namespace Entity.Models
     public class Bit
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         
+        public User Buyer { get; set; }
+
+        public Lot Lot { get; set; }
     }
 }
