@@ -26,7 +26,7 @@ namespace CarAuctionWebAPI
         {
             services.AddControllers();
         }
-        
+        //test 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
