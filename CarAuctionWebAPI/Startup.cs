@@ -26,6 +26,7 @@ namespace CarAuctionWebAPI
         {
             services.AddControllers();
         }
+      
         //test egor
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
