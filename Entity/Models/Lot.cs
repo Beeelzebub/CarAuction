@@ -28,5 +28,9 @@ namespace Entity.Models
 
         public User Seller { get; set; }
 
+        [ForeignKey("LastBit")]
+        public Guid LastBitId { get; set; }
+        public Bit LastBit { get; set; }
+
     }
 }
