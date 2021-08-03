@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarAuctionWebAPI
 {
@@ -24,9 +26,10 @@ namespace CarAuctionWebAPI
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CarAuctionContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
         }
-        //test  egor
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
