@@ -12,7 +12,7 @@ namespace CarAuctionWebAPI
     {
         public MappingProfile()
         {
-            CreateMap<User, DtoForGetUser>();
+            CreateMap<User, UserForRegistrationDto>();
         }
     }
 }
