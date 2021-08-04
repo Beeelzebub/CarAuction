@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Entity.DTO
 {
-    public class DtoForGetUser
+    public class UserForRegistrationDto
     {
         public string Name { get; set; }
         public string UserName { get; set; }
