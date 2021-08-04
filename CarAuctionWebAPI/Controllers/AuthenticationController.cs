@@ -27,11 +27,12 @@ namespace CarAuctionWebAPI.Controllers
             _signInManager = signInManager;
         }
 
+        [HttpPost]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto userForAuthentication)
         {
             var user = await _userManager.FindByNameAsync(userForAuthentication.UserName);
 
-            if (user != null && await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
+            if (user == null || await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
             {
                 return Unauthorized("Authentication failed. Wrong user name or password.");
             }
