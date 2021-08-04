@@ -35,7 +35,7 @@ namespace CarAuctionWebAPI
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     b => b.MigrationsAssembly("Entity")));
 
-            /*services.AddIdentityCore<User>(opts =>
+            services.AddIdentity<User, IdentityRole>(opts =>
                 {
                     opts.Password.RequiredLength = 4;
                     opts.Password.RequireNonAlphanumeric = false;
@@ -43,10 +43,6 @@ namespace CarAuctionWebAPI
                     opts.Password.RequireUppercase = false;
                     opts.Password.RequireDigit = false;
                 })
-                .AddEntityFrameworkStores<CarAuctionContext>();
-            */
-
-            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<CarAuctionContext>();
 
             services.AddControllers();

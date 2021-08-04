@@ -272,17 +272,17 @@ namespace Entity.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9eee17fb-270a-4806-bde1-1c8632fd9a6b", "5110eac1-5272-4ff4-9ead-20e7d6e36c77", "Seller", "SELLER" });
+                values: new object[] { "6b3f3bf9-4e2b-4582-8f6c-52675f55b3bb", "af0da914-567c-4f1c-9bda-6df153d640d1", "Seller", "SELLER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "4639fc44-7e9b-4059-a318-a5c6dae32138", "4094fafe-3c6f-4b38-a563-1a8deecb42e8", "Buyer", "BUYER" });
+                values: new object[] { "98065c4b-f80d-42a9-9fd5-3d24ffca5eb1", "7aec305c-86a4-4168-b1f9-33cf6faf15c2", "Buyer", "BUYER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "17b344e9-ce91-49e8-96e9-0d850a1aa5d4", "6d13be65-b466-4818-83ce-091603daa4ef", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "fe8750ed-6bb6-4df0-b5b0-8b58af95e9b2", "3f9571a5-f6cd-4fca-8e50-819a591e287d", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
