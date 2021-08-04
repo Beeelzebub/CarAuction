@@ -7,15 +7,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Entity.Configurations
 {
-    class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
+    public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
     {
         public void Configure(EntityTypeBuilder<IdentityRole> builder)
         {
             builder.HasData(
                 new IdentityRole
                 {
-                    Name = "Default",
-                    NormalizedName = "DEFAULT"
+                    Name = "Seller",
+                    NormalizedName = "SELLER"
+                },
+                new IdentityRole
+                {
+                    Name = "Buyer",
+                    NormalizedName = "BUYER"
                 },
                 new IdentityRole
                 {

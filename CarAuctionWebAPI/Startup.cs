@@ -11,7 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Entity;
+using Entity.Models;
 using Microsoft.EntityFrameworkCore;
+using Entity.Configurations;
 
 namespace CarAuctionWebAPI
 {
@@ -30,6 +32,9 @@ namespace CarAuctionWebAPI
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     b => b.MigrationsAssembly("Entity")));
 
+            services.AddIdentityCore<User>()
+                .AddEntityFrameworkStores<CarAuctionContext>();
+
 
 
             services.AddControllers();
@@ -44,6 +49,7 @@ namespace CarAuctionWebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
