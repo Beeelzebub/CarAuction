@@ -22,7 +22,7 @@ namespace CarAuctionWebAPI.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthenticationController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager
+        public AuthenticationController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager,
             RoleManager<IdentityRole> roleManager)
         {
             _mapper = mapper;
@@ -31,7 +31,7 @@ namespace CarAuctionWebAPI.Controllers
             _roleManager = roleManager;
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
 
@@ -58,7 +58,7 @@ namespace CarAuctionWebAPI.Controllers
         {
             var user = await _userManager.FindByNameAsync(userForAuthentication.UserName);
 
-            if (user == null || await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
+            if (user == null || !(await _userManager.CheckPasswordAsync(user, userForAuthentication.Password)))
             {
                 return Unauthorized("Authentication failed. Wrong user name or password.");
             }
