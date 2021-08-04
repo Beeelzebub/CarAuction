@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Entity;
-using Entity.Configurations;
 using Entity.DTO;
 using Entity.Models;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
@@ -21,21 +19,18 @@ namespace CarAuctionWebAPI.Controllers
 
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthenticationController(IMapper mapper, UserManager<User> userManager,
+        public AuthenticationController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager
             RoleManager<IdentityRole> roleManager)
         {
             _mapper = mapper;
             _userManager = userManager;
+            _signInManager = signInManager;
             _roleManager = roleManager;
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok("hello");
-        }
         [HttpPost]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
@@ -58,6 +53,20 @@ namespace CarAuctionWebAPI.Controllers
             return StatusCode(201);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto userForAuthentication)
+        {
+            var user = await _userManager.FindByNameAsync(userForAuthentication.UserName);
 
+            if (user == null || await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
+            {
+                return Unauthorized("Authentication failed. Wrong user name or password.");
+            }
+
+            await _signInManager.SignInAsync(user, false);
+
+            return Ok();
+        }
+        
     }
 }
