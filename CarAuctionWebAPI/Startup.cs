@@ -14,6 +14,7 @@ using Entity;
 using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using Entity.Configurations;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarAuctionWebAPI
 {
@@ -35,7 +36,10 @@ namespace CarAuctionWebAPI
                     b => b.MigrationsAssembly("Entity")));
 
             services.AddIdentityCore<User>()
-                .AddEntityFrameworkStores<CarAuctionContext>();
+                .AddRoles<IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                .AddEntityFrameworkStores<CarAuctionContext>()
+                ;
 
 
 
