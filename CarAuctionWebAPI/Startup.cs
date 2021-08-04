@@ -28,6 +28,8 @@ namespace CarAuctionWebAPI
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddDbContext<CarAuctionContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     b => b.MigrationsAssembly("Entity")));
