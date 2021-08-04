@@ -14,6 +14,7 @@ using Entity;
 using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using Entity.Configurations;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarAuctionWebAPI
 {
@@ -34,11 +35,16 @@ namespace CarAuctionWebAPI
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     b => b.MigrationsAssembly("Entity")));
 
-            services.AddIdentityCore<User>()
+            services.AddIdentityCore<User>(opts =>
+                {
+                    opts.Password.RequiredLength = 4;
+                    opts.Password.RequireNonAlphanumeric = false;
+                    opts.Password.RequireLowercase = false;
+                    opts.Password.RequireUppercase = false;
+                    opts.Password.RequireDigit = false;
+                })
                 .AddEntityFrameworkStores<CarAuctionContext>();
-
-
-
+            
             services.AddControllers();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
