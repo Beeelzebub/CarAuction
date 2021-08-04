@@ -5,11 +5,13 @@ using System.Text;
 
 namespace Entity.Models
 {
-    public class CarBody
+    public class Bid
     {
         [Key]
         public Guid Id { get; set; }
+        
+        public User Buyer { get; set; }
 
-        public string CarBodyType { get; set; }
+        public Lot Lot { get; set; }
     }
 }

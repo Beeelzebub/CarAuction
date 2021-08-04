@@ -12,14 +12,35 @@ namespace Entity.Models
         public int Year { get; set; }
         public Brand Brand { get; set; }
         public Guid BrandId { get; set; }
+
         public Fuel Fuel { get; set; }
-        public Guid FuelId { get; set; }
         public CarBody CarBody { get; set; }
-        public Guid CarBodyId { get; set; }
         public Model Model { get; set; }
         public Guid ModelId { get; set; }
-        public DriveUnit DriverUnit { get; set; }
-        public Guid DriverUnitId { get; set; }
+        public DriverUnit DriverUnit { get; set; }
 
+    }
+    public enum Fuel
+    {
+        Gas,
+        Petrol,
+        Diesel,
+        Electric
+    }
+
+    public enum CarBody
+    {
+        PickupTrack,
+        Universal,
+        Sedan,
+        Coupe,
+        Hatchback,
+        Minivan
+    }
+    public enum DriverUnit
+    {
+        FrontWheelDrive,
+        RearDrive,
+        FourWheelDrive
     }
 }
