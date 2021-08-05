@@ -8,6 +8,7 @@ using AutoMapper;
 using Entity.DTO;
 using Entity.Models;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarAuctionWebAPI.Controllers
@@ -16,7 +17,6 @@ namespace CarAuctionWebAPI.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -31,7 +31,7 @@ namespace CarAuctionWebAPI.Controllers
             _roleManager = roleManager;
         }
 
-        [HttpGet]
+        [HttpPost("Registration")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
 
@@ -53,8 +53,8 @@ namespace CarAuctionWebAPI.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto userForAuthentication)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
         {
             var user = await _userManager.FindByNameAsync(userForAuthentication.UserName);
 
@@ -67,6 +67,14 @@ namespace CarAuctionWebAPI.Controllers
 
             return Ok();
         }
-        
+
+        [HttpGet("Logout"), Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return Ok();
+        }
+
     }
 }
