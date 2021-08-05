@@ -30,6 +30,7 @@ namespace Entity.Models
         public decimal CurrentCost { get; set; }
 
         [Required(ErrorMessage = "Car is a required field.")]
+        [ForeignKey("CarId")]
         public Car Car { get; set; }
         public Guid CarId { get; set; }
 

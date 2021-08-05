@@ -17,9 +17,8 @@ namespace Entity.Models
         public int Year { get; set; }
 
         public Brand Brand { get; set; }
-
-        [ForeignKey("Brand")]
-        public Guid BrandId { get; set; }
+        
+        public Guid? BrandId { get; set; }
 
         [Required(ErrorMessage = "Fuel is a required field.")]
         public Fuel Fuel { get; set; }
@@ -28,9 +27,8 @@ namespace Entity.Models
         public CarBody CarBody { get; set; }
 
         public Model Model { get; set; }
-
-        [ForeignKey("Model")]
-        public Guid ModelId { get; set; }
+        
+        public Guid? ModelId { get; set; }
 
         [Required(ErrorMessage = "Drive Unit is a required field.")]
         public DriveUnit DriveUnit { get; set; }

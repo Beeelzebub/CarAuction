@@ -14,10 +14,11 @@ namespace Entity.Models
         [Required(ErrorMessage = "Brand name is required field.")]
         [MaxLength(50, ErrorMessage = "Maximum length for the Name is 50 characters.")]
         public string Name { get; set; }
-        
+
         [Required]
+        [ForeignKey("BrandId")]
         public Brand Brand { get; set; }
-        [ForeignKey("Brand")]
+
         public Guid BrandId { get; set; }
     }
 }

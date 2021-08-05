@@ -11,27 +11,21 @@ namespace Entity.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Car> builder)
         {
+            builder.HasOne<Lot>().WithOne().OnDelete(DeleteBehavior.Cascade);
+
             builder.HasData(
                 new Car
                 {
-                    Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
+                    Id = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
                     Year = 2018,
-                    Brand = new Brand
-                    {
-                        Id = new Guid("p4e2z754-49b6-410c-bc78-2d54a9991870"),
-                        BrandName = "Audi"
-                    },
+                    BrandId = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"),
                     Fuel = Fuel.Petrol,
                     CarBody = CarBody.Sedan,
-                    Model = new Model
-                    {
-                        Id = new Guid("49b6z754-p4e2-410c-bc78-2d54a9991870"),
-                        Name = "A6",
-                        BrandId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870")
-                    },
+                    ModelId = new Guid("e3566a95-b1fd-4547-8721-887a9adcf32b"),
                     DriveUnit = DriveUnit.FrontWheelDrive
                 }
             );
+
         }
     }
 }

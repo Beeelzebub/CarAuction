@@ -14,14 +14,11 @@ namespace Entity.Models
         [Required(ErrorMessage = "Buyer is required field.")]
         public User Buyer { get; set; }
         
-
-        [ForeignKey("Buyer")]
         public string BuyerId { get; set; }
 
         [Required(ErrorMessage = "Lot is required field.")]
         public Lot Lot { get; set; }
-
-        [ForeignKey("Lot")]
+        
         public Guid LotId { get; set; }
 
         [Required(ErrorMessage = "Bid Status is required field.")]

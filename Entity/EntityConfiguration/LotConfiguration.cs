@@ -10,34 +10,22 @@ namespace Entity.EntityConfiguration
 {
     public class LotConfiguration : IEntityTypeConfiguration<Lot>
     {
-        private readonly UserManager<User> _userManager;
-
-        public LotConfiguration(UserManager<User> userManager)
+        public void Configure(EntityTypeBuilder<Lot> builder)
         {
-            _userManager = userManager;
-        }
-
-        public async void Configure(EntityTypeBuilder<Lot> builder)
-        {
-            var user = new User {UserName = "test1", Name = "Name"};
-            await _userManager.CreateAsync(new User {UserName = "test1", Name = "Name"}, "1234");
-
-
-            var user1 = await _userManager.FindByNameAsync("test1");
+            builder.HasOne(p => p.Car).WithOne().OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
                 
                 new Lot
                 {
-                    Id = new Guid("bc78c053-49b6-410c-bc78-2d54a9991870"),
+                    Id = new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"),
                     StartDate = new DateTime(2021,8, 5),
                     EndDate = new DateTime(2021, 8, 12),
                     StartingPrice = 25000,
                     MinimalStep = 1000,
                     CurrentCost = 25000,
-                    CarId = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
-                    Seller = user
-
+                    CarId = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
+                    SellerId = "12345"
                 }
             );
         }
