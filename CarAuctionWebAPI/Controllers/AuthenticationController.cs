@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using Entity.DTO;
@@ -31,11 +32,17 @@ namespace CarAuctionWebAPI.Controllers
             _roleManager = roleManager;
         }
 
-        [HttpGet]
+        [HttpPost("Register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
 
             var user = _mapper.Map<User>(userForRegistrationDto);
+            var resultRole = await _roleManager.RoleExistsAsync(userForRegistrationDto.Role);
+            if (!resultRole)
+            {
+
+                return BadRequest("Role no");
+            }
             var result = await _userManager.CreateAsync(user, userForRegistrationDto.Password);
             if (!result.Succeeded)
             {
@@ -45,14 +52,9 @@ namespace CarAuctionWebAPI.Controllers
                 }
                 return BadRequest(ModelState);
             }
-
             await _userManager.AddToRoleAsync(user, userForRegistrationDto.Role);
-
-                
-            
             return StatusCode(201);
         }
-
         [HttpPost]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto userForAuthentication)
         {
@@ -62,7 +64,6 @@ namespace CarAuctionWebAPI.Controllers
             {
                 return Unauthorized("Authentication failed. Wrong user name or password.");
             }
-
             await _signInManager.SignInAsync(user, false);
 
             return Ok();
