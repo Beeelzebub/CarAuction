@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Entity.Migrations
 {
-    public partial class createdb : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -166,30 +166,12 @@ namespace Entity.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bits",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    BuyerId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bits", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bits_AspNetUsers_BuyerId",
-                        column: x => x.BuyerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Models",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    BrandId = table.Column<Guid>(nullable: true)
+                    BrandId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,7 +181,7 @@ namespace Entity.Migrations
                         column: x => x.BrandId,
                         principalTable: "Brands",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -238,33 +220,50 @@ namespace Entity.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    BidsCount = table.Column<int>(nullable: false),
+                    StartingPrice = table.Column<decimal>(type: "money", nullable: false),
                     MinimalStep = table.Column<decimal>(type: "money", nullable: false),
                     CurrentCost = table.Column<decimal>(type: "money", nullable: false),
-                    CarID = table.Column<Guid>(nullable: false),
-                    SellerId1 = table.Column<string>(nullable: true),
-                    SellerId = table.Column<Guid>(nullable: false),
-                    LastBitId = table.Column<Guid>(nullable: false)
+                    CarId = table.Column<Guid>(nullable: false),
+                    SellerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Lots_Cars_CarID",
-                        column: x => x.CarID,
+                        name: "FK_Lots_Cars_CarId",
+                        column: x => x.CarId,
                         principalTable: "Cars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Lots_Bits_LastBitId",
-                        column: x => x.LastBitId,
-                        principalTable: "Bits",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Lots_AspNetUsers_SellerId1",
-                        column: x => x.SellerId1,
+                        name: "FK_Lots_AspNetUsers_SellerId",
+                        column: x => x.SellerId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bits",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    BuyerId = table.Column<string>(nullable: true),
+                    LotId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bits_AspNetUsers_BuyerId",
+                        column: x => x.BuyerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bits_Lots_LotId",
+                        column: x => x.LotId,
+                        principalTable: "Lots",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -272,17 +271,17 @@ namespace Entity.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "6b3f3bf9-4e2b-4582-8f6c-52675f55b3bb", "af0da914-567c-4f1c-9bda-6df153d640d1", "Seller", "SELLER" });
+                values: new object[] { "346108c7-f0cb-41ba-a836-fa17bb1afc9b", "c9034bc5-056a-4b37-8224-bf99f75a8daf", "Seller", "SELLER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "98065c4b-f80d-42a9-9fd5-3d24ffca5eb1", "7aec305c-86a4-4168-b1f9-33cf6faf15c2", "Buyer", "BUYER" });
+                values: new object[] { "06519982-b085-431b-8e1a-ab30d569155e", "aa424785-59ba-4e76-9a43-e2f4458c36d9", "Buyer", "BUYER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "fe8750ed-6bb6-4df0-b5b0-8b58af95e9b2", "3f9571a5-f6cd-4fca-8e50-819a591e287d", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "c42aac64-7a17-4510-afa3-d34686141db4", "62e72b9e-e973-4ac6-b0ca-d612a8d431c8", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -329,6 +328,11 @@ namespace Entity.Migrations
                 column: "BuyerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bits_LotId",
+                table: "Bits",
+                column: "LotId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cars_BrandId",
                 table: "Cars",
                 column: "BrandId");
@@ -339,20 +343,14 @@ namespace Entity.Migrations
                 column: "ModelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lots_CarID",
+                name: "IX_Lots_CarId",
                 table: "Lots",
-                column: "CarID");
+                column: "CarId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lots_LastBitId",
+                name: "IX_Lots_SellerId",
                 table: "Lots",
-                column: "LastBitId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Lots_SellerId1",
-                table: "Lots",
-                column: "SellerId1");
+                column: "SellerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Models_BrandId",
@@ -378,22 +376,22 @@ namespace Entity.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Lots");
+                name: "Bits");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Lots");
+
+            migrationBuilder.DropTable(
                 name: "Cars");
 
             migrationBuilder.DropTable(
-                name: "Bits");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Models");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Brands");

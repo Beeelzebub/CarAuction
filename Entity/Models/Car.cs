@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Entity.Models
@@ -11,11 +12,13 @@ namespace Entity.Models
         public Guid Id { get; set; }
         public int Year { get; set; }
         public Brand Brand { get; set; }
+        [ForeignKey("Brand")]
         public Guid BrandId { get; set; }
 
         public Fuel Fuel { get; set; }
         public CarBody CarBody { get; set; }
         public Model Model { get; set; }
+        [ForeignKey("Model")]
         public Guid ModelId { get; set; }
         public DriverUnit DriverUnit { get; set; }
 

@@ -11,6 +11,7 @@ namespace Entity.Models
         public Guid Id { get; set; }
         
         public User Buyer { get; set; }
+        
 
         public Lot Lot { get; set; }
     }

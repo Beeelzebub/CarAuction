@@ -15,11 +15,8 @@ namespace Entity.Models
 
         public DateTime EndDate { get; set; }
 
-        [NotMapped]
-        public TimeSpan LeftTime { get; set; }
-
-        public int BidsCount { get; set; }
-
+        [Column(TypeName = "money")]
+        public decimal StartingPrice { get; set; }
         [Column(TypeName = "money")]
         public decimal MinimalStep { get; set; }
 
@@ -27,14 +24,13 @@ namespace Entity.Models
         public decimal CurrentCost { get; set; }
 
         public Car Car { get; set; }
-        public Guid CarID { get; set; }
+        public Guid CarId { get; set; }
 
         public User Seller { get; set; }
-        public Guid SellerId { get; set; }
+        public string SellerId { get; set; }
 
-        [ForeignKey("LastBit")]
-        public Guid LastBitId { get; set; }
-        public Bid LastBit { get; set; }
+
+        public List<Bid> Bids { get; set; } = new List<Bid>();
 
     }
 }
