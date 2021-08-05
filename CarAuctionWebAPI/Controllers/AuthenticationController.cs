@@ -31,7 +31,7 @@ namespace CarAuctionWebAPI.Controllers
             _signInManager = signInManager;
             _roleManager = roleManager;
         }
-
+        
         [HttpPost("Registration")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {

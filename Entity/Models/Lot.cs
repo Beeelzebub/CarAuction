@@ -10,31 +10,28 @@ namespace Entity.Models
     {
         [Key]
         public Guid Id { get; set; }
+        
+        [Required(ErrorMessage = "Start Date is a required field.")]
+        public DateTime StartDate { get; set; }
 
-        public DateTime StartDate { get; set; } 
-
+        [Required(ErrorMessage = "End Date is a required field.")]
         public DateTime EndDate { get; set; }
 
-        [NotMapped]
-        public TimeSpan LeftTime { get; set; }
-
-        public int BidsCount { get; set; }
-
         [Column(TypeName = "money")]
+        [Required(ErrorMessage = "Minimal Step is a required field.")]
         public decimal MinimalStep { get; set; }
 
         [Column(TypeName = "money")]
+        [Required(ErrorMessage = "Current Cost is a required field.")]
         public decimal CurrentCost { get; set; }
 
+        [Required(ErrorMessage = "Car is a required field.")]
         public Car Car { get; set; }
         public Guid CarID { get; set; }
 
+        [Required(ErrorMessage = "Seller is a required field.")]
         public User Seller { get; set; }
         public Guid SellerId { get; set; }
-
-        [ForeignKey("LastBit")]
-        public Guid LastBitId { get; set; }
-        public Bid LastBit { get; set; }
 
     }
 }
