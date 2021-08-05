@@ -12,6 +12,7 @@ namespace Entity.Models
         public Guid Id { get; set; }
         
         public User Buyer { get; set; }
+        
 
         [ForeignKey("Buyer")]
         [Required(ErrorMessage = "Buyer is required field.")]

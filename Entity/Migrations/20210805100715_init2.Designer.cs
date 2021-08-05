@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    [Migration("20210804141049_init")]
-    partial class init
+    [Migration("20210805100715_init2")]
+    partial class init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,9 +30,14 @@ namespace Entity.Migrations
                     b.Property<string>("BuyerId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid?>("LotId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BuyerId");
+
+                    b.HasIndex("LotId");
 
                     b.ToTable("Bits");
                 });
@@ -90,10 +95,7 @@ namespace Entity.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("BidsCount")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("CarID")
+                    b.Property<Guid>("CarId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("CurrentCost")
@@ -102,29 +104,23 @@ namespace Entity.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("LastBitId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("MinimalStep")
                         .HasColumnType("money");
 
-                    b.Property<Guid>("SellerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("SellerId1")
+                    b.Property<string>("SellerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("StartingPrice")
+                        .HasColumnType("money");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CarID");
+                    b.HasIndex("CarId");
 
-                    b.HasIndex("LastBitId")
-                        .IsUnique();
-
-                    b.HasIndex("SellerId1");
+                    b.HasIndex("SellerId");
 
                     b.ToTable("Lots");
                 });
@@ -135,7 +131,7 @@ namespace Entity.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BrandId")
+                    b.Property<Guid>("BrandId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -245,22 +241,22 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ce389758-b260-47e7-b76e-a03ac0d232f9",
-                            ConcurrencyStamp = "9999a22e-2435-468b-b778-4f7a0f39115a",
+                            Id = "e39cc452-3614-40b3-88bb-1e667394b54b",
+                            ConcurrencyStamp = "e395f67d-e55a-435a-8f15-5b220fb674b9",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "88c0fd8f-2190-472b-a27e-4614885a02f1",
-                            ConcurrencyStamp = "d112f589-0907-46cf-8de7-c40397137bac",
+                            Id = "fc219595-2f7d-4843-8efc-ac70341921ac",
+                            ConcurrencyStamp = "291ccfdb-5fee-499c-9ce7-331ba80b382c",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "cde69de2-1520-4304-b568-54100a0a5f1e",
-                            ConcurrencyStamp = "a2b00e5f-ea06-4bd9-aac6-ca240895d118",
+                            Id = "63143a7b-eead-4acc-aeb4-004360ad8247",
+                            ConcurrencyStamp = "2429631e-cd2f-43d5-afb4-316558c1742d",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -375,6 +371,10 @@ namespace Entity.Migrations
                     b.HasOne("Entity.Models.User", "Buyer")
                         .WithMany()
                         .HasForeignKey("BuyerId");
+
+                    b.HasOne("Entity.Models.Lot", "Lot")
+                        .WithMany("Bids")
+                        .HasForeignKey("LotId");
                 });
 
             modelBuilder.Entity("Entity.Models.Car", b =>
@@ -396,26 +396,22 @@ namespace Entity.Migrations
                 {
                     b.HasOne("Entity.Models.Car", "Car")
                         .WithMany()
-                        .HasForeignKey("CarID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entity.Models.Bid", "LastBit")
-                        .WithOne("Lot")
-                        .HasForeignKey("Entity.Models.Lot", "LastBitId")
+                        .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Entity.Models.User", "Seller")
                         .WithMany()
-                        .HasForeignKey("SellerId1");
+                        .HasForeignKey("SellerId");
                 });
 
             modelBuilder.Entity("Entity.Models.Model", b =>
                 {
                     b.HasOne("Entity.Models.Brand", "Brand")
                         .WithMany()
-                        .HasForeignKey("BrandId");
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
