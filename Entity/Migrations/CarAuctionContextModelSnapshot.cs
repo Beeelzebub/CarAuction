@@ -282,22 +282,22 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fbb22acc-44c9-4e80-b7b9-9c7dbcafc580",
-                            ConcurrencyStamp = "95068bf6-246c-4f45-a30d-40e8e361cf33",
+                            Id = "960d6991-81ce-433b-95f3-2ac3761d4801",
+                            ConcurrencyStamp = "83b0d94c-88d9-4c27-b469-034c4bb4fbe6",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "ff2ea643-c951-4644-998c-ace079ce266e",
-                            ConcurrencyStamp = "7e2b386c-8e5b-447e-84e7-d90681e9dd5c",
+                            Id = "8933201d-85aa-483a-ac0c-12a77c6b05d1",
+                            ConcurrencyStamp = "730415cd-951e-4fb2-81be-2d9bce137dc2",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "be839228-c52a-4fd4-8c00-2e666e1ef1d2",
-                            ConcurrencyStamp = "b45bc5c7-f6f1-450e-91d3-a5c7ce916aee",
+                            Id = "56e573a0-487b-450f-b499-2b8d45c3e07e",
+                            ConcurrencyStamp = "5ae04768-7434-46d7-a252-31e5a870f238",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
