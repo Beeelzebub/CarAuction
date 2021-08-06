@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    [Migration("20210806091905_init")]
+    [Migration("20210806102459_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,6 +83,9 @@ namespace Entity.Migrations
                     b.Property<int>("Fuel")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Year")
                         .HasColumnType("int")
                         .HasMaxLength(4);
@@ -101,6 +104,7 @@ namespace Entity.Migrations
                             CarBody = 2,
                             DriveUnit = 0,
                             Fuel = 1,
+                            ImageUrl = "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG",
                             Year = 2018
                         });
                 });
@@ -115,13 +119,13 @@ namespace Entity.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("CurrentCost")
-                        .HasColumnType("decimal(9,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("MinimalStep")
-                        .HasColumnType("decimal(9,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("SellerId")
                         .HasColumnType("nvarchar(450)");
@@ -130,7 +134,7 @@ namespace Entity.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("StartingPrice")
-                        .HasColumnType("decimal(9,2)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 
@@ -146,9 +150,9 @@ namespace Entity.Migrations
                             Id = new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"),
                             CarId = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
                             CurrentCost = 25000m,
-                            EndDate = new DateTime(2021, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2021, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MinimalStep = 1000m,
-                            StartDate = new DateTime(2021, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2021, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartingPrice = 25000m
                         });
                 });
@@ -280,22 +284,22 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e4f3ec83-c20b-4cc4-af70-4be52839cb36",
-                            ConcurrencyStamp = "2488386d-d4d1-454b-851f-832fab44acb7",
+                            Id = "fbb22acc-44c9-4e80-b7b9-9c7dbcafc580",
+                            ConcurrencyStamp = "95068bf6-246c-4f45-a30d-40e8e361cf33",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "cac704f4-1790-4945-9be5-c20ef08052c5",
-                            ConcurrencyStamp = "d43680f0-c85e-40a4-97f5-b9d7f3f30c95",
+                            Id = "ff2ea643-c951-4644-998c-ace079ce266e",
+                            ConcurrencyStamp = "7e2b386c-8e5b-447e-84e7-d90681e9dd5c",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "6eb2a80b-268d-47a6-b34e-eebd208abfd6",
-                            ConcurrencyStamp = "582e7de1-ece4-4b2a-93c5-8a25d8e1af6c",
+                            Id = "be839228-c52a-4fd4-8c00-2e666e1ef1d2",
+                            ConcurrencyStamp = "b45bc5c7-f6f1-450e-91d3-a5c7ce916aee",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

@@ -12,7 +12,7 @@ namespace Entity.EntityConfiguration
         public void Configure(EntityTypeBuilder<Car> builder)
         {
             builder.HasOne(x => x.Brand).WithMany(x => x.Cars).HasForeignKey(x => x.BrandId);
-           // builder.HasOne(x => x.Model).WithMany(x => x.Cars).HasForeignKey(x => x.ModelId);
+
             builder.HasMany(x => x.Lots).WithOne(x => x.Car).HasForeignKey(x => x.CarId);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Year).IsRequired().HasMaxLength(4);

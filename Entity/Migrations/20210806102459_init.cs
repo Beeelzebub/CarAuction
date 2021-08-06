@@ -171,6 +171,7 @@ namespace Entity.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Year = table.Column<int>(maxLength: 4, nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
                     Fuel = table.Column<int>(nullable: false),
                     CarBody = table.Column<int>(nullable: false),
                     DriveUnit = table.Column<int>(nullable: false),
@@ -213,9 +214,9 @@ namespace Entity.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    MinimalStep = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
-                    StartingPrice = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
-                    CurrentCost = table.Column<decimal>(type: "decimal(9,2)", nullable: false),
+                    MinimalStep = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    StartingPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    CurrentCost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     CarId = table.Column<Guid>(nullable: false),
                     SellerId = table.Column<string>(nullable: true)
                 },
@@ -267,9 +268,9 @@ namespace Entity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "e4f3ec83-c20b-4cc4-af70-4be52839cb36", "2488386d-d4d1-454b-851f-832fab44acb7", "Seller", "SELLER" },
-                    { "cac704f4-1790-4945-9be5-c20ef08052c5", "d43680f0-c85e-40a4-97f5-b9d7f3f30c95", "Buyer", "BUYER" },
-                    { "6eb2a80b-268d-47a6-b34e-eebd208abfd6", "582e7de1-ece4-4b2a-93c5-8a25d8e1af6c", "Administrator", "ADMINISTRATOR" }
+                    { "fbb22acc-44c9-4e80-b7b9-9c7dbcafc580", "95068bf6-246c-4f45-a30d-40e8e361cf33", "Seller", "SELLER" },
+                    { "ff2ea643-c951-4644-998c-ace079ce266e", "7e2b386c-8e5b-447e-84e7-d90681e9dd5c", "Buyer", "BUYER" },
+                    { "be839228-c52a-4fd4-8c00-2e666e1ef1d2", "b45bc5c7-f6f1-450e-91d3-a5c7ce916aee", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -279,8 +280,8 @@ namespace Entity.Migrations
 
             migrationBuilder.InsertData(
                 table: "Cars",
-                columns: new[] { "Id", "BrandId", "CarBody", "DriveUnit", "Fuel", "Year" },
-                values: new object[] { new Guid("67645961-17a7-4316-853c-7ea15838c135"), new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"), 2, 0, 1, 2018 });
+                columns: new[] { "Id", "BrandId", "CarBody", "DriveUnit", "Fuel", "ImageUrl", "Year" },
+                values: new object[] { new Guid("67645961-17a7-4316-853c-7ea15838c135"), new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"), 2, 0, 1, "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG", 2018 });
 
             migrationBuilder.InsertData(
                 table: "Models",
@@ -290,7 +291,7 @@ namespace Entity.Migrations
             migrationBuilder.InsertData(
                 table: "Lots",
                 columns: new[] { "Id", "CarId", "CurrentCost", "EndDate", "MinimalStep", "SellerId", "StartDate", "StartingPrice" },
-                values: new object[] { new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"), new Guid("67645961-17a7-4316-853c-7ea15838c135"), 25000m, new DateTime(2021, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 1000m, null, new DateTime(2021, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 25000m });
+                values: new object[] { new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"), new Guid("67645961-17a7-4316-853c-7ea15838c135"), 25000m, new DateTime(2021, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 1000m, null, new DateTime(2021, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 25000m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
