@@ -10,28 +10,23 @@ namespace Entity.Models
     {
         [Key]
         public Guid Id { get; set; }
-
-        [Required(ErrorMessage = "Year is a required field.")]
-        [MinLength(4, ErrorMessage = "Incorrect Year.")]
-        [MaxLength(4, ErrorMessage = "Incorrect Year.")]
         public int Year { get; set; }
-
-        public Brand Brand { get; set; }
-        
-        public Guid? BrandId { get; set; }
-
-        [Required(ErrorMessage = "Fuel is a required field.")]
         public Fuel Fuel { get; set; }
-
-        [Required(ErrorMessage = "Car Body is a required field.")]
-        public CarBody CarBody { get; set; }
-
-        public Model Model { get; set; }
         
-        public Guid? ModelId { get; set; }
-
-        [Required(ErrorMessage = "Drive Unit is a required field.")]
+        public CarBody CarBody { get; set; }
         public DriveUnit DriveUnit { get; set; }
+
+
+       // public virtual  Model Model { get; set; }
+        //public Guid ModelId { get; set; }
+        public virtual Brand Brand { get; set; }
+
+        public Guid BrandId { get; set; }
+        public virtual ICollection<Lot> Lots { get; set; }
+
+
+
+
 
     }
     public enum Fuel

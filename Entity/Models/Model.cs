@@ -8,17 +8,13 @@ namespace Entity.Models
 {
     public class Model
     {
-        [Key]
         public Guid Id { get; set; }
 
-        [Required(ErrorMessage = "Brand name is required field.")]
-        [MaxLength(50, ErrorMessage = "Maximum length for the Name is 50 characters.")]
         public string Name { get; set; }
 
-        [Required]
-        [ForeignKey("BrandId")]
-        public Brand Brand { get; set; }
+        public  Guid BrandId { get; set; }
+        public virtual Brand Brand { get; set; }
 
-        public Guid BrandId { get; set; }
+        //public virtual ICollection<Car> Cars { get; set; }
     }
 }

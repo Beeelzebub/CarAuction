@@ -11,8 +11,11 @@ namespace Entity.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Bid> builder)
         {
-            builder.HasOne(p => p.Lot).WithMany(t => t.Bids).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(p => p.Buyer).WithMany().OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(p => p.Lot).WithMany(t => t.Bids).HasForeignKey(x => x.LotId);
+            builder.HasOne(p => p.Buyer).WithMany(x => x.Bids).HasForeignKey(x => x.Id);
+
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.BidStatus).IsRequired();
         }
     }
 }

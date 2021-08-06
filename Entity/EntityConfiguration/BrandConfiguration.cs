@@ -11,11 +11,9 @@ namespace Entity.Configurations
     {
         public void Configure(EntityTypeBuilder<Brand> builder)
         {
-            //builder.HasMany(p => p.Models).WithOne(t => t.Brand).OnDelete(DeleteBehavior.Cascade);
-            //builder.HasMany<Car>().WithOne(p => p.Brand).OnDelete(DeleteBehavior.SetNull);
-
-            builder.HasMany<Model>().WithOne().OnDelete(DeleteBehavior.NoAction);
-            builder.HasMany<Car>().WithOne(t => t.Brand).OnDelete(DeleteBehavior.NoAction);
+            builder.HasKey(x => x.Id);
+            builder.Property(x=>x.BrandName).IsRequired().HasMaxLength(50);
+            
 
             builder.HasData(new Brand
             {

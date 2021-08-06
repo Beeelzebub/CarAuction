@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Entity.Models;
+﻿using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Entity.Configurations
+namespace Entity.EntityConfiguration
 {
     class ModelConfiguration : IEntityTypeConfiguration<Model>
     {
         public void Configure(EntityTypeBuilder<Model> builder)
         {
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
+            //builder.Property(x => x.Id).HasDefaultValueSql("LOWER(NEWID())").ValueGeneratedOnAdd();
             //builder.HasMany<Car>().WithOne(t => t.Model).OnDelete(DeleteBehavior.ClientSetNull);
             //builder.HasOne<Brand>().WithMany(p => p.Models).OnDelete(DeleteBehavior.Client);
+           
+            
+            
+           // builder.HasMany(x => x.Cars).WithOne(t => t.Model).HasForeignKey(x => x.ModelId);
+            builder.HasOne(p => p.Brand).WithMany(t => t.Models).HasForeignKey(x => x.BrandId);
 
-            builder.HasMany<Car>().WithOne(t => t.Model).OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(p => p.Brand).WithMany(t => t.Models).OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasData(new Model
-            {
-                Id = new Guid("e3566a95-b1fd-4547-8721-887a9adcf32b"),
-                Name = "A6",
-                BrandId = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654")
-            });
         }
     }
 }

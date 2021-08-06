@@ -10,19 +10,15 @@ namespace Entity.Models
     {
         [Key]
         public Guid Id { get; set; }
-
-        [Required(ErrorMessage = "Buyer is required field.")]
-        public User Buyer { get; set; }
         
-        public string BuyerId { get; set; }
-
-        [Required(ErrorMessage = "Lot is required field.")]
-        public Lot Lot { get; set; }
+        public BidStatus BidStatus { get; set; }
+        public virtual Lot Lot { get; set; }
         
         public Guid LotId { get; set; }
+        
+        public virtual User Buyer { get; set; }
 
-        [Required(ErrorMessage = "Bid Status is required field.")]
-        public BidStatus BidStatus { get; set; }
+        public string BuyerId { get; set; }
     }
 
     public enum BidStatus

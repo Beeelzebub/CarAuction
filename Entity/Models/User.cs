@@ -10,5 +10,7 @@ namespace Entity.Models
     {
         [Required(ErrorMessage = "Name is a required field.")]
         public string Name { get; set; }
+        public virtual ICollection<Lot> Lots { get; set; }
+        public virtual ICollection<Bid> Bids { get; set; }
     }
 }
