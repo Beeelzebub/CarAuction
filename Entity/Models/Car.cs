@@ -16,9 +16,9 @@ namespace Entity.Models
         public CarBody CarBody { get; set; }
         public DriveUnit DriveUnit { get; set; }
         
-        public virtual Brand Brand { get; set; }
+        public virtual Model Model { get; set; }
 
-        public Guid BrandId { get; set; }
+        public Guid ModelId { get; set; }
         public virtual ICollection<Lot> Lots { get; set; }
 
         

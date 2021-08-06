@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    [Migration("20210806102819_init")]
-    partial class init
+    [Migration("20210806110604_initt")]
+    partial class initt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,7 +71,7 @@ namespace Entity.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BrandId")
+                    b.Property<Guid?>("BrandId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CarBody")
@@ -86,6 +86,9 @@ namespace Entity.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("ModelId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Year")
                         .HasColumnType("int")
                         .HasMaxLength(4);
@@ -94,17 +97,19 @@ namespace Entity.Migrations
 
                     b.HasIndex("BrandId");
 
+                    b.HasIndex("ModelId");
+
                     b.ToTable("Cars");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
-                            BrandId = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"),
                             CarBody = 2,
                             DriveUnit = 0,
                             Fuel = 1,
                             ImageUrl = "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG",
+                            ModelId = new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"),
                             Year = 2018
                         });
                 });
@@ -284,22 +289,22 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "960d6991-81ce-433b-95f3-2ac3761d4801",
-                            ConcurrencyStamp = "83b0d94c-88d9-4c27-b469-034c4bb4fbe6",
+                            Id = "df745808-31eb-4cb8-8f57-d551b2c00602",
+                            ConcurrencyStamp = "51ba696f-4acd-4fd1-bb10-277396249f60",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "8933201d-85aa-483a-ac0c-12a77c6b05d1",
-                            ConcurrencyStamp = "730415cd-951e-4fb2-81be-2d9bce137dc2",
+                            Id = "43a7d53c-d377-4816-981e-b77a3296d3fd",
+                            ConcurrencyStamp = "ddc02e4f-84a3-4d88-9c94-4c15b1921f31",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "56e573a0-487b-450f-b499-2b8d45c3e07e",
-                            ConcurrencyStamp = "5ae04768-7434-46d7-a252-31e5a870f238",
+                            Id = "67f2e99e-c695-461d-b66d-78093ddb7b81",
+                            ConcurrencyStamp = "a14eb4f0-8aa9-46c4-8969-4913bedeae27",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -424,9 +429,13 @@ namespace Entity.Migrations
 
             modelBuilder.Entity("Entity.Models.Car", b =>
                 {
-                    b.HasOne("Entity.Models.Brand", "Brand")
+                    b.HasOne("Entity.Models.Brand", null)
                         .WithMany("Cars")
-                        .HasForeignKey("BrandId")
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("Entity.Models.Model", "Model")
+                        .WithMany("Cars")
+                        .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

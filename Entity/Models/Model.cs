@@ -13,8 +13,8 @@ namespace Entity.Models
         public string Name { get; set; }
 
         public  Guid BrandId { get; set; }
-        public virtual Brand Brand { get; set; }
+        public Brand Brand { get; set; }
 
-        //public virtual ICollection<Car> Cars { get; set; }
+        public virtual ICollection<Car> Cars { get; set; }
     }
 }

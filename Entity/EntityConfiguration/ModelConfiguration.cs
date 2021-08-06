@@ -9,7 +9,7 @@ namespace Entity.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Model> builder)
         {
-            builder.HasOne(p => p.Brand).WithMany(t => t.Models).HasForeignKey(x => x.BrandId);
+            builder.HasOne(x => x.Brand).WithMany(x => x.Models).HasForeignKey(x => x.BrandId);
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
