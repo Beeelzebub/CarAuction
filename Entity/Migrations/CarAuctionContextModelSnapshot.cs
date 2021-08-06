@@ -98,7 +98,8 @@ namespace Entity.Migrations
 
                     b.HasIndex("BrandId");
 
-                    b.HasIndex("LotId");
+                    b.HasIndex("LotId")
+                        .IsUnique();
 
                     b.HasIndex("ModelId");
 
@@ -124,12 +125,6 @@ namespace Entity.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CarId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CarId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal>("CurrentCost")
                         .HasColumnType("decimal(10,2)");
 
@@ -150,8 +145,6 @@ namespace Entity.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId1");
-
                     b.HasIndex("SellerId");
 
                     b.ToTable("Lots");
@@ -160,7 +153,6 @@ namespace Entity.Migrations
                         new
                         {
                             Id = new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"),
-                            CarId = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
                             CurrentCost = 25000m,
                             EndDate = new DateTime(2021, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MinimalStep = 1000m,
@@ -296,22 +288,22 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ba5426d4-1a55-494d-b2fc-99131de2c0e1",
-                            ConcurrencyStamp = "5302df64-342b-48a6-ae04-6ed767d27a83",
+                            Id = "4c75447c-9dae-4c3d-bd9e-f590ec217911",
+                            ConcurrencyStamp = "290f7f26-eaff-44c1-b552-17dfec36ff12",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "8daed8c5-e2fb-4102-8f38-6f618ba4c070",
-                            ConcurrencyStamp = "b68a550e-7ace-4ce8-8e5c-72346be84567",
+                            Id = "82aa3076-a975-4f7b-ac75-f59c541e8ec9",
+                            ConcurrencyStamp = "a1536999-2f2f-4555-9ff6-d598bc9804be",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "6c77825e-1939-47e4-87bf-e94325b55043",
-                            ConcurrencyStamp = "e1c60e04-eb84-4951-a40c-c86641097d35",
+                            Id = "ddc4f298-a6e9-459a-823c-9581d30624f3",
+                            ConcurrencyStamp = "8750242c-f766-462d-9827-36e2d19b18eb",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -441,8 +433,8 @@ namespace Entity.Migrations
                         .HasForeignKey("BrandId");
 
                     b.HasOne("Entity.Models.Lot", "Lot")
-                        .WithMany()
-                        .HasForeignKey("LotId")
+                        .WithOne("Car")
+                        .HasForeignKey("Entity.Models.Car", "LotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -455,10 +447,6 @@ namespace Entity.Migrations
 
             modelBuilder.Entity("Entity.Models.Lot", b =>
                 {
-                    b.HasOne("Entity.Models.Car", "Car")
-                        .WithMany()
-                        .HasForeignKey("CarId1");
-
                     b.HasOne("Entity.Models.User", "Seller")
                         .WithMany("Lots")
                         .HasForeignKey("SellerId");

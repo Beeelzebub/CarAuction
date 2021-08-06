@@ -21,7 +21,7 @@ namespace Entity.Models
         public decimal CurrentCost { get; set; }
         
         public virtual Car Car { get; set; }
-        public Guid CarId { get; set; }
+        // public Guid CarId { get; set; }
         
         public virtual User Seller { get; set; }
         public string SellerId { get; set; }

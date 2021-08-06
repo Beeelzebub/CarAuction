@@ -12,6 +12,10 @@ namespace Entity.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Lot> builder)
         {
+            builder.HasOne(b => b.Car)
+                .WithOne(i => i.Lot)
+                .HasForeignKey<Car>(b => b.LotId);
+            builder.HasKey(x => x.Id);
             builder.HasOne(x => x.Seller).WithMany(x => x.Lots).HasForeignKey(x => x.SellerId);
             builder.HasMany(x => x.Bids).WithOne(x => x.Lot).HasForeignKey(x => x.Id);
 
@@ -36,7 +40,7 @@ namespace Entity.EntityConfiguration
                      StartingPrice = 25000,
                      MinimalStep = 1000,
                      CurrentCost = 25000,
-                     CarId = new Guid("67645961-17a7-4316-853c-7ea15838c135")
+                     //CarId = new Guid("67645961-17a7-4316-853c-7ea15838c135")
                  }
              );
         }
