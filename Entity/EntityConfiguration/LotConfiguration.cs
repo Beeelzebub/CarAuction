@@ -19,28 +19,27 @@ namespace Entity.EntityConfiguration
             builder.HasKey(x => x.Id);
             builder.Property(x => x.StartDate).IsRequired();
             builder.Property(x => x.EndDate).IsRequired();
-            builder.Property(x => x.CurrentCost).HasColumnType("decimal(5,2)").IsRequired();
-            builder.Property(x => x.MinimalStep).HasColumnType("decimal(5,2)").IsRequired();
-            builder.Property(x => x.StartingPrice).HasColumnType("decimal(5,2)").IsRequired();
+            builder.Property(x => x.CurrentCost).HasColumnType("decimal(9,2)").IsRequired();
+            builder.Property(x => x.MinimalStep).HasColumnType("decimal(9,2)").IsRequired();
+            builder.Property(x => x.StartingPrice).HasColumnType("decimal(9,2)").IsRequired();
 
 
 
 
 
-            /* builder.HasData(
+             builder.HasData(
                  
                  new Lot
                  {
                      Id = new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"),
-                     StartDate = new DateTime(2021,8, 5),
-                     EndDate = new DateTime(2021, 8, 12),
+                     StartDate = new DateTime(2021,8, 6),
+                     EndDate = new DateTime(2021, 8, 13),
                      StartingPrice = 25000,
                      MinimalStep = 1000,
                      CurrentCost = 25000,
-                     CarId = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
-                     SellerId = "12345"
+                     CarId = new Guid("67645961-17a7-4316-853c-7ea15838c135")
                  }
-             );*/
+             );
         }
     }
     

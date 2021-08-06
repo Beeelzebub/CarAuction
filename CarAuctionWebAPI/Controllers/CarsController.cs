@@ -13,12 +13,12 @@ namespace CarAuctionWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LotsController : ControllerBase
+    public class CarsController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly CarAuctionContext _carAuctionContext;
 
-        public LotsController(IMapper mapper, CarAuctionContext carAuctionContext) 
+        public CarsController(IMapper mapper, CarAuctionContext carAuctionContext) 
         {
             _mapper = mapper;
             _carAuctionContext = carAuctionContext;
@@ -26,12 +26,12 @@ namespace CarAuctionWebAPI.Controllers
 
 
         [HttpGet]
-        public IActionResult GetAllLots()
+        public IActionResult GetAllCars()
         {
-            var lots = _carAuctionContext.Lots.ToList();
+            var cars = _carAuctionContext.Cars.ToList();
+            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
 
-
-            return Ok(lots);
+            return Ok(returnData);
         }
 
     }

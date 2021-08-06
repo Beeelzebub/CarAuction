@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    [Migration("20210806082303_init")]
+    [Migration("20210806091905_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,17 @@ namespace Entity.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("Cars");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
+                            BrandId = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"),
+                            CarBody = 2,
+                            DriveUnit = 0,
+                            Fuel = 1,
+                            Year = 2018
+                        });
                 });
 
             modelBuilder.Entity("Entity.Models.Lot", b =>
@@ -104,13 +115,13 @@ namespace Entity.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("CurrentCost")
-                        .HasColumnType("decimal(5,2)");
+                        .HasColumnType("decimal(9,2)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("MinimalStep")
-                        .HasColumnType("decimal(5,2)");
+                        .HasColumnType("decimal(9,2)");
 
                     b.Property<string>("SellerId")
                         .HasColumnType("nvarchar(450)");
@@ -119,7 +130,7 @@ namespace Entity.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("StartingPrice")
-                        .HasColumnType("decimal(5,2)");
+                        .HasColumnType("decimal(9,2)");
 
                     b.HasKey("Id");
 
@@ -128,6 +139,18 @@ namespace Entity.Migrations
                     b.HasIndex("SellerId");
 
                     b.ToTable("Lots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"),
+                            CarId = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
+                            CurrentCost = 25000m,
+                            EndDate = new DateTime(2021, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MinimalStep = 1000m,
+                            StartDate = new DateTime(2021, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartingPrice = 25000m
+                        });
                 });
 
             modelBuilder.Entity("Entity.Models.Model", b =>
@@ -149,6 +172,14 @@ namespace Entity.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("Models");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"),
+                            BrandId = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"),
+                            Name = "A6"
+                        });
                 });
 
             modelBuilder.Entity("Entity.Models.User", b =>
@@ -249,22 +280,22 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7b7ee138-1ad2-4b76-9da1-f3d266a252dc",
-                            ConcurrencyStamp = "916eba0f-b0e5-49ec-8c28-c8b4f27df4c2",
+                            Id = "e4f3ec83-c20b-4cc4-af70-4be52839cb36",
+                            ConcurrencyStamp = "2488386d-d4d1-454b-851f-832fab44acb7",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "ed3a44b6-1e4d-4a69-98e1-6eb6a55eb5e4",
-                            ConcurrencyStamp = "54e5ca5d-154b-4d9a-9f7c-4b431037c6c9",
+                            Id = "cac704f4-1790-4945-9be5-c20ef08052c5",
+                            ConcurrencyStamp = "d43680f0-c85e-40a4-97f5-b9d7f3f30c95",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "0c597bfc-8b49-4ec9-8e73-080aef9caec9",
-                            ConcurrencyStamp = "636b83a8-f619-4d9a-b748-41bf464212eb",
+                            Id = "6eb2a80b-268d-47a6-b34e-eebd208abfd6",
+                            ConcurrencyStamp = "582e7de1-ece4-4b2a-93c5-8a25d8e1af6c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
