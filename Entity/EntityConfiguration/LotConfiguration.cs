@@ -32,8 +32,8 @@ namespace Entity.EntityConfiguration
                  new Lot
                  {
                      Id = new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"),
-                     StartDate = new DateTime(2021,8, 5),
-                     EndDate = new DateTime(2021, 8, 12),
+                     StartDate = new DateTime(2021,8, 6),
+                     EndDate = new DateTime(2021, 8, 13),
                      StartingPrice = 25000,
                      MinimalStep = 1000,
                      CurrentCost = 25000,
