@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Entity.Migrations
 {
-    public partial class initt : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -185,66 +185,6 @@ namespace Entity.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cars",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Year = table.Column<int>(maxLength: 4, nullable: false),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    Fuel = table.Column<int>(nullable: false),
-                    CarBody = table.Column<int>(nullable: false),
-                    DriveUnit = table.Column<int>(nullable: false),
-                    ModelId = table.Column<Guid>(nullable: false),
-                    BrandId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cars", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cars_Brands_BrandId",
-                        column: x => x.BrandId,
-                        principalTable: "Brands",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Cars_Models_ModelId",
-                        column: x => x.ModelId,
-                        principalTable: "Models",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Lots",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    StartDate = table.Column<DateTime>(nullable: false),
-                    EndDate = table.Column<DateTime>(nullable: false),
-                    MinimalStep = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    StartingPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    CurrentCost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    CarId = table.Column<Guid>(nullable: false),
-                    SellerId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Lots", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Lots_Cars_CarId",
-                        column: x => x.CarId,
-                        principalTable: "Cars",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Lots_AspNetUsers_SellerId",
-                        column: x => x.SellerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Bids",
                 columns: table => new
                 {
@@ -262,10 +202,66 @@ namespace Entity.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Lots",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false),
+                    MinimalStep = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    StartingPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    CurrentCost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    CarId1 = table.Column<Guid>(nullable: true),
+                    CarId = table.Column<Guid>(nullable: false),
+                    SellerId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bids_Lots_Id",
-                        column: x => x.Id,
+                        name: "FK_Lots_AspNetUsers_SellerId",
+                        column: x => x.SellerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Year = table.Column<int>(maxLength: 4, nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Fuel = table.Column<int>(nullable: false),
+                    CarBody = table.Column<int>(nullable: false),
+                    DriveUnit = table.Column<int>(nullable: false),
+                    ModelId = table.Column<Guid>(nullable: false),
+                    LotId = table.Column<Guid>(nullable: false),
+                    BrandId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cars_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cars_Lots_LotId",
+                        column: x => x.LotId,
                         principalTable: "Lots",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cars_Models_ModelId",
+                        column: x => x.ModelId,
+                        principalTable: "Models",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -275,9 +271,9 @@ namespace Entity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "df745808-31eb-4cb8-8f57-d551b2c00602", "51ba696f-4acd-4fd1-bb10-277396249f60", "Seller", "SELLER" },
-                    { "43a7d53c-d377-4816-981e-b77a3296d3fd", "ddc02e4f-84a3-4d88-9c94-4c15b1921f31", "Buyer", "BUYER" },
-                    { "67f2e99e-c695-461d-b66d-78093ddb7b81", "a14eb4f0-8aa9-46c4-8969-4913bedeae27", "Administrator", "ADMINISTRATOR" }
+                    { "ba5426d4-1a55-494d-b2fc-99131de2c0e1", "5302df64-342b-48a6-ae04-6ed767d27a83", "Seller", "SELLER" },
+                    { "8daed8c5-e2fb-4102-8f38-6f618ba4c070", "b68a550e-7ace-4ce8-8e5c-72346be84567", "Buyer", "BUYER" },
+                    { "6c77825e-1939-47e4-87bf-e94325b55043", "e1c60e04-eb84-4951-a40c-c86641097d35", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -286,19 +282,19 @@ namespace Entity.Migrations
                 values: new object[] { new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"), "Audi" });
 
             migrationBuilder.InsertData(
+                table: "Lots",
+                columns: new[] { "Id", "CarId", "CarId1", "CurrentCost", "EndDate", "MinimalStep", "SellerId", "StartDate", "StartingPrice" },
+                values: new object[] { new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"), new Guid("67645961-17a7-4316-853c-7ea15838c135"), null, 25000m, new DateTime(2021, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 1000m, null, new DateTime(2021, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 25000m });
+
+            migrationBuilder.InsertData(
                 table: "Models",
                 columns: new[] { "Id", "BrandId", "Name" },
                 values: new object[] { new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"), new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"), "A6" });
 
             migrationBuilder.InsertData(
                 table: "Cars",
-                columns: new[] { "Id", "BrandId", "CarBody", "DriveUnit", "Fuel", "ImageUrl", "ModelId", "Year" },
-                values: new object[] { new Guid("67645961-17a7-4316-853c-7ea15838c135"), null, 2, 0, 1, "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG", new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"), 2018 });
-
-            migrationBuilder.InsertData(
-                table: "Lots",
-                columns: new[] { "Id", "CarId", "CurrentCost", "EndDate", "MinimalStep", "SellerId", "StartDate", "StartingPrice" },
-                values: new object[] { new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"), new Guid("67645961-17a7-4316-853c-7ea15838c135"), 25000m, new DateTime(2021, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 1000m, null, new DateTime(2021, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 25000m });
+                columns: new[] { "Id", "BrandId", "CarBody", "DriveUnit", "Fuel", "ImageUrl", "LotId", "ModelId", "Year" },
+                values: new object[] { new Guid("67645961-17a7-4316-853c-7ea15838c135"), null, 2, 0, 1, "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG", new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"), new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"), 2018 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -350,14 +346,19 @@ namespace Entity.Migrations
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cars_LotId",
+                table: "Cars",
+                column: "LotId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cars_ModelId",
                 table: "Cars",
                 column: "ModelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Lots_CarId",
+                name: "IX_Lots_CarId1",
                 table: "Lots",
-                column: "CarId");
+                column: "CarId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lots_SellerId",
@@ -368,10 +369,34 @@ namespace Entity.Migrations
                 name: "IX_Models_BrandId",
                 table: "Models",
                 column: "BrandId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Bids_Lots_Id",
+                table: "Bids",
+                column: "Id",
+                principalTable: "Lots",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Lots_Cars_CarId1",
+                table: "Lots",
+                column: "CarId1",
+                principalTable: "Cars",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Lots_AspNetUsers_SellerId",
+                table: "Lots");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Cars_Lots_LotId",
+                table: "Cars");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -394,13 +419,13 @@ namespace Entity.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Lots");
 
             migrationBuilder.DropTable(
                 name: "Cars");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Models");

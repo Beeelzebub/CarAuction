@@ -12,7 +12,7 @@ namespace Entity.EntityConfiguration
         public void Configure(EntityTypeBuilder<Car> builder)
         {
             builder.HasOne(x => x.Model).WithMany(x => x.Cars).HasForeignKey(x => x.ModelId);
-            builder.HasMany(x => x.Lots).WithOne(x => x.Car).HasForeignKey(x => x.CarId);
+            builder.HasOne(x => x.Lot).WithMany().HasForeignKey(x => x.LotId);
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Year).IsRequired().HasMaxLength(4);
             builder.Property(x => x.Fuel).IsRequired();
@@ -29,6 +29,7 @@ namespace Entity.EntityConfiguration
                      Year = 2018,
                      ImageUrl = "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG",
                      ModelId = new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"),
+                     LotId = new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"),
                      Fuel = Fuel.Petrol,
                      CarBody = CarBody.Sedan,
                      DriveUnit = DriveUnit.FrontWheelDrive

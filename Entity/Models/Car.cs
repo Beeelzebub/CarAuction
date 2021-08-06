@@ -19,7 +19,8 @@ namespace Entity.Models
         public virtual Model Model { get; set; }
 
         public Guid ModelId { get; set; }
-        public virtual ICollection<Lot> Lots { get; set; }
+        public virtual Lot Lot { get; set; }
+        public Guid LotId { get; set; }
 
         
 

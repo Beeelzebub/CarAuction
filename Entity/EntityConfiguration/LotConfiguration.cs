@@ -12,7 +12,6 @@ namespace Entity.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Lot> builder)
         {
-            builder.HasOne(x => x.Car).WithMany(x => x.Lots).HasForeignKey(x => x.CarId);
             builder.HasOne(x => x.Seller).WithMany(x => x.Lots).HasForeignKey(x => x.SellerId);
             builder.HasMany(x => x.Bids).WithOne(x => x.Lot).HasForeignKey(x => x.Id);
 
