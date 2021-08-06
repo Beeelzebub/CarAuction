@@ -10,6 +10,7 @@ namespace Entity.Models
     {
         public Guid Id { get; set; }
         public int Year { get; set; }
+        public string ImageUrl { get; set; }
         public Fuel Fuel { get; set; }
         
         public CarBody CarBody { get; set; }

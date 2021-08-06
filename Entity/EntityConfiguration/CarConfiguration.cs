@@ -28,6 +28,7 @@ namespace Entity.EntityConfiguration
                  {
                      Id = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
                      Year = 2018,
+                     ImageUrl = "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG",
                      BrandId = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"),
                      Fuel = Fuel.Petrol,
                      CarBody = CarBody.Sedan,
