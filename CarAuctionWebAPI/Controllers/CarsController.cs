@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using Entity;
 using Entity.DTO;
 using Entity.Models;
+using Entity.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -25,20 +25,34 @@ namespace CarAuctionWebAPI.Controllers
             _carAuctionContext = carAuctionContext;
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllCars()
+        {
+            var cars = await _carAuctionContext.Cars.ToListAsync();
+            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+
+            return Ok(returnData);
+        }
 
         [HttpGet]
-        public IActionResult GetAllCars()
+        public async Task<IActionResult> GetCarsByCondition([FromQuery] RequestParameters requestParameters)
         {
-            var cars = _carAuctionContext.Cars.ToList();
+            if (!requestParameters.ValidYearRange)
+            {
+                return BadRequest();
+            }
+            var cars = await _carAuctionContext.Cars.Where(c=> (c.Year>=requestParameters.MinYear && c.Year<=requestParameters.MaxYear)
+                                                         && c.Model.Name.Equals(requestParameters.Model)
+                                                         && c.Model.Brand.BrandName.Equals(requestParameters.Brand)).ToListAsync();
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
 
             return Ok(returnData);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCar(int id)
+        public async Task<IActionResult> GetCar(int id)
         {
-            var car = _carAuctionContext.Cars.SingleOrDefault(c => c.Id.Equals(id));
+            var car = await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id));
             if (car == null)
             {
                 return BadRequest();
@@ -48,18 +62,20 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCar([FromBody] CarDtoForCreation carDtoForCreation)
+        //[Authorize(Roles = "Seller")]
+        public async Task<IActionResult> AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
             var car = _mapper.Map<Car>(carDtoForCreation);
             _carAuctionContext.Cars.Add(car);
-            _carAuctionContext.SaveChanges();
+            await _carAuctionContext.SaveChangesAsync();
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteCar(int id)
+        //[Authorize(Roles = "Seller")]
+        public async Task<IActionResult> DeleteCar(int id)
         {
-            var car = _carAuctionContext.Cars.SingleOrDefault(c => c.Id.Equals(id));
+            var car = await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id));
             if (car == null)
             {
                 return BadRequest();
@@ -67,7 +83,7 @@ namespace CarAuctionWebAPI.Controllers
             var lot = _carAuctionContext.Lots.SingleOrDefault(c => c.Id.Equals(car.LotId));
             _carAuctionContext.Cars.Remove(car);
             _carAuctionContext.Lots.Remove(lot);
-            _carAuctionContext.SaveChanges();
+            await _carAuctionContext.SaveChangesAsync();
             return Ok();
         }
     }

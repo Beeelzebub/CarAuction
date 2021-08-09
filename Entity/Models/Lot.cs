@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
 
 namespace Entity.Models
@@ -22,10 +23,9 @@ namespace Entity.Models
         public decimal RedemptionPrice { get; set; }
         
         public virtual Car Car { get; set; }
-        // public Guid CarId { get; set; }
-        
-        public  User Seller { get; set; }
-        public string SellerId { get; set; }
+
+        public User Seller { get; set; } 
+        public string SellerId { get; set; } 
 
 
         public  ICollection<Bid> Bids { get; set; }

@@ -16,7 +16,7 @@ namespace Entity.EntityConfiguration
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired();
-
+            
             
         }
     }
