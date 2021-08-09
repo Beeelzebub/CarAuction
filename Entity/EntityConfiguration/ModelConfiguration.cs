@@ -16,9 +16,9 @@ namespace Entity.EntityConfiguration
 
             builder.HasData(new Model
             {
-                Id = new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"),
+                Id = 1,
                 Name = "A6",
-                BrandId = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654")
+                BrandId = 1
             });
 
         }

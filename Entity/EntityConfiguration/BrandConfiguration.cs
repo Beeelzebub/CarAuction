@@ -18,7 +18,7 @@ namespace Entity.Configurations
 
             builder.HasData(new Brand
             {
-                    Id = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"),
+                    Id = 1,
                     BrandName = "Audi"
             });
         }

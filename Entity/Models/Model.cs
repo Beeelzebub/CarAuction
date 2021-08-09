@@ -8,13 +8,13 @@ namespace Entity.Models
 {
     public class Model
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public  Guid BrandId { get; set; }
+        public int BrandId { get; set; }
         public Brand Brand { get; set; }
 
-        public virtual ICollection<Car> Cars { get; set; }
+        public  ICollection<Car> Cars { get; set; }
     }
 }

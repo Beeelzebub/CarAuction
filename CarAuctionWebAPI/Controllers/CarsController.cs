@@ -34,5 +34,13 @@ namespace CarAuctionWebAPI.Controllers
             return Ok(returnData);
         }
 
+        [HttpPost]
+        public IActionResult AddCar([FromBody] CarDtoForCreation carDtoForCreation)
+        {
+            var car = _mapper.Map<Car>(carDtoForCreation);
+            _carAuctionContext.Cars.Add(car);
+            _carAuctionContext.SaveChanges();
+            return Ok();
+        }
     }
 }

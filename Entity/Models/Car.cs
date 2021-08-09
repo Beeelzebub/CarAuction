@@ -8,7 +8,7 @@ namespace Entity.Models
 {
     public class Car
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public int Year { get; set; }
         public string ImageUrl { get; set; }
         public Fuel Fuel { get; set; }
@@ -16,11 +16,11 @@ namespace Entity.Models
         public CarBody CarBody { get; set; }
         public DriveUnit DriveUnit { get; set; }
         
-        public virtual Model Model { get; set; }
+        public  Model Model { get; set; }
 
-        public Guid ModelId { get; set; }
-        public virtual Lot Lot { get; set; }
-        public Guid LotId { get; set; }
+        public int ModelId { get; set; }
+        public  Lot Lot { get; set; }
+        public int LotId { get; set; }
 
         
 

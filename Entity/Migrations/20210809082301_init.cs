@@ -51,7 +51,8 @@ namespace Entity.Migrations
                 name: "Brands",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     BrandName = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
@@ -169,12 +170,14 @@ namespace Entity.Migrations
                 name: "Lots",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     MinimalStep = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     StartingPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     CurrentCost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
+                    RedemptionPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     SellerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -192,9 +195,10 @@ namespace Entity.Migrations
                 name: "Models",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    BrandId = table.Column<Guid>(nullable: false)
+                    BrandId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -211,9 +215,9 @@ namespace Entity.Migrations
                 name: "Bids",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
                     BidStatus = table.Column<int>(nullable: false),
-                    LotId = table.Column<Guid>(nullable: false),
+                    LotId = table.Column<int>(nullable: false),
                     BuyerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -237,15 +241,16 @@ namespace Entity.Migrations
                 name: "Cars",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Year = table.Column<int>(maxLength: 4, nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
                     Fuel = table.Column<int>(nullable: false),
                     CarBody = table.Column<int>(nullable: false),
                     DriveUnit = table.Column<int>(nullable: false),
-                    ModelId = table.Column<Guid>(nullable: false),
-                    LotId = table.Column<Guid>(nullable: false),
-                    BrandId = table.Column<Guid>(nullable: true)
+                    ModelId = table.Column<int>(nullable: false),
+                    LotId = table.Column<int>(nullable: false),
+                    BrandId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -275,30 +280,30 @@ namespace Entity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "4c75447c-9dae-4c3d-bd9e-f590ec217911", "290f7f26-eaff-44c1-b552-17dfec36ff12", "Seller", "SELLER" },
-                    { "82aa3076-a975-4f7b-ac75-f59c541e8ec9", "a1536999-2f2f-4555-9ff6-d598bc9804be", "Buyer", "BUYER" },
-                    { "ddc4f298-a6e9-459a-823c-9581d30624f3", "8750242c-f766-462d-9827-36e2d19b18eb", "Administrator", "ADMINISTRATOR" }
+                    { "e12e0325-54af-45c6-a14e-baf9013b006f", "81c3f056-5cf0-4807-9a5f-8e7e26f0e199", "Seller", "SELLER" },
+                    { "21a22fe7-957b-40c4-9706-92664e1db185", "5d52bbf2-bcda-4f11-bae6-27057f3c09b4", "Buyer", "BUYER" },
+                    { "80ee005d-f3ce-4d8c-8ec8-b89b188411fd", "1e72f7ad-b102-4284-a466-c2bae8a6f708", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Brands",
                 columns: new[] { "Id", "BrandName" },
-                values: new object[] { new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"), "Audi" });
+                values: new object[] { 1, "Audi" });
 
             migrationBuilder.InsertData(
                 table: "Lots",
-                columns: new[] { "Id", "CurrentCost", "EndDate", "MinimalStep", "SellerId", "StartDate", "StartingPrice" },
-                values: new object[] { new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"), 25000m, new DateTime(2021, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 1000m, null, new DateTime(2021, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 25000m });
+                columns: new[] { "Id", "CurrentCost", "EndDate", "MinimalStep", "RedemptionPrice", "SellerId", "StartDate", "StartingPrice" },
+                values: new object[] { 1, 25000m, new DateTime(2021, 8, 16, 11, 23, 0, 831, DateTimeKind.Local).AddTicks(8046), 1000m, 100000m, null, new DateTime(2021, 8, 9, 11, 23, 0, 830, DateTimeKind.Local).AddTicks(7445), 25000m });
 
             migrationBuilder.InsertData(
                 table: "Models",
                 columns: new[] { "Id", "BrandId", "Name" },
-                values: new object[] { new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"), new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"), "A6" });
+                values: new object[] { 1, 1, "A6" });
 
             migrationBuilder.InsertData(
                 table: "Cars",
                 columns: new[] { "Id", "BrandId", "CarBody", "DriveUnit", "Fuel", "ImageUrl", "LotId", "ModelId", "Year" },
-                values: new object[] { new Guid("67645961-17a7-4316-853c-7ea15838c135"), null, 2, 0, 1, "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG", new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"), new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"), 2018 });
+                values: new object[] { 1, null, 2, 0, 1, "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG", 1, 1, 2018 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

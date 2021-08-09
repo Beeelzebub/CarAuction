@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    [Migration("20210806121539_init")]
+    [Migration("20210809082301_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,8 +23,8 @@ namespace Entity.Migrations
 
             modelBuilder.Entity("Entity.Models.Bid", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<int>("BidStatus")
                         .HasColumnType("int");
@@ -32,8 +32,8 @@ namespace Entity.Migrations
                     b.Property<string>("BuyerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("LotId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("LotId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -44,9 +44,10 @@ namespace Entity.Migrations
 
             modelBuilder.Entity("Entity.Models.Brand", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BrandName")
                         .IsRequired()
@@ -60,19 +61,20 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"),
+                            Id = 1,
                             BrandName = "Audi"
                         });
                 });
 
             modelBuilder.Entity("Entity.Models.Car", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid?>("BrandId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CarBody")
                         .HasColumnType("int");
@@ -86,11 +88,11 @@ namespace Entity.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("LotId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("LotId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("ModelId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("ModelId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Year")
                         .HasColumnType("int")
@@ -110,22 +112,23 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("67645961-17a7-4316-853c-7ea15838c135"),
+                            Id = 1,
                             CarBody = 2,
                             DriveUnit = 0,
                             Fuel = 1,
                             ImageUrl = "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG",
-                            LotId = new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"),
-                            ModelId = new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"),
+                            LotId = 1,
+                            ModelId = 1,
                             Year = 2018
                         });
                 });
 
             modelBuilder.Entity("Entity.Models.Lot", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("CurrentCost")
                         .HasColumnType("decimal(10,2)");
@@ -134,6 +137,9 @@ namespace Entity.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("MinimalStep")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<decimal>("RedemptionPrice")
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("SellerId")
@@ -154,23 +160,25 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4f7f9628-f4a1-41d0-9d04-e228fdc49eb1"),
+                            Id = 1,
                             CurrentCost = 25000m,
-                            EndDate = new DateTime(2021, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2021, 8, 16, 11, 23, 0, 831, DateTimeKind.Local).AddTicks(8046),
                             MinimalStep = 1000m,
-                            StartDate = new DateTime(2021, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RedemptionPrice = 100000m,
+                            StartDate = new DateTime(2021, 8, 9, 11, 23, 0, 830, DateTimeKind.Local).AddTicks(7445),
                             StartingPrice = 25000m
                         });
                 });
 
             modelBuilder.Entity("Entity.Models.Model", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("BrandId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -186,8 +194,8 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d360b9e4-455c-4f96-ae93-66d5411a2654"),
-                            BrandId = new Guid("c360b9e4-455c-4f96-ae93-66d5411a2654"),
+                            Id = 1,
+                            BrandId = 1,
                             Name = "A6"
                         });
                 });
@@ -290,22 +298,22 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4c75447c-9dae-4c3d-bd9e-f590ec217911",
-                            ConcurrencyStamp = "290f7f26-eaff-44c1-b552-17dfec36ff12",
+                            Id = "e12e0325-54af-45c6-a14e-baf9013b006f",
+                            ConcurrencyStamp = "81c3f056-5cf0-4807-9a5f-8e7e26f0e199",
                             Name = "Seller",
                             NormalizedName = "SELLER"
                         },
                         new
                         {
-                            Id = "82aa3076-a975-4f7b-ac75-f59c541e8ec9",
-                            ConcurrencyStamp = "a1536999-2f2f-4555-9ff6-d598bc9804be",
+                            Id = "21a22fe7-957b-40c4-9706-92664e1db185",
+                            ConcurrencyStamp = "5d52bbf2-bcda-4f11-bae6-27057f3c09b4",
                             Name = "Buyer",
                             NormalizedName = "BUYER"
                         },
                         new
                         {
-                            Id = "ddc4f298-a6e9-459a-823c-9581d30624f3",
-                            ConcurrencyStamp = "8750242c-f766-462d-9827-36e2d19b18eb",
+                            Id = "80ee005d-f3ce-4d8c-8ec8-b89b188411fd",
+                            ConcurrencyStamp = "1e72f7ad-b102-4284-a466-c2bae8a6f708",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

@@ -8,15 +8,14 @@ namespace Entity.Models
 {
     public class Bid
     {
-        [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         
         public BidStatus BidStatus { get; set; }
-        public virtual Lot Lot { get; set; }
+        public  Lot Lot { get; set; }
         
-        public Guid LotId { get; set; }
+        public int LotId { get; set; }
         
-        public virtual User Buyer { get; set; }
+        public  User Buyer { get; set; }
 
         public string BuyerId { get; set; }
     }

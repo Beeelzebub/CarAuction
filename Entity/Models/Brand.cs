@@ -7,9 +7,9 @@ namespace Entity.Models
 {
     public class Brand
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string BrandName { get; set; }
-        public virtual ICollection<Model> Models { get; set; } 
-        public virtual ICollection<Car> Cars { get; set; }
+        public  ICollection<Model> Models { get; set; } 
+        public  ICollection<Car> Cars { get; set; }
     }
 }
