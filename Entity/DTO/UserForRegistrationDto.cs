@@ -17,6 +17,5 @@ namespace Entity.DTO
         [MaxLength(15, ErrorMessage = "Max length 15 symbols"), MinLength(4, ErrorMessage = "Min length 4 symbols")]
 
         public string Password { get; set; }
-        public string Role { get; set; }
     }
 }

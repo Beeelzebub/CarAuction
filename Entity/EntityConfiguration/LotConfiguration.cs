@@ -12,7 +12,7 @@ namespace Entity.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Lot> builder)
         {
-            builder.HasOne(b => b.Car).WithOne(i => i.Lot).HasForeignKey<Car>(b => b.LotId);
+            builder.HasOne(b => b.Car).WithOne(i => i.Lot).HasForeignKey<Car>(b => b.LotId).OnDelete(DeleteBehavior.Cascade);
             builder.HasKey(x => x.Id);
             builder.HasOne(x => x.Seller).WithMany(x => x.Lots).HasForeignKey(x => x.SellerId);
             builder.HasMany(x => x.Bids).WithOne(x => x.Lot).HasForeignKey(x => x.Id);

@@ -11,7 +11,7 @@ namespace Entity.Configurations
     {
         public void Configure(EntityTypeBuilder<Brand> builder)
         {
-            builder.HasMany(x => x.Models).WithOne(x => x.Brand).HasForeignKey(x => x.BrandId);
+            builder.HasMany(x => x.Models).WithOne(x => x.Brand).HasForeignKey(x => x.BrandId).OnDelete(DeleteBehavior.Cascade);
             builder.HasKey(x => x.Id);
             builder.Property(x=>x.BrandName).IsRequired().HasMaxLength(50);
             

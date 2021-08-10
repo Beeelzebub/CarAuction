@@ -43,12 +43,6 @@ namespace CarAuctionWebAPI.Controllers
         {
 
             var user = _mapper.Map<User>(userForRegistrationDto);
-            var resultRole = await _roleManager.RoleExistsAsync(userForRegistrationDto.Role);
-            if (!resultRole)
-            {
-
-                return BadRequest("Role no");
-            }
             var result = await _userManager.CreateAsync(user, userForRegistrationDto.Password);
             if (!result.Succeeded)
             {
@@ -58,7 +52,7 @@ namespace CarAuctionWebAPI.Controllers
                 }
                 return BadRequest(ModelState);
             }
-            await _userManager.AddToRoleAsync(user, userForRegistrationDto.Role);
+           // await _userManager.AddToRoleAsync(user, userForRegistrationDto.Role);
             return StatusCode(201);
         }
 
