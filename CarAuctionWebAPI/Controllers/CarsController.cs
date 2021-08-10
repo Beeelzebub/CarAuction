@@ -66,7 +66,7 @@ namespace CarAuctionWebAPI.Controllers
             return Ok(returnData);
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         public IActionResult Bid(int id)
         {
             if (!User.Identity.IsAuthenticated)
