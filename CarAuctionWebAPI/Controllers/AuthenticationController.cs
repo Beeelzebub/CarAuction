@@ -21,15 +21,12 @@ namespace CarAuctionWebAPI.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AuthenticationController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager,
-            RoleManager<IdentityRole> roleManager)
+        public AuthenticationController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
         }
 
         [HttpGet]
