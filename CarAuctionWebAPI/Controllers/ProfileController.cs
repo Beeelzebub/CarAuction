@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -70,7 +71,8 @@ namespace CarAuctionWebAPI.Controllers
             ClaimsPrincipal currentUser = this.User;
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             var cars = await _carAuctionContext.Cars.Where(i => i.Lot.SellerId == currentUserId).ToListAsync();
-            return Ok(cars);
+            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+            return Ok(returnData);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCar(int id)
