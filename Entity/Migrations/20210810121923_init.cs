@@ -215,7 +215,8 @@ namespace Entity.Migrations
                 name: "Bids",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     BidStatus = table.Column<int>(nullable: false),
                     LotId = table.Column<int>(nullable: false),
                     BuyerId = table.Column<string>(nullable: true)
@@ -230,8 +231,8 @@ namespace Entity.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Bids_Lots_Id",
-                        column: x => x.Id,
+                        name: "FK_Bids_Lots_LotId",
+                        column: x => x.LotId,
                         principalTable: "Lots",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -276,16 +277,6 @@ namespace Entity.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "e12e0325-54af-45c6-a14e-baf9013b006f", "81c3f056-5cf0-4807-9a5f-8e7e26f0e199", "Seller", "SELLER" },
-                    { "21a22fe7-957b-40c4-9706-92664e1db185", "5d52bbf2-bcda-4f11-bae6-27057f3c09b4", "Buyer", "BUYER" },
-                    { "80ee005d-f3ce-4d8c-8ec8-b89b188411fd", "1e72f7ad-b102-4284-a466-c2bae8a6f708", "Administrator", "ADMINISTRATOR" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Brands",
                 columns: new[] { "Id", "BrandName" },
                 values: new object[] { 1, "Audi" });
@@ -293,7 +284,7 @@ namespace Entity.Migrations
             migrationBuilder.InsertData(
                 table: "Lots",
                 columns: new[] { "Id", "CurrentCost", "EndDate", "MinimalStep", "RedemptionPrice", "SellerId", "StartDate", "StartingPrice" },
-                values: new object[] { 1, 25000m, new DateTime(2021, 8, 16, 11, 23, 0, 831, DateTimeKind.Local).AddTicks(8046), 1000m, 100000m, null, new DateTime(2021, 8, 9, 11, 23, 0, 830, DateTimeKind.Local).AddTicks(7445), 25000m });
+                values: new object[] { 1, 25000m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1000m, 100000m, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 25000m });
 
             migrationBuilder.InsertData(
                 table: "Models",
@@ -348,6 +339,11 @@ namespace Entity.Migrations
                 name: "IX_Bids_BuyerId",
                 table: "Bids",
                 column: "BuyerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bids_LotId",
+                table: "Bids",
+                column: "LotId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_BrandId",

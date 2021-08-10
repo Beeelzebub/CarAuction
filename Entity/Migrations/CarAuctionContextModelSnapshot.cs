@@ -22,7 +22,9 @@ namespace Entity.Migrations
             modelBuilder.Entity("Entity.Models.Bid", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BidStatus")
                         .HasColumnType("int");
@@ -36,6 +38,8 @@ namespace Entity.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BuyerId");
+
+                    b.HasIndex("LotId");
 
                     b.ToTable("Bids");
                 });
@@ -406,7 +410,7 @@ namespace Entity.Migrations
 
                     b.HasOne("Entity.Models.Lot", "Lot")
                         .WithMany("Bids")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("LotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

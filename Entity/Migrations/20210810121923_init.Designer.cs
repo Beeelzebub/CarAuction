@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    [Migration("20210809082301_init")]
+    [Migration("20210810121923_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,9 @@ namespace Entity.Migrations
             modelBuilder.Entity("Entity.Models.Bid", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BidStatus")
                         .HasColumnType("int");
@@ -38,6 +40,8 @@ namespace Entity.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BuyerId");
+
+                    b.HasIndex("LotId");
 
                     b.ToTable("Bids");
                 });
@@ -162,10 +166,10 @@ namespace Entity.Migrations
                         {
                             Id = 1,
                             CurrentCost = 25000m,
-                            EndDate = new DateTime(2021, 8, 16, 11, 23, 0, 831, DateTimeKind.Local).AddTicks(8046),
+                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MinimalStep = 1000m,
                             RedemptionPrice = 100000m,
-                            StartDate = new DateTime(2021, 8, 9, 11, 23, 0, 830, DateTimeKind.Local).AddTicks(7445),
+                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartingPrice = 25000m
                         });
                 });
@@ -294,29 +298,6 @@ namespace Entity.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "e12e0325-54af-45c6-a14e-baf9013b006f",
-                            ConcurrencyStamp = "81c3f056-5cf0-4807-9a5f-8e7e26f0e199",
-                            Name = "Seller",
-                            NormalizedName = "SELLER"
-                        },
-                        new
-                        {
-                            Id = "21a22fe7-957b-40c4-9706-92664e1db185",
-                            ConcurrencyStamp = "5d52bbf2-bcda-4f11-bae6-27057f3c09b4",
-                            Name = "Buyer",
-                            NormalizedName = "BUYER"
-                        },
-                        new
-                        {
-                            Id = "80ee005d-f3ce-4d8c-8ec8-b89b188411fd",
-                            ConcurrencyStamp = "1e72f7ad-b102-4284-a466-c2bae8a6f708",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -431,7 +412,7 @@ namespace Entity.Migrations
 
                     b.HasOne("Entity.Models.Lot", "Lot")
                         .WithMany("Bids")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("LotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

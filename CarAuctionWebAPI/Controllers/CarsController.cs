@@ -65,5 +65,42 @@ namespace CarAuctionWebAPI.Controllers
             var returnData = _mapper.Map<CarDtoForGet>(car);
             return Ok(returnData);
         }
+
+        [HttpPatch("{id}")]
+        public IActionResult Bid(int id)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return BadRequest("Log in to the system ");
+            }
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var car = _carAuctionContext.Cars.SingleOrDefault(i => i.Id==id);
+            if (car == null)
+            {
+                return BadRequest("Car not found");
+            }
+
+            Lot lot = _carAuctionContext.Lots.SingleOrDefault(i => i.Id == car.LotId);
+            if (lot == null)
+            {
+                return BadRequest("Lot not found");
+            }
+            lot.CurrentCost += lot.MinimalStep;
+            var bid = new Bid
+            {
+                LotId = lot.Id,
+                BuyerId = currentUserId,
+                BidStatus = 0
+            };
+            
+
+
+            _carAuctionContext.Bids.Add(bid);
+            _carAuctionContext.SaveChanges();
+
+            return Ok("Your bid is accepted");
+        }
     }
 }

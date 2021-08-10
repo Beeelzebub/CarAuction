@@ -11,8 +11,7 @@ namespace Entity.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Bid> builder)
         {
-            builder.HasOne(p => p.Lot).WithMany(t => t.Bids).HasForeignKey(x => x.LotId);
-            builder.HasOne(p => p.Buyer).WithMany(x => x.Bids).HasForeignKey(x => x.Id);
+            builder.HasOne(p => p.Buyer).WithMany(x => x.Bids).HasForeignKey(x => x.BuyerId);
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.BidStatus).IsRequired();
