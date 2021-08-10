@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
 
 namespace Entity.Models
 {
@@ -11,9 +7,9 @@ namespace Entity.Models
     {
         public int Id { get; set; }
         
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime StartDate { get; set; } 
 
-        public DateTime EndDate { get; set; } = DateTime.Now.AddDays(7);
+        public DateTime EndDate { get; set; } 
         
         public decimal MinimalStep { get; set; }
         
