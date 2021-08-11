@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts;
 using Entity;
-using Entity.DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +11,7 @@ namespace Repositories
 {
     public class CarRepository : ICarRepository
     {
-        protected CarAuctionContext _carAuctionContext;
+        private readonly CarAuctionContext _carAuctionContext;
 
         public CarRepository(CarAuctionContext carAuctionContext)
         {

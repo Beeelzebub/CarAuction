@@ -1,5 +1,4 @@
-﻿using Entity.Configurations;
-using Entity.EntityConfiguration;
+﻿using Entity.EntityConfiguration;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

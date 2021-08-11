@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AutoMapper;
 using Entity.DTO;
 using Entity.Models;
-using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
@@ -27,12 +21,6 @@ namespace CarAuctionWebAPI.Controllers
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
-        }
-
-        [HttpGet]
-        public IActionResult get()
-        {
-            return Ok("hello");
         }
         
         [HttpPost("Registration")]

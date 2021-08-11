@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Entity.Models;
+﻿using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Entity.Configurations
+namespace Entity.EntityConfiguration
 {
     class BrandConfiguration : IEntityTypeConfiguration<Brand>
     {

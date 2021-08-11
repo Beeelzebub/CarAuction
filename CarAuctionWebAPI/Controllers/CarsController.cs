@@ -1,19 +1,14 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Security.Claims;
 using Entity;
 using Entity.DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
-using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Contracts;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarAuctionWebAPI.Controllers
 {

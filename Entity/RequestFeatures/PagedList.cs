@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Entity.RequestFeatures
 {
@@ -9,7 +8,7 @@ namespace Entity.RequestFeatures
     {
         public MetaData MetaData { get; set; }
 
-        public PagedList(List<T> items, int count, int pageNumber, int pageSize)
+        public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
         {
             MetaData = new MetaData
             {
