@@ -52,9 +52,9 @@ namespace Repositories
         }
         
 
-        public async Task<Car> GetCarAsync(int id)
+        public async Task<Car> GetCarAsync(int id, string idUser)
         {
-            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id));
+            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId==idUser);
         }
 
         public async Task<IEnumerable<Car>> GetCarsProfileAsync(string id)

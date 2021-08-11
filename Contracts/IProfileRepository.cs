@@ -9,7 +9,7 @@ namespace Contracts
     {
         void AddCar(CarDtoForCreation carDtoForCreation, string userId);
         Task<IEnumerable<Car>> GetCarsProfileAsync(string id);
-        Task<Car> GetCarAsync(int id);
+        Task<Car> GetCarAsync(int id, string idUser);
         Task<Lot> GetLotAsync(int id);
     }
 }

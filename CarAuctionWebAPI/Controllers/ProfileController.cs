@@ -28,7 +28,7 @@ namespace CarAuctionWebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
-            ClaimsPrincipal currentUser = this.User;
+            ClaimsPrincipal currentUser = User;
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             _profileRepository.AddCar(carDtoForCreation, currentUserId);
             await _carAuctionContext.SaveChangesAsync();
@@ -37,16 +37,18 @@ namespace CarAuctionWebAPI.Controllers
         [HttpGet("MyCars")]
         public async Task<IActionResult> GetCarsForUser()
         {
-            ClaimsPrincipal currentUser = this.User;
+            ClaimsPrincipal currentUser = User;
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             var cars =await _profileRepository.GetCarsProfileAsync(currentUserId);
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
             return Ok(returnData);
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("MyCars/{id}")]
         public async Task<IActionResult> DeleteCar(int id)
         {
-            var car = await _profileRepository.GetCarAsync(id);
+            ClaimsPrincipal currentUser = User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var car = await _profileRepository.GetCarAsync(id, currentUserId);
             if (car == null)
             {
                 return BadRequest();
@@ -66,7 +68,9 @@ namespace CarAuctionWebAPI.Controllers
         [HttpGet("MyCars/{id}")]
         public async Task<IActionResult> GetCar(int id)
         {
-            var car = await _profileRepository.GetCarAsync(id);
+            ClaimsPrincipal currentUser = User;
+            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var car = await _profileRepository.GetCarAsync(id, currentUserId);
             var returnData = _mapper.Map<CarDtoForGet>(car);
             return Ok(returnData);
         }
