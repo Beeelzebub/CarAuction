@@ -62,5 +62,13 @@ namespace CarAuctionWebAPI.Controllers
             await _carAuctionContext.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpGet("MyCars/{id}")]
+        public async Task<IActionResult> GetCar(int id)
+        {
+            var car = await _profileRepository.GetCarAsync(id);
+            var returnData = _mapper.Map<CarDtoForGet>(car);
+            return Ok(returnData);
+        }
     }
 }
