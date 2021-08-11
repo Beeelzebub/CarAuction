@@ -10,11 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts;
 using Entity;
 using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using Entity.Configurations;
 using Microsoft.AspNetCore.Identity;
+using Repositories;
 
 namespace CarAuctionWebAPI
 {
@@ -44,7 +46,8 @@ namespace CarAuctionWebAPI
                     opts.Password.RequireDigit = false;
                 })
                 .AddEntityFrameworkStores<CarAuctionContext>();
-
+            services.AddScoped< ICarRepository, CarRepository >();
+            services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddControllers();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

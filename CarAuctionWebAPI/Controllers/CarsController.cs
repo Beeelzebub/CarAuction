@@ -11,6 +11,7 @@ using Entity.Models;
 using Entity.RequestFeatures;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,21 +23,21 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly CarAuctionContext _carAuctionContext;
-        private readonly UserManager<User> _userManager;
+        private readonly ICarRepository _carRepository;
 
-        public CarsController(IMapper mapper, CarAuctionContext carAuctionContext, UserManager<User> userManager) 
+
+        public CarsController(IMapper mapper, CarAuctionContext carAuctionContext, ICarRepository carRepository) 
         {
             _mapper = mapper;
             _carAuctionContext = carAuctionContext;
-            _userManager = userManager;
+            _carRepository = carRepository;
         }
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAllCars([FromQuery] CarParameters carParameters)
         {
-            var cars = await _carAuctionContext.Cars.ToListAsync();
-            var carData = PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
-            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(carData);
+            var cars = await _carRepository.GetCarsAsync(carParameters);
+            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
 
             return Ok(returnData);
         }
@@ -48,11 +49,9 @@ namespace CarAuctionWebAPI.Controllers
             {
                 return BadRequest();
             }
-            var cars = await _carAuctionContext.Cars.Where(c=> (c.Year>= carParameters.MinYear && c.Year<= carParameters.MaxYear)
-                                                         && c.Model.Name.Equals(carParameters.Model)
-                                                         && c.Model.Brand.BrandName.Equals(carParameters.Brand)).ToListAsync();
-            var carData = PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
-            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(carData);
+
+            var cars = await _carRepository.GetCarsByConditionAsync(carParameters);
+            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
 
             return Ok(returnData);
         }
@@ -60,7 +59,7 @@ namespace CarAuctionWebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCar(int id)
         {
-            var car = await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id));
+            var car = await _carRepository.GetCarAsync(id);
             if (car == null)
             {
                 return BadRequest();
@@ -70,7 +69,7 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Bid(int id)
+        public async Task<IActionResult> Bid(int id)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -80,7 +79,7 @@ namespace CarAuctionWebAPI.Controllers
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             
 
-            var car = _carAuctionContext.Cars.SingleOrDefault(i => i.Id==id);
+            var car = await _carRepository.GetCarAsync(id);
             if (car == null)
             {
                 return BadRequest("Car not found");
@@ -107,7 +106,7 @@ namespace CarAuctionWebAPI.Controllers
                 item.BidStatus = BidStatus.Outbid;
                 
             }
-            _carAuctionContext.SaveChanges();
+            await _carAuctionContext.SaveChangesAsync();
             lot.CurrentCost += lot.MinimalStep;
             var bid = new Bid
             {
@@ -116,7 +115,7 @@ namespace CarAuctionWebAPI.Controllers
                 BidStatus = 0
             };
             _carAuctionContext.Bids.Add(bid);
-            _carAuctionContext.SaveChanges();
+            await _carAuctionContext.SaveChangesAsync();
             return Ok("Your bid is accepted");
         }
     }

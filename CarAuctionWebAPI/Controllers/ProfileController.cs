@@ -9,6 +9,7 @@ using AutoMapper;
 using Entity;
 using Entity.Models;
 using System.Security.Claims;
+using Contracts;
 using Entity.DTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,70 +22,48 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly CarAuctionContext _carAuctionContext;
+        private readonly IProfileRepository _profileRepository;
 
-        public ProfileController(IMapper mapper, CarAuctionContext carAuctionContext)
+        public ProfileController(IMapper mapper, CarAuctionContext carAuctionContext, IProfileRepository profileRepository)
         {
             _mapper = mapper;
             _carAuctionContext = carAuctionContext;
+            _profileRepository = profileRepository;
         }
         [HttpPost]
         public async Task<IActionResult> AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
             ClaimsPrincipal currentUser = this.User;
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            Car car = new Car
-            {
-                Year = carDtoForCreation.Year,
-                ImageUrl = carDtoForCreation.ImageUrl,
-                Fuel = carDtoForCreation.Fuel,
-                CarBody = carDtoForCreation.CarBody,
-                DriveUnit = carDtoForCreation.DriveUnit,
-                Model = new Model
-                {
-                    Name = carDtoForCreation.Model,
-                    Brand = new Brand
-                    {
-                        BrandName = carDtoForCreation.Brand
-                    }
-                },
-                Lot = new Lot
-                {
-                    StartDate = DateTime.Now.AddDays(0),
-                    EndDate = DateTime.Now.AddDays(7),
-                    MinimalStep = carDtoForCreation.MinimalStep,
-                    StartingPrice = carDtoForCreation.StartingPrice,
-                    CurrentCost = carDtoForCreation.StartingPrice,
-                    RedemptionPrice = carDtoForCreation.RedemptionPrice,
-                    SellerId = currentUserId
-                }
-
-
-            };
-            _carAuctionContext.Cars.Add(car);
+            _profileRepository.AddCar(carDtoForCreation, currentUserId);
             await _carAuctionContext.SaveChangesAsync();
             return Ok();
         }
         [HttpGet("MyCars")]
-        [Authorize]
         public async Task<IActionResult> GetCarsForUser()
         {
             ClaimsPrincipal currentUser = this.User;
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var cars = await _carAuctionContext.Cars.Where(i => i.Lot.SellerId == currentUserId).ToListAsync();
+            var cars =await _profileRepository.GetCarsProfileAsync(currentUserId);
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
             return Ok(returnData);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCar(int id)
         {
-            var car = await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id));
+            var car = await _profileRepository.GetCarAsync(id);
             if (car == null)
             {
                 return BadRequest();
             }
-            var lot = _carAuctionContext.Lots.SingleOrDefault(c => c.Id.Equals(car.LotId));
+
+            var lot = await _profileRepository.GetLotAsync(car.LotId);
+            if (lot == null)
+            {
+                return BadRequest();
+            }
             _carAuctionContext.Cars.Remove(car);
-            //_carAuctionContext.Lots.Remove(lot);
+            _carAuctionContext.Lots.Remove(lot);
             await _carAuctionContext.SaveChangesAsync();
             return Ok();
         }
