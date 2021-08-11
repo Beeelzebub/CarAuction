@@ -32,25 +32,27 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllCars()
+        public async Task<IActionResult> GetAllCars([FromQuery] CarParameters carParameters)
         {
             var cars = await _carAuctionContext.Cars.ToListAsync();
-            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+            var carData = PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
+            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(carData);
 
             return Ok(returnData);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCarsByCondition([FromQuery] RequestParameters requestParameters)
+        public async Task<IActionResult> GetCarsByCondition([FromQuery] CarParameters carParameters)
         {
-            if (!requestParameters.ValidYearRange)
+            if (!carParameters.ValidYearRange)
             {
                 return BadRequest();
             }
-            var cars = await _carAuctionContext.Cars.Where(c=> (c.Year>=requestParameters.MinYear && c.Year<=requestParameters.MaxYear)
-                                                         && c.Model.Name.Equals(requestParameters.Model)
-                                                         && c.Model.Brand.BrandName.Equals(requestParameters.Brand)).ToListAsync();
-            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+            var cars = await _carAuctionContext.Cars.Where(c=> (c.Year>= carParameters.MinYear && c.Year<= carParameters.MaxYear)
+                                                         && c.Model.Name.Equals(carParameters.Model)
+                                                         && c.Model.Brand.BrandName.Equals(carParameters.Brand)).ToListAsync();
+            var carData = PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
+            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(carData);
 
             return Ok(returnData);
         }
