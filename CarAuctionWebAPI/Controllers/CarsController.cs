@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using Entity;
 using Entity.DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
@@ -17,14 +15,12 @@ namespace CarAuctionWebAPI.Controllers
     public class CarsController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly CarAuctionContext _carAuctionContext;
         private readonly ICarRepository _carRepository;
 
 
-        public CarsController(IMapper mapper, CarAuctionContext carAuctionContext, ICarRepository carRepository) 
+        public CarsController(IMapper mapper, ICarRepository carRepository) 
         {
             _mapper = mapper;
-            _carAuctionContext = carAuctionContext;
             _carRepository = carRepository;
         }
 
@@ -80,7 +76,7 @@ namespace CarAuctionWebAPI.Controllers
                 return BadRequest("Car not found");
             }
 
-            var lot = _carAuctionContext.Lots.SingleOrDefault(i => i.Id == car.LotId);
+            var lot = await _carRepository.GetLotAsync(car.LotId);
             if (lot == null)
             {
                 return BadRequest("Lot not found");
@@ -90,7 +86,7 @@ namespace CarAuctionWebAPI.Controllers
                 return BadRequest("You cannot bet");
             }
 
-            var  bids= _carAuctionContext.Bids.Where(x=>x.LotId.Equals(lot.Id) );
+            var  bids= _carRepository.GetListBids(lot.Id);
             foreach (var item in bids)
             {
                 if (item.BuyerId == currentUserId && item.BidStatus == 0)
@@ -101,16 +97,10 @@ namespace CarAuctionWebAPI.Controllers
                 item.BidStatus = BidStatus.Outbid;
                 
             }
-            await _carAuctionContext.SaveChangesAsync();
             lot.CurrentCost += lot.MinimalStep;
-            var bid = new Bid
-            {
-                LotId = lot.Id,
-                BuyerId = currentUserId,
-                BidStatus = 0
-            };
-            _carAuctionContext.Bids.Add(bid);
-            await _carAuctionContext.SaveChangesAsync();
+            _carRepository.AddBid(lot.Id, currentUserId);
+            
+            _carRepository.Save();
             return Ok("Your bid is accepted");
         }
     }

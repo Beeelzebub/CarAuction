@@ -7,6 +7,7 @@ using Entity;
 using Entity.DTO;
 using Entity.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Repositories
 {
@@ -50,7 +51,12 @@ namespace Repositories
             };
             _carAuctionContext.Cars.Add(car);
         }
-        
+
+        public void DeleteLotWithCar(Car car, Lot lot)
+        {
+            _carAuctionContext.Cars.Remove(car);
+            _carAuctionContext.Lots.Remove(lot);
+        }
 
         public async Task<Car> GetCarAsync(int id, string idUser)
         {
@@ -65,6 +71,11 @@ namespace Repositories
         public async Task<Lot> GetLotAsync(int id)
         {
             return await _carAuctionContext.Lots.SingleOrDefaultAsync(c => c.Id.Equals(id));
+        }
+
+        public void Save()
+        {
+            _carAuctionContext.SaveChanges();
         }
     }
 }

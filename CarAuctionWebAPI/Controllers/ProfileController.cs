@@ -16,13 +16,11 @@ namespace CarAuctionWebAPI.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly CarAuctionContext _carAuctionContext;
         private readonly IProfileRepository _profileRepository;
 
-        public ProfileController(IMapper mapper, CarAuctionContext carAuctionContext, IProfileRepository profileRepository)
+        public ProfileController(IMapper mapper, IProfileRepository profileRepository)
         {
             _mapper = mapper;
-            _carAuctionContext = carAuctionContext;
             _profileRepository = profileRepository;
         }
         [HttpPost]
@@ -31,8 +29,8 @@ namespace CarAuctionWebAPI.Controllers
             ClaimsPrincipal currentUser = User;
             var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             _profileRepository.AddCar(carDtoForCreation, currentUserId);
-            await _carAuctionContext.SaveChangesAsync();
-            return Ok();
+            _profileRepository.Save();
+            return StatusCode(201);
         }
         [HttpGet("MyCars")]
         public async Task<IActionResult> GetCarsForUser()
@@ -59,9 +57,9 @@ namespace CarAuctionWebAPI.Controllers
             {
                 return BadRequest();
             }
-            _carAuctionContext.Cars.Remove(car);
-            _carAuctionContext.Lots.Remove(lot);
-            await _carAuctionContext.SaveChangesAsync();
+
+            _profileRepository.DeleteLotWithCar(car, lot);
+            _profileRepository.Save();
             return Ok();
         }
 
