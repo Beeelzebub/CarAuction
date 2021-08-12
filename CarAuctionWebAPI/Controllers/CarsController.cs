@@ -7,6 +7,7 @@ using Entity.Models;
 using Entity.RequestFeatures;
 using System.Threading.Tasks;
 using Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -23,7 +24,7 @@ namespace CarAuctionWebAPI.Controllers
             _mapper = mapper;
             _carRepository = carRepository;
         }
-
+        
         [HttpGet("all")]
         public async Task<IActionResult> GetAllCars([FromQuery] CarParameters carParameters)
         {

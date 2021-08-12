@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using AutoMapper;
+using Contracts;
 using Entity.DTO;
 using Entity.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -15,12 +16,14 @@ namespace CarAuctionWebAPI.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IAuthenticationManager _authenticationManager;
 
-        public AuthenticationController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AuthenticationController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IAuthenticationManager authenticationManager)
         {
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
+            _authenticationManager = authenticationManager;
         }
         
         [HttpPost("Registration")]
@@ -43,15 +46,12 @@ namespace CarAuctionWebAPI.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
         {
-            var user = await _userManager.FindByNameAsync(userForAuthentication.UserName);
-
-            if (user == null || !(await _userManager.CheckPasswordAsync(user, userForAuthentication.Password)))
+            if (!await _authenticationManager.ValidateUser(userForAuthentication))
             {
-                return Unauthorized("Authentication failed. Wrong user name or password.");
+                return Unauthorized();
             }
-            await _signInManager.SignInAsync(user, false);
 
-            return Ok();
+            return Ok(new { Token = await _authenticationManager.CreateToken() });
         }
 
         [HttpGet("Logout"), Authorize]
@@ -61,6 +61,6 @@ namespace CarAuctionWebAPI.Controllers
 
             return Ok();
         }
-
+       
     }
 }

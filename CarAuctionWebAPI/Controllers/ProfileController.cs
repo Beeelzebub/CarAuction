@@ -32,6 +32,7 @@ namespace CarAuctionWebAPI.Controllers
             _profileRepository.Save();
             return StatusCode(201);
         }
+        
         [HttpGet("MyCars")]
         public async Task<IActionResult> GetCarsForUser()
         {

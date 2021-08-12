@@ -1,3 +1,4 @@
+using CarAuctionWebAPI.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,18 +29,12 @@ namespace CarAuctionWebAPI
             services.AddDbContext<CarAuctionContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     b => b.MigrationsAssembly("Entity")));
-
-            services.AddIdentity<User, IdentityRole>(opts =>
-                {
-                    opts.Password.RequiredLength = 4;
-                    opts.Password.RequireNonAlphanumeric = false;
-                    opts.Password.RequireLowercase = false;
-                    opts.Password.RequireUppercase = false;
-                    opts.Password.RequireDigit = false;
-                })
-                .AddEntityFrameworkStores<CarAuctionContext>();
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
             services.AddScoped< ICarRepository, CarRepository >();
             services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
             services.AddControllers();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
