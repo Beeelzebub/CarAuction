@@ -18,15 +18,11 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly IAuthenticationManager _authenticationManager;
 
-        public RegistrationController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IAuthenticationManager authenticationManager)
+        public RegistrationController(IMapper mapper, UserManager<User> userManager)
         {
             _mapper = mapper;
             _userManager = userManager;
-            _signInManager = signInManager;
-            _authenticationManager = authenticationManager;
         }
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {

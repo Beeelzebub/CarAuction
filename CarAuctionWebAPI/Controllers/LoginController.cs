@@ -16,16 +16,10 @@ namespace CarAuctionWebAPI.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
         private readonly IAuthenticationManager _authenticationManager;
 
-        public LoginController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, IAuthenticationManager authenticationManager)
+        public LoginController(IAuthenticationManager authenticationManager)
         {
-            _mapper = mapper;
-            _userManager = userManager;
-            _signInManager = signInManager;
             _authenticationManager = authenticationManager;
         }
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
