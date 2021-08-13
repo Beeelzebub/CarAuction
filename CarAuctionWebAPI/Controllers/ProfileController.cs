@@ -7,6 +7,9 @@ using Entity;
 using System.Security.Claims;
 using Contracts;
 using Entity.DTO;
+using Entity.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -17,17 +20,18 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IProfileRepository _profileRepository;
+        private readonly UserManager<User> _userManager;
 
-        public ProfileController(IMapper mapper, IProfileRepository profileRepository)
+        public ProfileController(IMapper mapper, IProfileRepository profileRepository, UserManager<User> userManager)
         {
             _mapper = mapper;
             _profileRepository = profileRepository;
+            _userManager = userManager;
         }
         [HttpPost]
-        public async Task<IActionResult> AddCar([FromBody] CarDtoForCreation carDtoForCreation)
+        public IActionResult AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
-            ClaimsPrincipal currentUser = User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUserId = _userManager.GetUserId(User);
             _profileRepository.AddCar(carDtoForCreation, currentUserId);
             _profileRepository.Save();
             return StatusCode(201);
@@ -36,8 +40,7 @@ namespace CarAuctionWebAPI.Controllers
         [HttpGet("MyCars")]
         public async Task<IActionResult> GetCarsForUser()
         {
-            ClaimsPrincipal currentUser = User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUserId = _userManager.GetUserId(User);
             var cars =await _profileRepository.GetCarsProfileAsync(currentUserId);
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
             return Ok(returnData);
@@ -45,8 +48,7 @@ namespace CarAuctionWebAPI.Controllers
         [HttpDelete("MyCars/{id}")]
         public async Task<IActionResult> DeleteCar(int id)
         {
-            ClaimsPrincipal currentUser = User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUserId = _userManager.GetUserId(User);
             var car = await _profileRepository.GetCarAsync(id, currentUserId);
             if (car == null)
             {
@@ -67,8 +69,7 @@ namespace CarAuctionWebAPI.Controllers
         [HttpGet("MyCars/{id}")]
         public async Task<IActionResult> GetCar(int id)
         {
-            ClaimsPrincipal currentUser = User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var currentUserId = _userManager.GetUserId(User);
             var car = await _profileRepository.GetCarAsync(id, currentUserId);
             var returnData = _mapper.Map<CarDtoForGet>(car);
             return Ok(returnData);

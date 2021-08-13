@@ -8,6 +8,9 @@ using Entity.RequestFeatures;
 using System.Threading.Tasks;
 using Contracts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -17,12 +20,13 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ICarRepository _carRepository;
+        private readonly UserManager<User> _userManager;
 
-
-        public CarsController(IMapper mapper, ICarRepository carRepository) 
+        public CarsController(IMapper mapper, ICarRepository carRepository, UserManager<User> userManager) 
         {
             _mapper = mapper;
             _carRepository = carRepository;
+            _userManager = userManager;
         }
         
         [HttpGet("all")]
@@ -61,15 +65,12 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpPost("{id}")]
+        [Authorize]
         public async Task<IActionResult> Bid(int id)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return BadRequest("Log in to the system ");
-            }
-            ClaimsPrincipal currentUser = this.User;
-            var currentUserId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            
+
+            var currentUserId = _userManager.GetUserId(User);
+
 
             var car = await _carRepository.GetCarAsync(id);
             if (car == null)
@@ -82,7 +83,7 @@ namespace CarAuctionWebAPI.Controllers
             {
                 return BadRequest("Lot not found");
             }
-            if (currentUserId ==lot.SellerId)
+            if (currentUserId == lot.SellerId)
             {
                 return BadRequest("You cannot bet");
             }

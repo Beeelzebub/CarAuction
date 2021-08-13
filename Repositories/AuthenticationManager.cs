@@ -13,17 +13,24 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Repositories
 {
-    public class AuthenticationManager : IAuthenticationManager
+    public class AuthenticationManager: IAuthenticationManager
     {
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private User _user;
-        public AuthenticationManager(UserManager<User> userManager, IConfiguration configuration)
+        public AuthenticationManager(UserManager<User> userManager, IConfiguration
+            configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
         }
 
+        public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
+        {
+            _user = await _userManager.FindByNameAsync(userForAuth.UserName);
+            return (_user != null && await _userManager.CheckPasswordAsync(_user,
+                userForAuth.Password));
+        }
         public async Task<string> CreateToken()
         {
             var signingCredentials = GetSigningCredentials();
@@ -42,7 +49,7 @@ namespace Repositories
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, _user.UserName)
+                new Claim(ClaimTypes.NameIdentifier, _user.Id)
             };
             var roles = await _userManager.GetRolesAsync(_user);
             foreach (var role in roles)
@@ -50,13 +57,6 @@ namespace Repositories
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
             return claims;
-        }
-
-        public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
-        {
-            _user = await _userManager.FindByNameAsync(userForAuth.UserName);
-            return (_user != null && await _userManager.CheckPasswordAsync(_user,
-                userForAuth.Password));
         }
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials
             signingCredentials, List<Claim> claims)

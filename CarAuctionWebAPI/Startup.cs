@@ -31,7 +31,7 @@ namespace CarAuctionWebAPI
                     b => b.MigrationsAssembly("Entity")));
             services.AddAuthentication();
             services.ConfigureIdentity();
-            services.ConfigureJWT(Configuration);
+            services.ConfigureJwt(Configuration);
             services.AddScoped< ICarRepository, CarRepository >();
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();

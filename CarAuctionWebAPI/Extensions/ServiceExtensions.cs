@@ -30,7 +30,7 @@ namespace CarAuctionWebAPI.Extensions
             builder.AddEntityFrameworkStores<CarAuctionContext>()
                 .AddDefaultTokenProviders();
         }
-        public static void ConfigureJWT(this IServiceCollection services, IConfiguration
+        public static void ConfigureJwt(this IServiceCollection services, IConfiguration
             configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
