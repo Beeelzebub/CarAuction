@@ -32,7 +32,7 @@ namespace CarAuctionWebAPI
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJwt(Configuration);
-            services.AddScoped< ICarRepository, CarRepository >();
+            services.AddScoped<ICarRepository, CarRepository >();
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
             services.AddControllers();

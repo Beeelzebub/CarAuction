@@ -68,7 +68,6 @@ namespace CarAuctionWebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> Bid(int id)
         {
-
             var currentUserId = _userManager.GetUserId(User);
 
 

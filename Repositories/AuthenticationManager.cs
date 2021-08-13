@@ -28,13 +28,15 @@ namespace Repositories
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
         {
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);
-            return (_user != null && await _userManager.CheckPasswordAsync(_user,
-                userForAuth.Password));
+            return (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));
         }
-        public async Task<string> CreateToken()
+        public string CreateToken()
         {
             var signingCredentials = GetSigningCredentials();
-            var claims = await GetClaims();
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, _user.Id)
+            };
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
@@ -45,21 +47,7 @@ namespace Repositories
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
-        private async Task<List<Claim>> GetClaims()
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, _user.Id)
-            };
-            var roles = await _userManager.GetRolesAsync(_user);
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-            return claims;
-        }
-        private JwtSecurityToken GenerateTokenOptions(SigningCredentials
-            signingCredentials, List<Claim> claims)
+        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var tokenOptions = new JwtSecurityToken
@@ -68,9 +56,7 @@ namespace Repositories
                 audience: jwtSettings.GetSection("validAudience").Value,
                 claims: claims,
                 expires:
-                DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings.GetSection("expires").Value)),
-                signingCredentials: signingCredentials
-            );
+                DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings.GetSection("expires").Value)), signingCredentials: signingCredentials);
             return tokenOptions;
         }
     }
