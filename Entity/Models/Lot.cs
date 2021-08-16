@@ -22,9 +22,17 @@ namespace Entity.Models
 
         public User Seller { get; set; } 
         public string SellerId { get; set; } 
+        public Status Status { get; set; }
 
 
         public  ICollection<Bid> Bids { get; set; }
 
+    }
+
+    public enum Status
+    {
+        Pending,
+        Approved,
+        Denied
     }
 }
