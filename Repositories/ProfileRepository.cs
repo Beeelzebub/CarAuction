@@ -85,9 +85,9 @@ namespace Repositories
             _carAuctionContext.SaveChanges();
         }
 
-        public IEnumerable<Bid> UserBids(string userId)
+        public async Task<IEnumerable<Bid>> UserBidsAsync(string userId)
         {
-            var bids = _carAuctionContext.Bids.Where(i => i.BuyerId.Equals(userId)).ToList();
+            var bids = await _carAuctionContext.Bids.Where(i => i.BuyerId.Equals(userId)).ToListAsync();
             return bids;
         }
     }

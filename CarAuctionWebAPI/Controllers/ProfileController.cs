@@ -108,10 +108,10 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpGet("MyBids")]
-        public IActionResult GetBidsUser()
+        public async Task<IActionResult> GetBidsUser()
         {
             var currentUserId = _userManager.GetUserId(User);
-            var bids = _profileRepository.UserBids(currentUserId);
+            var bids = await _profileRepository.UserBidsAsync(currentUserId);
             var returnData = _mapper.Map<IEnumerable<BidsDtoForGet>>(bids);
             return Ok(returnData);
         }
