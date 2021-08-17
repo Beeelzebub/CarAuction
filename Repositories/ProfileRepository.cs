@@ -40,12 +40,11 @@ namespace Repositories
                 },
                 Lot = new Lot
                 {
-                    StartDate = DateTime.Now.AddDays(0),
-                    EndDate = DateTime.Now.AddDays(7),
                     MinimalStep = carDtoForCreation.MinimalStep,
                     StartingPrice = carDtoForCreation.StartingPrice,
                     CurrentCost = carDtoForCreation.StartingPrice,
                     RedemptionPrice = carDtoForCreation.RedemptionPrice,
+                    Status = Status.Pending,
                     SellerId = userId
                 }
             };
@@ -60,12 +59,12 @@ namespace Repositories
 
         public async Task<Car> GetCarAsync(int id, string idUser)
         {
-            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId==idUser);
+            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser));
         }
 
         public async Task<IEnumerable<Car>> GetCarsProfileAsync(string id)
         {
-            return await _carAuctionContext.Cars.Where(i => i.Lot.SellerId == id).ToListAsync();
+            return await _carAuctionContext.Cars.Where(i => i.Lot.SellerId.Equals(id)).ToListAsync();
         }
 
         public async Task<Lot> GetLotAsync(int id)

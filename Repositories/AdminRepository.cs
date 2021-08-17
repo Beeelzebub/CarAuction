@@ -20,17 +20,17 @@ namespace Repositories
         }
         public async Task<Car> GetCarAsync(int id)
         {
-            return await _carAuctionContext.Cars.SingleOrDefaultAsync(i => i.Id == id && i.Lot.Status == 0);
+            return await _carAuctionContext.Cars.SingleOrDefaultAsync(i => i.Id.Equals(id) && i.Lot.Status.Equals(Status.Pending));
         }
 
         public async Task<IEnumerable<Car>> GetCarsByStatusAsync()
         {
-            return await _carAuctionContext.Cars.Where(i => i.Lot.Status == 0).ToListAsync();
+            return await _carAuctionContext.Cars.Where(i => i.Lot.Status.Equals(Status.Pending)).ToListAsync();
         }
 
         public async Task<Lot> GetLotAsync(int id)
         {
-            return await _carAuctionContext.Lots.SingleOrDefaultAsync(i=>i.Id==id);
+            return await _carAuctionContext.Lots.SingleOrDefaultAsync(i=>i.Id.Equals(id));
         }
 
         public void Save()

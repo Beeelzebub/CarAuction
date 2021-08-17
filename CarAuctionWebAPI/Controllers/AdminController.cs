@@ -9,10 +9,12 @@ using Contracts;
 using Entity;
 using Entity.DTO;
 using Entity.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarAuctionWebAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class AdminController : ControllerBase
     {
@@ -61,6 +63,8 @@ namespace CarAuctionWebAPI.Controllers
                 return BadRequest("Car not found");
             }
             lot.Status = statusLot.Status;
+            lot.StartDate = DateTime.Now;
+            lot.EndDate = DateTime.Now.AddDays(7);
             _adminRepository.Save();
             return Ok();
         }

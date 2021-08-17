@@ -18,11 +18,13 @@ namespace Repositories
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private User _user;
-        public AuthenticationManager(UserManager<User> userManager, IConfiguration
-            configuration)
+
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public AuthenticationManager(UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _roleManager = roleManager;
         }
 
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
@@ -30,15 +32,26 @@ namespace Repositories
             _user = await _userManager.FindByNameAsync(userForAuth.UserName);
             return (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));
         }
-        public string CreateToken()
+        
+        public async Task<string> CreateToken()
         {
             var signingCredentials = GetSigningCredentials();
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, _user.Id)
-            };
+            var claims = await GetClaims();
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        }
+        private async Task<List<Claim>> GetClaims()
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, _user.UserName)
+            };
+            var roles = await _userManager.GetRolesAsync(_user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+            return claims;
         }
         private SigningCredentials GetSigningCredentials()
         {

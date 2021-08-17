@@ -27,6 +27,7 @@ namespace Entity
             builder.ApplyConfiguration(new BrandConfiguration());
             builder.ApplyConfiguration(new ModelConfiguration());
             builder.ApplyConfiguration(new LotConfiguration());
+            builder.ApplyConfiguration(new AdminConfigure());
         }
     }
 

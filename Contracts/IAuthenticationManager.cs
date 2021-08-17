@@ -9,6 +9,6 @@ namespace Contracts
     public interface IAuthenticationManager
     {
         Task<bool> ValidateUser(UserForAuthenticationDto userForAuth);
-        string CreateToken();
+        Task<string> CreateToken();
     }
 }

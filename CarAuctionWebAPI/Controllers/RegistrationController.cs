@@ -32,6 +32,11 @@ namespace CarAuctionWebAPI.Controllers
                 }
                 return BadRequest(ModelState);
             }
+
+            if (userForRegistrationDto.UserName == "Admin")
+            {
+                await _userManager.AddToRoleAsync(user, "Admin");
+            }
             return StatusCode(201);
         }
     }

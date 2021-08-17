@@ -32,12 +32,12 @@ namespace Repositories
 
         public async Task<Car> GetCarAsync(int id)
         {
-            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id));
+            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.Status.Equals(Status.Approved));
         }
 
         public async Task<IEnumerable<Car>> GetCarsAsync(CarParameters carParameters)
         {
-            var cars = await _carAuctionContext.Cars.ToListAsync();
+            var cars = await _carAuctionContext.Cars.Where(i => i.Lot.Status.Equals(Status.Approved)).ToListAsync();
             return PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
             
         }
@@ -46,7 +46,8 @@ namespace Repositories
         {
             var cars = await _carAuctionContext.Cars.Where(c => (c.Year >= carParameters.MinYear && c.Year <= carParameters.MaxYear)
                                                                 && c.Model.Name.Equals(carParameters.Model)
-                                                                && c.Model.Brand.BrandName.Equals(carParameters.Brand)).ToListAsync();
+                                                                && c.Model.Brand.BrandName.Equals(carParameters.Brand)
+                                                                && c.Lot.Status.Equals(Status.Approved)).ToListAsync();
             return PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
         }
 
@@ -58,7 +59,7 @@ namespace Repositories
 
         public async Task<Lot> GetLotAsync(int id)
         {
-            return await _carAuctionContext.Lots.SingleOrDefaultAsync(i => i.Id == id);
+            return await _carAuctionContext.Lots.SingleOrDefaultAsync(i => i.Id.Equals(id));
         }
 
         public void Save()

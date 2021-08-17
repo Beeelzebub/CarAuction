@@ -28,8 +28,8 @@ namespace CarAuctionWebAPI.Controllers
             {
                 return Unauthorized();
             }
-
-            return Ok(new { Token =  _authenticationManager.CreateToken() });
+            
+            return Ok(new { Token =  _authenticationManager.CreateToken().Result });
         }
     }
 }
