@@ -9,6 +9,7 @@ using Entity;
 using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing.Template;
 using Repositories;
 
 namespace CarAuctionWebAPI
@@ -54,6 +55,7 @@ namespace CarAuctionWebAPI
 
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapControllers();
             });
         }

@@ -1,24 +1,44 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Contracts;
 using Entity.DTO;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarAuctionWebAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class RegistrationController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
+        private readonly IAuthenticationManager _authenticationManager;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
-        public RegistrationController(IMapper mapper, UserManager<User> userManager)
+        public AuthenticationController(IAuthenticationManager authenticationManager, IMapper mapper, UserManager<User> userManager)
         {
+            _authenticationManager = authenticationManager;
             _mapper = mapper;
             _userManager = userManager;
         }
+        [HttpPost]
+        [Route("api/login")]
+        public async Task<IActionResult> Log([FromBody] UserForAuthenticationDto userForAuthentication)
+        {
+            if (!await _authenticationManager.ValidateUser(userForAuthentication))
+            {
+                return Unauthorized();
+            }
+
+            return Ok(new { Token = _authenticationManager.CreateToken().Result });
+        }
+
+        [HttpPost]
+        [Route("api/register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
 
