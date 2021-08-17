@@ -84,5 +84,11 @@ namespace Repositories
         {
             _carAuctionContext.SaveChanges();
         }
+
+        public IEnumerable<Bid> UserBids(string userId)
+        {
+            var bids = _carAuctionContext.Bids.Where(i => i.BuyerId.Equals(userId)).ToList();
+            return bids;
+        }
     }
 }

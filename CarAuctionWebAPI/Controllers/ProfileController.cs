@@ -106,5 +106,14 @@ namespace CarAuctionWebAPI.Controllers
             var returnData = _mapper.Map<CarDtoForGet>(car);
             return Ok(returnData);
         }
+
+        [HttpGet("MyBids")]
+        public IActionResult GetBidsUser()
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var bids = _profileRepository.UserBids(currentUserId);
+            var returnData = _mapper.Map<IEnumerable<BidsDtoForGet>>(bids);
+            return Ok(returnData);
+        }
     }
 }
