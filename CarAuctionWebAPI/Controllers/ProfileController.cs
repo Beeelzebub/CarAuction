@@ -37,28 +37,44 @@ namespace CarAuctionWebAPI.Controllers
             return StatusCode(201);
         }
         
-        [HttpGet("MyCars")]
-        public async Task<IActionResult> GetCarsForUser()
+        [HttpGet("MyCars/Pending")]
+        public async Task<IActionResult> GetCarsForUserIsPending()
         {
             var currentUserId = _userManager.GetUserId(User);
-            var cars =await _profileRepository.GetCarsProfileAsync(currentUserId);
+            var cars =await _profileRepository.GetCarsProfileIsPendingAsync(currentUserId);
+            if (cars == null)
+            {
+                return BadRequest("Cars not found");
+            }
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
             return Ok(returnData);
         }
-        [HttpDelete("MyCars/{id}")]
+        [HttpGet("MyCars/Approved")]
+        public async Task<IActionResult> GetCarsForUserIsApproved()
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var cars = await _profileRepository.GetCarsProfileIsApprovedAsync(currentUserId);
+            if (cars == null)
+            {
+                return BadRequest("Cars not found");
+            }
+            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+            return Ok(returnData);
+        }
+        [HttpDelete("MyCars/Pending/{id}")]
         public async Task<IActionResult> DeleteCar(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
-            var car = await _profileRepository.GetCarAsync(id, currentUserId);
+            var car = await _profileRepository.GetCarIsPendingAsync(id, currentUserId);
             if (car == null)
             {
-                return BadRequest();
+                return BadRequest("Car not found");
             }
 
             var lot = await _profileRepository.GetLotAsync(car.LotId);
             if (lot == null)
             {
-                return BadRequest();
+                return BadRequest("Lot not found");
             }
 
             _profileRepository.DeleteLotWithCar(car, lot);
@@ -66,11 +82,27 @@ namespace CarAuctionWebAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("MyCars/{id}")]
-        public async Task<IActionResult> GetCar(int id)
+        [HttpGet("MyCars/Pending/{id}")]
+        public async Task<IActionResult> GetCarIsPending(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
-            var car = await _profileRepository.GetCarAsync(id, currentUserId);
+            var car = await _profileRepository.GetCarIsPendingAsync(id, currentUserId);
+            if (car == null)
+            {
+                return BadRequest("Car not found");
+            }
+            var returnData = _mapper.Map<CarDtoForGet>(car);
+            return Ok(returnData);
+        }
+        [HttpGet("MyCars/Approved/{id}")]
+        public async Task<IActionResult> GetCarIsApproved(int id)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var car = await _profileRepository.GetCarIsApprovedAsync(id, currentUserId);
+            if (car == null)
+            {
+                return BadRequest("Car not found");
+            }
             var returnData = _mapper.Map<CarDtoForGet>(car);
             return Ok(returnData);
         }

@@ -18,13 +18,11 @@ namespace Repositories
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private User _user;
-
-        private readonly RoleManager<IdentityRole> _roleManager;
-        public AuthenticationManager(UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
+        
+        public AuthenticationManager(UserManager<User> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
-            _roleManager = roleManager;
         }
 
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
@@ -44,7 +42,7 @@ namespace Repositories
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, _user.UserName)
+                new Claim(ClaimTypes.NameIdentifier, _user.Id)
             };
             var roles = await _userManager.GetRolesAsync(_user);
             foreach (var role in roles)

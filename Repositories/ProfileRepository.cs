@@ -57,14 +57,22 @@ namespace Repositories
             _carAuctionContext.Lots.Remove(lot);
         }
 
-        public async Task<Car> GetCarAsync(int id, string idUser)
+        public async Task<Car> GetCarIsPendingAsync(int id, string idUser)
         {
-            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser));
+            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser) && c.Lot.Status.Equals(Status.Pending));
+        }
+        public async Task<Car> GetCarIsApprovedAsync(int id, string idUser)
+        {
+            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser) && c.Lot.Status.Equals(Status.Approved));
         }
 
-        public async Task<IEnumerable<Car>> GetCarsProfileAsync(string id)
+        public async Task<IEnumerable<Car>> GetCarsProfileIsPendingAsync(string id)
         {
-            return await _carAuctionContext.Cars.Where(i => i.Lot.SellerId.Equals(id)).ToListAsync();
+            return await _carAuctionContext.Cars.Where(i => i.Lot.SellerId.Equals(id) && i.Lot.Status.Equals(Status.Pending)).ToListAsync();
+        }
+        public async Task<IEnumerable<Car>> GetCarsProfileIsApprovedAsync(string id)
+        {
+            return await _carAuctionContext.Cars.Where(i => i.Lot.SellerId.Equals(id) && i.Lot.Status.Equals(Status.Approved)).ToListAsync();
         }
 
         public async Task<Lot> GetLotAsync(int id)
