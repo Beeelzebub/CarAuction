@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Entity.Models;
+﻿using Entity.Models;
 
 namespace Entity.DTO
 {

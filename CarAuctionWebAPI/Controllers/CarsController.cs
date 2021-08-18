@@ -96,8 +96,10 @@ namespace CarAuctionWebAPI.Controllers
                     return BadRequest("You have already placed a bet");
                 }
 
-                item.BidStatus = BidStatus.Outbid;
-                
+                if (!item.BidStatus.Equals(BidStatus.Won))
+                {
+                    item.BidStatus = BidStatus.Outbid;
+                }
             }
             lot.CurrentCost += lot.MinimalStep;
             _carRepository.AddBid(lot.Id, currentUserId);
