@@ -8,7 +8,6 @@ using Contracts;
 using Entity.DTO;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Repositories
@@ -16,13 +15,11 @@ namespace Repositories
     public class AuthenticationManager: IAuthenticationManager
     {
         private readonly UserManager<User> _userManager;
-        private readonly IConfiguration _configuration;
         private User _user;
         
-        public AuthenticationManager(UserManager<User> userManager, IConfiguration configuration)
+        public AuthenticationManager(UserManager<User> userManager)
         {
             _userManager = userManager;
-            _configuration = configuration;
         }
 
         public async Task<bool> ValidateUser(UserForAuthenticationDto userForAuth)
@@ -33,10 +30,18 @@ namespace Repositories
         
         public async Task<string> CreateToken()
         {
-            var signingCredentials = GetSigningCredentials();
+            var key = "secret123456789secret!!!!!";
             var claims = await GetClaims();
-            var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
-            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return new JwtSecurityTokenHandler().WriteToken(
+                    new JwtSecurityToken
+                    (
+                        issuer: "CarAuctionWebApi",
+                        audience: "https://localhost:5001",
+                        claims: claims,
+                        expires:
+                        DateTime.Now.AddMinutes(Convert.ToDouble(60)),
+                        signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)), SecurityAlgorithms.HmacSha256))
+                );
         }
         private async Task<List<Claim>> GetClaims()
         {
@@ -50,25 +55,6 @@ namespace Repositories
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
             return claims;
-        }
-        private SigningCredentials GetSigningCredentials()
-        {
-            var key =
-                Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET"));
-            var secret = new SymmetricSecurityKey(key);
-            return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
-        }
-        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
-        {
-            var jwtSettings = _configuration.GetSection("JwtSettings");
-            var tokenOptions = new JwtSecurityToken
-            (
-                issuer: jwtSettings.GetSection("validIssuer").Value,
-                audience: jwtSettings.GetSection("validAudience").Value,
-                claims: claims,
-                expires:
-                DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings.GetSection("expires").Value)), signingCredentials: signingCredentials);
-            return tokenOptions;
         }
     }
 }

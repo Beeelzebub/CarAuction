@@ -11,6 +11,7 @@ namespace CarAuctionWebAPI
             CreateMap<UserForRegistrationDto, User>();
             CreateMap<Car, CarDtoForGet>();
             CreateMap< CarDtoForCreation, Car>();
+            CreateMap<Bid, BidsDtoForGet>();
         }
     }
 }

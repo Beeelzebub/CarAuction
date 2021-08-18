@@ -30,8 +30,7 @@ namespace CarAuctionWebAPI.Extensions
         public static void ConfigureJwt(this IServiceCollection services, IConfiguration
             configuration)
         {
-            var jwtSettings = configuration.GetSection("JwtSettings");
-            var secretKey = Environment.GetEnvironmentVariable("SECRET");
+            var key = "secret123456789secret!!!!!";
             services.AddAuthentication(opt => {
                     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -44,10 +43,9 @@ namespace CarAuctionWebAPI.Extensions
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwtSettings.GetSection("validIssuer").Value,
-                        ValidAudience = jwtSettings.GetSection("validAudience").Value,
-                        IssuerSigningKey = new
-                            SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                        ValidIssuer = "CarAuctionWebApi",
+                        ValidAudience = "https://localhost:5001",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
                     };
                 });
         }

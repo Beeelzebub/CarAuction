@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Contracts;
 using Entity;
@@ -25,7 +25,7 @@ namespace Repositories
             {
                 LotId = lotId,
                 BuyerId = userId,
-                BidStatus = 0
+                BidStatus = BidStatus.Active
             };
             _carAuctionContext.Bids.Add(bid);
         }

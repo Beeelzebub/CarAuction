@@ -15,5 +15,6 @@ namespace Contracts
         Task<Lot> GetLotAsync(int id);
         void Save();
         void DeleteLotWithCar(Car car, Lot lot);
+        Task<IEnumerable<Bid>> UserBidsAsync(string userId);
     }
 }

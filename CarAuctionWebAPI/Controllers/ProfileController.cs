@@ -25,7 +25,7 @@ namespace CarAuctionWebAPI.Controllers
             _profileRepository = profileRepository;
             _userManager = userManager;
         }
-        [HttpPost]
+        [HttpPost("AddCar")]
         public IActionResult AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
             var currentUserId = _userManager.GetUserId(User);
@@ -101,6 +101,15 @@ namespace CarAuctionWebAPI.Controllers
                 return BadRequest("Car not found");
             }
             var returnData = _mapper.Map<CarDtoForGet>(car);
+            return Ok(returnData);
+        }
+
+        [HttpGet("MyBids")]
+        public async Task<IActionResult> GetBidsUser()
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var bids = await _profileRepository.UserBidsAsync(currentUserId);
+            var returnData = _mapper.Map<IEnumerable<BidsDtoForGet>>(bids);
             return Ok(returnData);
         }
     }
