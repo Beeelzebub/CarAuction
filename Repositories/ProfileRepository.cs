@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts;
@@ -7,7 +6,6 @@ using Entity;
 using Entity.DTO;
 using Entity.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Repositories
 {
@@ -88,7 +86,10 @@ namespace Repositories
         public async Task<IEnumerable<Bid>> UserBidsAsync(string userId)
         {
             var bids = await _carAuctionContext.Bids.Where(i => i.BuyerId.Equals(userId)).ToListAsync();
-            return bids;
+            var distinctBids = bids
+                .GroupBy(x => x.LotId)
+                .Select(x => x.Last());
+            return distinctBids;
         }
     }
 }
