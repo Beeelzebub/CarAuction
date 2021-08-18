@@ -28,7 +28,7 @@ namespace CarAuctionWebAPI.Controllers
             _profileRepository = profileRepository;
             _userManager = userManager;
         }
-        [HttpPost]
+        [HttpPost("AddCar")]
         public IActionResult AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
             var currentUserId = _userManager.GetUserId(User);

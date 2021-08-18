@@ -19,7 +19,7 @@ namespace Repositories
         }
         public void AddCar(CarDtoForCreation carDtoForCreation, string userId)
         {
-            
+            var brands = _carAuctionContext.Brands.ToList();
 
             Car car = new Car
             {
@@ -86,9 +86,7 @@ namespace Repositories
         public async Task<IEnumerable<Bid>> UserBidsAsync(string userId)
         {
             var bids = await _carAuctionContext.Bids.Where(i => i.BuyerId.Equals(userId)).ToListAsync();
-            var distinctBids = bids
-                .GroupBy(x => x.LotId)
-                .Select(x => x.Last());
+            var distinctBids = bids.GroupBy(x => x.LotId).Select(x => x.Last());
             return distinctBids;
         }
     }
