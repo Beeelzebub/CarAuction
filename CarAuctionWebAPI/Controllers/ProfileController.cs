@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using Entity;
-using System.Security.Claims;
 using Contracts;
 using Entity.DTO;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace CarAuctionWebAPI.Controllers
 {

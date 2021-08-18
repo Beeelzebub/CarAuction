@@ -21,9 +21,7 @@ namespace Repositories
         }
         public void AddCar(CarDtoForCreation carDtoForCreation, string userId)
         {
-            
-
-            Car car = new Car
+            var car = new Car
             {
                 Year = carDtoForCreation.Year,
                 ImageUrl = carDtoForCreation.ImageUrl,
