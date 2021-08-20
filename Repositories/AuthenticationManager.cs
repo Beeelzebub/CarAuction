@@ -39,7 +39,7 @@ namespace Repositories
                         audience: "https://localhost:5001",
                         claims: claims,
                         expires:
-                        DateTime.Now.AddMinutes(Convert.ToDouble(60)),
+                        DateTime.Now.AddMinutes(60),
                         signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)), SecurityAlgorithms.HmacSha256))
                 );
         }

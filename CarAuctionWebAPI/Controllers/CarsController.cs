@@ -26,24 +26,16 @@ namespace CarAuctionWebAPI.Controllers
             _userManager = userManager;
         }
         
-        [HttpGet("all")]
-        public async Task<IActionResult> GetAllCars([FromQuery] CarParameters carParameters)
-        {
-            var cars = await _carRepository.GetCarsAsync(carParameters);
-            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
-
-            return Ok(returnData);
-        }
 
         [HttpGet]
-        public async Task<IActionResult> GetCarsByCondition([FromQuery] CarParameters carParameters)
+        public async Task<IActionResult> GetCars([FromQuery] CarParameters carParameters)
         {
             if (!carParameters.ValidYearRange)
             {
                 return BadRequest();
             }
 
-            var cars = await _carRepository.GetCarsByConditionAsync(carParameters);
+            var cars = await _carRepository.GetCarsAsync(carParameters);
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
 
             return Ok(returnData);

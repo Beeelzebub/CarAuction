@@ -6,6 +6,7 @@ using Contracts;
 using Entity;
 using Entity.Models;
 using Entity.RequestFeatures;
+using LinqKit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
@@ -34,20 +35,21 @@ namespace Repositories
         {
             return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.Status.Equals(Status.Approved));
         }
+        
 
         public async Task<IEnumerable<Car>> GetCarsAsync(CarParameters carParameters)
         {
-            var cars = await _carAuctionContext.Cars.Where(i => i.Lot.Status.Equals(Status.Approved)).ToListAsync();
-            return PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
-            
-        }
+            var predicate = PredicateBuilder.New<Car>(true);
+            if (!string.IsNullOrEmpty(carParameters.Brand))
+            {
+                predicate = predicate.And(l => l.Model.Brand.BrandName == carParameters.Brand);
+            }
+            if (!string.IsNullOrEmpty(carParameters.Model))
+            {
+                predicate = predicate.And(l => l.Model.Name == carParameters.Model);
+            }
 
-        public async Task<IEnumerable<Car>> GetCarsByConditionAsync(CarParameters carParameters)
-        {
-            var cars = await _carAuctionContext.Cars.Where(c => (c.Year >= carParameters.MinYear && c.Year <= carParameters.MaxYear)
-                                                                && c.Model.Name.Equals(carParameters.Model)
-                                                                && c.Model.Brand.BrandName.Equals(carParameters.Brand)
-                                                                && c.Lot.Status.Equals(Status.Approved)).ToListAsync();
+            var cars = await _carAuctionContext.Cars.Where(predicate).ToListAsync();
             return PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
         }
 
