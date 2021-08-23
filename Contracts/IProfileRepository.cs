@@ -9,8 +9,7 @@ namespace Contracts
     public interface IProfileRepository
     {
         void AddCar(CarDtoForCreation carDtoForCreation, string userId);
-        Task<Car> GetCarIsPendingAsync(int id, string idUser);
-        Task<Car> GetCarIsApprovedAsync(int id, string idUser);
+        Task<Car> GetCarAsync(int id, string idUser);
         Task<Lot> GetLotAsync(int id);
         void Save();
         void DeleteLotWithCar(Car car, Lot lot);

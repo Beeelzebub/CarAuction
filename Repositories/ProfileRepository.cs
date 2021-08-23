@@ -55,13 +55,9 @@ namespace Repositories
             _carAuctionContext.Lots.Remove(lot);
         }
 
-        public async Task<Car> GetCarIsPendingAsync(int id, string idUser)
+        public async Task<Car> GetCarAsync(int id, string idUser)
         {
-            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser) && c.Lot.Status.Equals(Status.Pending));
-        }
-        public async Task<Car> GetCarIsApprovedAsync(int id, string idUser)
-        {
-            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser) && c.Lot.Status.Equals(Status.Approved));
+            return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser));
         }
 
         public async Task<Lot> GetLotAsync(int id)
