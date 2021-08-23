@@ -60,6 +60,18 @@ namespace Repositories
             return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser));
         }
 
+        public async Task<IEnumerable<Car>> GetCarsProfileAsync(string id, CarsParametersInProfile carsParametersInProfile)
+        {
+            var predicate = PredicateBuilder.New<Car>(l => l.Lot.SellerId.Equals(id));
+            if (carsParametersInProfile.Status != null)
+            {
+                predicate = predicate.And(l => l.Lot.Status.Equals(carsParametersInProfile.Status));
+            }
+
+            var cars = await _carAuctionContext.Cars.Where(predicate).ToListAsync();
+            return PagedList<Car>.ToPagedList(cars, carsParametersInProfile.PageNumber, carsParametersInProfile.PageSize);
+        }
+
         public async Task<Lot> GetLotAsync(int id)
         {
             return await _carAuctionContext.Lots.SingleOrDefaultAsync(c => c.Id.Equals(id));
@@ -75,18 +87,6 @@ namespace Repositories
             var bids = await _carAuctionContext.Bids.Where(i => i.BuyerId.Equals(userId)).ToListAsync();
             var distinctBids = bids.GroupBy(x => x.LotId).Select(x => x.Last());
             return distinctBids;
-        }
-
-        public async Task<IEnumerable<Car>> GetCarsAsync(string userId, CarsParametersInProfile carsParametersInProfile)
-        {
-            var predicate = PredicateBuilder.New<Car>(l=> l.Lot.SellerId == userId);
-            if (carsParametersInProfile.Status !=null)
-            {
-                predicate = predicate.And(l => l.Lot.Status == carsParametersInProfile.Status && l.Lot.SellerId == userId);
-            }
-
-            var cars = await _carAuctionContext.Cars.Where(predicate).ToListAsync();
-            return PagedList<Car>.ToPagedList(cars, carsParametersInProfile.PageNumber, carsParametersInProfile.PageSize);
         }
     }
 }
