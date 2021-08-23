@@ -39,14 +39,14 @@ namespace Repositories
 
         public async Task<IEnumerable<Car>> GetCarsAsync(CarParameters carParameters)
         {
-            var predicate = PredicateBuilder.New<Car>(true);
+            var predicate = PredicateBuilder.New<Car>( l => l.Lot.Status == Status.Approved);
             if (!string.IsNullOrEmpty(carParameters.Brand))
             {
-                predicate = predicate.And(l => l.Model.Brand.BrandName == carParameters.Brand);
+                predicate = predicate.And(l => l.Model.Brand.BrandName == carParameters.Brand && l.Lot.Status == Status.Approved);
             }
             if (!string.IsNullOrEmpty(carParameters.Model))
             {
-                predicate = predicate.And(l => l.Model.Name == carParameters.Model);
+                predicate = predicate.And(l => l.Model.Name == carParameters.Model && l.Lot.Status == Status.Approved);
             }
 
             var cars = await _carAuctionContext.Cars.Where(predicate).ToListAsync();
