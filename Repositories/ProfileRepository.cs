@@ -5,6 +5,8 @@ using Contracts;
 using Entity;
 using Entity.DTO;
 using Entity.Models;
+using Entity.RequestFeatures;
+using LinqKit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
@@ -62,15 +64,6 @@ namespace Repositories
             return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser) && c.Lot.Status.Equals(Status.Approved));
         }
 
-        public async Task<IEnumerable<Car>> GetCarsProfileIsPendingAsync(string id)
-        {
-            return await _carAuctionContext.Cars.Where(i => i.Lot.SellerId.Equals(id) && i.Lot.Status.Equals(Status.Pending)).ToListAsync();
-        }
-        public async Task<IEnumerable<Car>> GetCarsProfileIsApprovedAsync(string id)
-        {
-            return await _carAuctionContext.Cars.Where(i => i.Lot.SellerId.Equals(id) && i.Lot.Status.Equals(Status.Approved)).ToListAsync();
-        }
-
         public async Task<Lot> GetLotAsync(int id)
         {
             return await _carAuctionContext.Lots.SingleOrDefaultAsync(c => c.Id.Equals(id));
@@ -86,6 +79,18 @@ namespace Repositories
             var bids = await _carAuctionContext.Bids.Where(i => i.BuyerId.Equals(userId)).ToListAsync();
             var distinctBids = bids.GroupBy(x => x.LotId).Select(x => x.Last());
             return distinctBids;
+        }
+
+        public async Task<IEnumerable<Car>> GetCarsAsync(string userId, CarsParametersInProfile carsParametersInProfile)
+        {
+            var predicate = PredicateBuilder.New<Car>(l=> l.Lot.SellerId == userId);
+            if (carsParametersInProfile.Status !=null)
+            {
+                predicate = predicate.And(l => l.Lot.Status == carsParametersInProfile.Status && l.Lot.SellerId == userId);
+            }
+
+            var cars = await _carAuctionContext.Cars.Where(predicate).ToListAsync();
+            return PagedList<Car>.ToPagedList(cars, carsParametersInProfile.PageNumber, carsParametersInProfile.PageSize);
         }
     }
 }

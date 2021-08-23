@@ -6,6 +6,7 @@ using AutoMapper;
 using Contracts;
 using Entity.DTO;
 using Entity.Models;
+using Entity.RequestFeatures;
 using Microsoft.AspNetCore.Identity;
 
 namespace CarAuctionWebAPI.Controllers
@@ -33,31 +34,20 @@ namespace CarAuctionWebAPI.Controllers
             _profileRepository.Save();
             return StatusCode(201);
         }
+
+        [HttpGet("MyCars")]
+        public async Task<IActionResult> GetCars([FromQuery] CarsParametersInProfile carsParametersInProfile)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var cars = await _profileRepository.GetCarsAsync(currentUserId, carsParametersInProfile);
+            if (cars == null)
+            {
+                return BadRequest("Cars not found");
+            }
+            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+            return Ok(returnData);
+        }
         
-        [HttpGet("MyCars/Pending")]
-        public async Task<IActionResult> GetCarsForUserIsPending()
-        {
-            var currentUserId = _userManager.GetUserId(User);
-            var cars =await _profileRepository.GetCarsProfileIsPendingAsync(currentUserId);
-            if (cars == null)
-            {
-                return BadRequest("Cars not found");
-            }
-            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
-            return Ok(returnData);
-        }
-        [HttpGet("MyCars/Approved")]
-        public async Task<IActionResult> GetCarsForUserIsApproved()
-        {
-            var currentUserId = _userManager.GetUserId(User);
-            var cars = await _profileRepository.GetCarsProfileIsApprovedAsync(currentUserId);
-            if (cars == null)
-            {
-                return BadRequest("Cars not found");
-            }
-            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
-            return Ok(returnData);
-        }
         [HttpDelete("MyCars/Pending/{id}")]
         public async Task<IActionResult> DeleteCar(int id)
         {

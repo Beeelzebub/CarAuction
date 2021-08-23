@@ -8,25 +8,25 @@ namespace Entity.RequestFeatures
     {
         public MetaData MetaData { get; set; }
 
-        public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
+        public PagedList(IEnumerable<T> cars, int count, int pageNumber, int pageSize)
         {
             MetaData = new MetaData
             {
                 TotalCount = count,
                 PageSize = pageSize,
                 CurrentPage = pageNumber,
-                TotalPages = (int) Math.Ceiling(count / (double) pageSize)
+                TotalPages = (int)(count / (double) pageSize)
             };
-            AddRange(items);
+            AddRange(cars);
         }
 
-        public static PagedList<T> ToPagedList(IEnumerable<T> source, int pageNumber, int pageSize)
+        public static PagedList<T> ToPagedList(IEnumerable<T> cars, int pageNumber, int pageSize)
         {
-            var count = source.Count();
-            var items = source
+            var count = cars.Count();
+            var returnCars = cars
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize).ToList();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+            return new PagedList<T>(returnCars, count, pageNumber, pageSize);
         }
     }
 }
