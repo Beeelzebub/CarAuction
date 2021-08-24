@@ -18,14 +18,15 @@ namespace Repositories
         {
             _carAuctionContext = carAuctionContext;
         }
+
         public async Task<Car> GetCarAsync(int id)
         {
             return await _carAuctionContext.Cars.SingleOrDefaultAsync(i => i.Id.Equals(id) && i.Lot.Status.Equals(Status.Pending));
         }
 
-        public async Task<IEnumerable<Car>> GetCarsByStatusAsync()
+        public async Task<IEnumerable<Car>> GetCarsByStatusAsync(Status status)
         {
-            return await _carAuctionContext.Cars.Where(i => i.Lot.Status.Equals(Status.Pending)).ToListAsync();
+            return await _carAuctionContext.Cars.Where(i => i.Lot.Status.Equals(status)).ToListAsync();
         }
 
         public async Task<Lot> GetLotAsync(int id)
@@ -33,9 +34,9 @@ namespace Repositories
             return await _carAuctionContext.Lots.SingleOrDefaultAsync(i=>i.Id.Equals(id));
         }
 
-        public void Save()
+        public Task SaveAsync()
         {
-            _carAuctionContext.SaveChanges();
+            return _carAuctionContext.SaveChangesAsync();
         }
     }
 }

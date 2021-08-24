@@ -28,6 +28,7 @@ namespace Repositories
                 BuyerId = userId,
                 BidStatus = BidStatus.Active
             };
+
             _carAuctionContext.Bids.Add(bid);
             
         }
@@ -36,28 +37,29 @@ namespace Repositories
         {
             return await _carAuctionContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.Status.Equals(Status.Approved));
         }
-        
 
         public async Task<IEnumerable<Car>> GetCarsAsync(CarParameters carParameters)
         {
             var predicate = PredicateBuilder.New<Car>( l => l.Lot.Status == Status.Approved);
+
             if (!string.IsNullOrEmpty(carParameters.Brand))
             {
                 predicate = predicate.And(l => l.Model.Brand.BrandName == carParameters.Brand);
             }
+
             if (!string.IsNullOrEmpty(carParameters.Model))
             {
                 predicate = predicate.And(l => l.Model.Name == carParameters.Model);
             }
 
             var cars = await _carAuctionContext.Cars.Where(predicate).ToListAsync();
+            
             return PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
         }
 
-        public IQueryable<Bid> GetListBids(int id)
+        public IQueryable<Bid> GetBids(int lotId)
         {
-            return _carAuctionContext.Bids.Where(x => x.LotId.Equals(id)).AsQueryable();
-            
+            return _carAuctionContext.Bids.Where(x => x.LotId.Equals(lotId)).AsQueryable();
         }
 
         public async Task<Lot> GetLotAsync(int id)
@@ -65,9 +67,9 @@ namespace Repositories
             return await _carAuctionContext.Lots.SingleOrDefaultAsync(i => i.Id.Equals(id));
         }
 
-        public void Save()
+        public Task SaveAsync()
         {
-             _carAuctionContext.SaveChanges();
+            return _carAuctionContext.SaveChangesAsync();
         }
     }
 }
