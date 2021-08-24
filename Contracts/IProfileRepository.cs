@@ -11,10 +11,10 @@ namespace Contracts
     {
         void AddCar(CarDtoForCreation carDtoForCreation, string userId);
         Task<IEnumerable<Car>> GetCarsProfileAsync(string id, CarsParametersInProfile carsParametersInProfile);
-        Task<Car> GetCarAsync(int id, string idUser);
+        Task<Car> GetCarByUserAsync(int id, string idUser);
         Task<Lot> GetLotAsync(int id);
-        void Save();
+        void SaveAsync();
         void DeleteLotWithCar(Car car, Lot lot);
-        Task<IEnumerable<Bid>> UserBidsAsync(string userId);
+        Task<IEnumerable<Bid>> GetBidsByUserAsync(string userId);
     }
 }

@@ -45,11 +45,14 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> GetCar(int id)
         {
             var car = await _carRepository.GetCarAsync(id);
+
             if (car == null)
             {
                 return BadRequest();
             }
+
             var returnData = _mapper.Map<CarDtoForGet>(car);
+
             return Ok(returnData);
         }
 
@@ -57,27 +60,21 @@ namespace CarAuctionWebAPI.Controllers
         [Authorize]
         public async Task<IActionResult> Bid(int id)
         {
-            
             var currentUserId = _userManager.GetUserId(User);
+            var lot = await _carRepository.GetLotAsync(id);
 
-
-            var car = await _carRepository.GetCarAsync(id);
-            if (car == null)
-            {
-                return BadRequest("Car not found");
-            }
-
-            var lot = await _carRepository.GetLotAsync(car.LotId);
             if (lot == null)
             {
-                return BadRequest("Lot not found");
+                return BadRequest("Lot is not found");
             }
+
             if (currentUserId == lot.SellerId)
             {
                 return BadRequest("You cannot bet");
             }
 
-            var  bids= _carRepository.GetListBids(lot.Id);
+            var  bids = _carRepository.GetBids(lot.Id);
+
             foreach (var item in bids)
             {
                 if (item.BuyerId == currentUserId && item.BidStatus == 0)
@@ -85,15 +82,17 @@ namespace CarAuctionWebAPI.Controllers
                     return BadRequest("You have already placed a bet");
                 }
 
-                if (!item.BidStatus.Equals(BidStatus.Won))
+                if (!item.BidStatus.Equals(BidStatus.Active))
                 {
                     item.BidStatus = BidStatus.Outbid;
                 }
             }
+
             lot.CurrentCost += lot.MinimalStep;
+
             _carRepository.AddBid(lot.Id, currentUserId);
-            
-            _carRepository.Save();
+            _carRepository.SaveAsync();
+
             return Ok("Your bid is accepted");
         }
     }

@@ -11,8 +11,8 @@ namespace Contracts
         Task<IEnumerable<Car>> GetCarsAsync(CarParameters carParameters);
         Task<Car> GetCarAsync(int id);
         Task<Lot> GetLotAsync(int id);
-        IQueryable<Bid> GetListBids(int id);
-        void Save();
+        IQueryable<Bid> GetBids(int id);
+        void SaveAsync();
         void AddBid(int lotId, string userId);
 
     }
