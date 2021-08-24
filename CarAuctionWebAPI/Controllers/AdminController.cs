@@ -64,7 +64,7 @@ namespace CarAuctionWebAPI.Controllers
             }
             lot.Status = statusLot.Status;
             lot.StartDate = DateTime.Now;
-            lot.EndDate = DateTime.Now.AddDays(7);
+            lot.EndDate = DateTime.Now.AddMinutes(5);
             _adminRepository.Save();
             return Ok();
         }
