@@ -30,8 +30,9 @@ namespace CarAuctionWebAPI.Controllers
         [HttpGet("cars")]
         public async Task<IActionResult> GetCars()
         {
-            var cars = await _adminRepository.GetCarsByStatusAsync();
+            var cars = await _adminRepository.GetCarsByStatusAsync(Status.Pending);
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+
             return Ok(returnData);
         }
 
@@ -39,33 +40,33 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> GetOneCar(int id)
         {
             var car = await _adminRepository.GetCarAsync(id);
+
             if (car == null)
             {
-                return BadRequest("Car not found");
+                return BadRequest("Car is not found");
             }
 
             var returnData = _mapper.Map<CarDtoForGet>(car);
+
             return Ok(returnData);
         }
 
         [HttpPut("cars/{id}")]
         public async Task<IActionResult> ChangeLotStatus(int id, [FromBody] LotDtoForChangeStatus statusLot)
         {
-            var car = await _adminRepository.GetCarAsync(id);
-            if (car == null)
-            {
-                return BadRequest("Car not found");
-            }
+            var lot = await _adminRepository.GetLotAsync(id);
 
-            var lot = await _adminRepository.GetLotAsync(car.LotId);
             if (lot == null)
             {
                 return BadRequest("Car not found");
             }
+
             lot.Status = statusLot.Status;
             lot.StartDate = DateTime.Now;
             lot.EndDate = DateTime.Now.AddDays(7);
-            _adminRepository.Save();
+
+            await _adminRepository.SaveAsync();
+
             return Ok();
         }
     }

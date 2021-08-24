@@ -25,9 +25,10 @@ namespace CarAuctionWebAPI.Controllers
             _mapper = mapper;
             _userManager = userManager;
         }
+
         [HttpPost]
         [Route("api/login")]
-        public async Task<IActionResult> Log([FromBody] UserForAuthenticationDto userForAuthentication)
+        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
         {
             if (!await _authenticationManager.ValidateUser(userForAuthentication.UserName, userForAuthentication.Password))
             {
@@ -41,9 +42,9 @@ namespace CarAuctionWebAPI.Controllers
         [Route("api/register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
-
             var user = _mapper.Map<User>(userForRegistrationDto);
             var result = await _userManager.CreateAsync(user, userForRegistrationDto.Password);
+
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
@@ -52,14 +53,17 @@ namespace CarAuctionWebAPI.Controllers
                 }
                 return BadRequest(ModelState);
             }
+
             if (userForRegistrationDto.UserName == "Admin")
             {
                 await _userManager.AddToRoleAsync(user, "Admin");
             }
+
             if (!await _authenticationManager.ValidateUser(userForRegistrationDto.UserName, userForRegistrationDto.Password))
             {
                 return Unauthorized();
             }
+
             return StatusCode(201, new {Token = _authenticationManager.CreateToken().Result});
         }
     }
