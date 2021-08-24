@@ -9,7 +9,7 @@ namespace Contracts
 {
     public interface IAdminRepository
     {
-        void SaveAsync();
+        Task SaveAsync();
         Task<IEnumerable<Car>> GetCarsByStatusAsync(Status status);
         Task<Car> GetCarAsync(int id);
         Task<Lot> GetLotAsync(int id);

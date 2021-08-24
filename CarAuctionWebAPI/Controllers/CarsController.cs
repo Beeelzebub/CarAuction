@@ -91,7 +91,7 @@ namespace CarAuctionWebAPI.Controllers
             lot.CurrentCost += lot.MinimalStep;
 
             _carRepository.AddBid(lot.Id, currentUserId);
-            _carRepository.SaveAsync();
+            await _carRepository.SaveAsync();
 
             return Ok("Your bid is accepted");
         }

@@ -13,7 +13,7 @@ namespace Contracts
         Task<IEnumerable<Car>> GetCarsProfileAsync(string id, CarsParametersInProfile carsParametersInProfile);
         Task<Car> GetCarByUserAsync(int id, string idUser);
         Task<Lot> GetLotAsync(int id);
-        void SaveAsync();
+        Task SaveAsync();
         void DeleteLotWithCar(Car car, Lot lot);
         Task<IEnumerable<Bid>> GetBidsByUserAsync(string userId);
     }

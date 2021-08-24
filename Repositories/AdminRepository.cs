@@ -34,9 +34,9 @@ namespace Repositories
             return await _carAuctionContext.Lots.SingleOrDefaultAsync(i=>i.Id.Equals(id));
         }
 
-        public async void SaveAsync()
+        public Task SaveAsync()
         {
-            await _carAuctionContext.SaveChangesAsync();
+            return _carAuctionContext.SaveChangesAsync();
         }
     }
 }

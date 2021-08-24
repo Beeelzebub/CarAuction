@@ -12,7 +12,7 @@ namespace Contracts
         Task<Car> GetCarAsync(int id);
         Task<Lot> GetLotAsync(int id);
         IQueryable<Bid> GetBids(int id);
-        void SaveAsync();
+        Task SaveAsync();
         void AddBid(int lotId, string userId);
 
     }

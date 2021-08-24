@@ -27,6 +27,7 @@ namespace Repositories
         {
             var lot = _mapper.Map<Lot>(carDtoForCreation);
             lot.SellerId = userId;
+            lot.CurrentCost = lot.StartingPrice;
 
             var car = _mapper.Map<Car>(carDtoForCreation);
             car.Lot = lot;
@@ -64,9 +65,9 @@ namespace Repositories
             return await _carAuctionContext.Lots.SingleOrDefaultAsync(c => c.Id.Equals(id));
         }
 
-        public async void SaveAsync()
+        public Task SaveAsync()
         {
-            await _carAuctionContext.SaveChangesAsync();
+            return _carAuctionContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Bid>> GetBidsByUserAsync(string userId)

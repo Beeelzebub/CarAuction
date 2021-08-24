@@ -28,12 +28,12 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpPost("AddCar")]
-        public IActionResult AddCar([FromBody] CarDtoForCreation carDtoForCreation)
+        public async Task<IActionResult> AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
             var currentUserId = _userManager.GetUserId(User);
 
             _profileRepository.AddCar(carDtoForCreation, currentUserId);
-            _profileRepository.SaveAsync();
+            await _profileRepository.SaveAsync();
 
             return StatusCode(201);
         }
@@ -73,7 +73,7 @@ namespace CarAuctionWebAPI.Controllers
             }
 
             _profileRepository.DeleteLotWithCar(car, lot);
-            _profileRepository.SaveAsync();
+            await _profileRepository.SaveAsync();
 
             return Ok();
         }

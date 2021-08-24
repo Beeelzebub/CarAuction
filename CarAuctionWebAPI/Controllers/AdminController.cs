@@ -65,7 +65,7 @@ namespace CarAuctionWebAPI.Controllers
             lot.StartDate = DateTime.Now;
             lot.EndDate = DateTime.Now.AddDays(7);
 
-            _adminRepository.SaveAsync();
+            await _adminRepository.SaveAsync();
 
             return Ok();
         }
