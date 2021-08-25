@@ -66,6 +66,12 @@ namespace Repositories
             return await _carAuctionContext.Lots.SingleOrDefaultAsync(i => i.Id.Equals(id));
         }
 
+        public async Task<Bid> GetActiveBid(int lotId)
+        {
+            return await _carAuctionContext.Bids.FirstOrDefaultAsync(b =>
+                b.LotId.Equals(lotId) && b.BidStatus.Equals(BidStatus.Active));
+        }
+
         public Task SaveAsync()
         {
             return _carAuctionContext.SaveChangesAsync();

@@ -25,7 +25,7 @@ namespace Entity.Models
         public Status Status { get; set; }
 
 
-        public  ICollection<Bid> Bids { get; set; }
+        public ICollection<Bid> Bids { get; set; } = new List<Bid>();
 
     }
 

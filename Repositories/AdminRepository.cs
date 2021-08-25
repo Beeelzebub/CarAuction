@@ -58,6 +58,8 @@ namespace Repositories
             }
 
             winningBid.BidStatus = BidStatus.Won;
+
+            _carAuctionContext.SaveChanges();
         }
     }
 }
