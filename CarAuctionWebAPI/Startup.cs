@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Contracts;
 using Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Repositories;
 
 namespace CarAuctionWebAPI
@@ -26,8 +27,13 @@ namespace CarAuctionWebAPI
             services.AddAutoMapper(typeof(Startup));
 
             services.AddDbContext<CarAuctionContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
+                options.UseLoggerFactory(LoggerFactory.Create(builder =>
+                {
+                    builder.AddProvider(new MyLoggerProvider());    
+                }))
+                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
                     b => b.MigrationsAssembly("Entity")));
+
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJwt(Configuration);
