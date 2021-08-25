@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Contracts;
 using Entity;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Repositories;
@@ -24,15 +25,7 @@ namespace CarAuctionWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-
-            services.AddDbContext<CarAuctionContext>(options => 
-                options.UseLoggerFactory(LoggerFactory.Create(builder =>
-                {
-                    builder.AddProvider(new MyLoggerProvider());    
-                }))
-                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
-                    b => b.MigrationsAssembly("Entity")));
-
+            services.AddDbContext(Configuration);
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJwt(Configuration);
@@ -40,7 +33,10 @@ namespace CarAuctionWebAPI
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
-            services.AddControllers();
+            services.AddControllers(); 
+
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHangfireServer();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -48,7 +44,7 @@ namespace CarAuctionWebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHangfireDashboard();
             app.UseHttpsRedirection();
 
             app.UseRouting();

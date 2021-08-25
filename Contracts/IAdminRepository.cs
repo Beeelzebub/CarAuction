@@ -13,5 +13,6 @@ namespace Contracts
         Task<IEnumerable<Car>> GetCarsByStatusAsync(Status status);
         Task<Car> GetCarAsync(int id);
         Task<Lot> GetLotAsync(int id);
+        void ChooseWinner(int lotId);
     }
 }

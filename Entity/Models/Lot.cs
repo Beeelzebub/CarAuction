@@ -33,6 +33,7 @@ namespace Entity.Models
     {
         Pending,
         Approved,
-        Denied
+        Denied,
+        Ended
     }
 }

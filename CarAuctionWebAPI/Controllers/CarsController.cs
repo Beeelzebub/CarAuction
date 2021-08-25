@@ -82,7 +82,7 @@ namespace CarAuctionWebAPI.Controllers
                     return BadRequest("You have already placed a bet");
                 }
 
-                if (!item.BidStatus.Equals(BidStatus.Active))
+                if (item.BidStatus.Equals(BidStatus.Active))
                 {
                     item.BidStatus = BidStatus.Outbid;
                 }

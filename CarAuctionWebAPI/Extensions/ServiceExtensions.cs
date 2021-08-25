@@ -4,8 +4,10 @@ using Entity;
 using Entity.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CarAuctionWebAPI.Extensions
@@ -48,6 +50,17 @@ namespace CarAuctionWebAPI.Extensions
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
                     };
                 });
+        }
+
+        public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<CarAuctionContext>(options =>
+                options.UseLoggerFactory(LoggerFactory.Create(builder =>
+                    {
+                        builder.AddProvider(new MyLoggerProvider());
+                    }))
+                    .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly("Entity")));
         }
     }
 }
