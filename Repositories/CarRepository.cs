@@ -30,6 +30,7 @@ namespace Repositories
             };
 
             _carAuctionContext.Bids.Add(bid);
+            
         }
 
         public async Task<Car> GetCarAsync(int id)
@@ -43,12 +44,12 @@ namespace Repositories
 
             if (!string.IsNullOrEmpty(carParameters.Brand))
             {
-                predicate = predicate.And(l => l.Model.Brand.BrandName == carParameters.Brand && l.Lot.Status == Status.Approved);
+                predicate = predicate.And(l => l.Model.Brand.BrandName == carParameters.Brand);
             }
 
             if (!string.IsNullOrEmpty(carParameters.Model))
             {
-                predicate = predicate.And(l => l.Model.Name == carParameters.Model && l.Lot.Status == Status.Approved);
+                predicate = predicate.And(l => l.Model.Name == carParameters.Model);
             }
 
             var cars = await _carAuctionContext.Cars.Where(predicate).ToListAsync();

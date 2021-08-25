@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Entity.DTO;
@@ -37,7 +38,6 @@ namespace CarAuctionWebAPI.Controllers
 
             var cars = await _carRepository.GetCarsAsync(carParameters);
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
-
             return Ok(returnData);
         }
 

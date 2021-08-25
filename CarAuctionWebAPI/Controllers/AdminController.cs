@@ -70,9 +70,8 @@ namespace CarAuctionWebAPI.Controllers
                 lot.EndDate = DateTime.Now.AddMinutes(5);
                 BackgroundJob.Schedule(() => _adminRepository.ChooseWinner(id), TimeSpan.FromMinutes(5));
             }
-
+            
             await _adminRepository.SaveAsync();
-
             return Ok();
         }
     }
