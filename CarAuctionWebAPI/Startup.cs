@@ -1,4 +1,3 @@
-using CarAuctionWebAPI.BackgroundTask;
 using CarAuctionWebAPI.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,11 +32,7 @@ namespace CarAuctionWebAPI
             services.ConfigureIdentity();
             services.ConfigureJwt(Configuration);
             services.AddDbContext(Configuration);
-            services.AddHostedService<DerivedBackgroundPrinter>();
-            services.AddScoped<ICarRepository, CarRepository >();
-            services.AddScoped<IProfileRepository, ProfileRepository>();
-            services.AddScoped<IAdminRepository, AdminRepository>();
-            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+            services.AddRepositories();
 
             services.AddControllers(); 
 

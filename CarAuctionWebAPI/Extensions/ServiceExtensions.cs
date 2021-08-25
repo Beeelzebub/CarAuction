@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Text;
+using Contracts;
 using Entity;
 using Entity.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Repositories;
 
 namespace CarAuctionWebAPI.Extensions
 {
@@ -62,6 +64,14 @@ namespace CarAuctionWebAPI.Extensions
                     }))
                     .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly("Entity")));
+        }
+
+        public static void AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<ICarRepository, CarRepository>();
+            services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
         }
     }
 }
