@@ -60,7 +60,7 @@ namespace CarAuctionWebAPI.Extensions
             services.AddDbContext<CarAuctionContext>(options =>
                 options.UseLoggerFactory(LoggerFactory.Create(builder =>
                     {
-                        builder.AddProvider(new MyLoggerProvider());
+                        builder.AddConsole();
                     }))
                     .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly("Entity")));

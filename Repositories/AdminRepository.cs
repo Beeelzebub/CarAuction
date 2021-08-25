@@ -54,6 +54,7 @@ namespace Repositories
 
             if (winningBid == null)
             {
+                _carAuctionContext.SaveChanges();
                 return;
             }
 
