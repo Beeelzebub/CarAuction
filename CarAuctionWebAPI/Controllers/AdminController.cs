@@ -9,6 +9,7 @@ using Contracts;
 using Entity;
 using Entity.DTO;
 using Entity.Models;
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CarAuctionWebAPI.Controllers
@@ -62,8 +63,14 @@ namespace CarAuctionWebAPI.Controllers
             }
 
             lot.Status = statusLot.Status;
-            lot.StartDate = DateTime.Now;
-            lot.EndDate = DateTime.Now.AddMinutes(5);
+
+            if (lot.Status == Status.Approved)
+            {
+                lot.StartDate = DateTime.Now;
+                lot.EndDate = DateTime.Now.AddMinutes(5);
+                BackgroundJob.Schedule(() => _adminRepository.ChooseWinner(id), TimeSpan.FromMinutes(5));
+            }
+            
             await _adminRepository.SaveAsync();
             return Ok();
         }

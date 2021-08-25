@@ -72,20 +72,17 @@ namespace CarAuctionWebAPI.Controllers
             {
                 return BadRequest("You cannot bet");
             }
+            
+            var activeBid = await _carRepository.GetActiveBid(id);
 
-            var  bids = _carRepository.GetBids(lot.Id);
-
-            foreach (var item in bids)
+            if (activeBid != null)
             {
-                if (item.BuyerId == currentUserId && item.BidStatus == 0)
+                if (activeBid.BuyerId == currentUserId && activeBid.BidStatus == 0)
                 {
                     return BadRequest("You have already placed a bet");
                 }
-
-                if (!item.BidStatus.Equals(BidStatus.Active))
-                {
-                    item.BidStatus = BidStatus.Outbid;
-                }
+                
+                activeBid.BidStatus = BidStatus.Outbid;
             }
 
             lot.CurrentCost += lot.MinimalStep;
