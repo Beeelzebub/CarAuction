@@ -25,21 +25,10 @@ namespace CarAuctionWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-
-            services.AddDbContext<CarAuctionContext>(options => 
-                options.UseLoggerFactory(LoggerFactory.Create(builder =>
-                {
-                    builder.AddProvider(new MyLoggerProvider());    
-                }))
-                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
-                    b => b.MigrationsAssembly("Entity")));
-
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJwt(Configuration);
-
-
-
+            services.AddDbContext(Configuration);
             services.AddHostedService<DerivedBackgroundPrinter>();
             services.AddScoped<ICarRepository, CarRepository >();
             services.AddScoped<IProfileRepository, ProfileRepository>();
