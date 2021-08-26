@@ -38,29 +38,5 @@ namespace Repositories
         {
             return _carAuctionContext.SaveChangesAsync();
         }
-
-        public void ChooseWinner(int lotId)
-        {
-            var lot = _carAuctionContext.Lots.SingleOrDefault(l => l.Id.Equals(lotId));
-         
-            if (lot == null)
-            {
-                return;
-            }
-
-            lot.Status = Status.Ended;
-
-            var winningBid = _carAuctionContext.Bids.FirstOrDefault(b=> b.LotId.Equals(lot.Id) && b.BidStatus.Equals(BidStatus.Active));
-
-            if (winningBid == null)
-            {
-                _carAuctionContext.SaveChanges();
-                return;
-            }
-
-            winningBid.BidStatus = BidStatus.Won;
-
-            _carAuctionContext.SaveChanges();
-        }
     }
 }

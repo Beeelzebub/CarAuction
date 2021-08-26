@@ -33,6 +33,7 @@ namespace CarAuctionWebAPI
             services.ConfigureJwt(Configuration);
             services.AddDbContext(Configuration);
             services.AddRepositories();
+            services.AddServices();
 
             services.AddControllers(); 
 

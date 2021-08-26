@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Text;
 using Contracts;
+using Contracts.Services;
 using Entity;
 using Entity.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Repositories;
+using Services;
 
 namespace CarAuctionWebAPI.Extensions
 {
@@ -72,6 +74,11 @@ namespace CarAuctionWebAPI.Extensions
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+        }
+
+        public static void AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IBackgroundService, BackgroundService>();
         }
     }
 }

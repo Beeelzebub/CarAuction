@@ -73,7 +73,7 @@ namespace CarAuctionWebAPI.Controllers
                 return BadRequest("You cannot bet");
             }
             
-            var activeBid = await _carRepository.GetActiveBid(id);
+            var activeBid = await _carRepository.GetActiveBidAsync(id);
 
             if (activeBid != null)
             {
