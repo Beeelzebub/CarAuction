@@ -55,7 +55,6 @@ namespace CarAuctionWebAPI
 
             app.UseEndpoints(endpoints =>
             {
-                
                 endpoints.MapControllers();
             });
         }

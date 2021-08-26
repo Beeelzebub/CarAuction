@@ -77,7 +77,7 @@ namespace CarAuctionWebAPI.Controllers
 
             if (activeBid != null)
             {
-                if (activeBid.BuyerId == currentUserId && activeBid.BidStatus == 0)
+                if (activeBid.BuyerId == currentUserId)
                 {
                     return BadRequest("You have already placed a bet");
                 }

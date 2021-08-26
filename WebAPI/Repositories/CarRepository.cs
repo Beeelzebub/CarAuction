@@ -30,7 +30,7 @@ namespace Repositories
             };
 
             _carAuctionContext.Bids.Add(bid);
-            
+
         }
 
         public async Task<Car> GetCarAsync(int id)
@@ -40,20 +40,20 @@ namespace Repositories
 
         public async Task<IEnumerable<Car>> GetCarsAsync(CarParameters carParameters)
         {
-            var predicate = PredicateBuilder.New<Car>( l => l.Lot.Status == Status.Approved);
+            var query = _carAuctionContext.Cars.Where(l => l.Lot.Status == Status.Approved);
 
-            if (!string.IsNullOrEmpty(carParameters.Brand))
+            if (carParameters.BrandId != 0)
             {
-                predicate = predicate.And(l => l.Model.Brand.BrandName == carParameters.Brand);
+                query = query.Where(l => l.Model.BrandId == carParameters.BrandId);
             }
 
-            if (!string.IsNullOrEmpty(carParameters.Model))
+            if (carParameters.ModelId != 0)
             {
-                predicate = predicate.And(l => l.Model.Name == carParameters.Model);
+                query = query.Where(l => l.Model.Id == carParameters.ModelId);
             }
-
-            var cars = await _carAuctionContext.Cars.Where(predicate).ToListAsync();
             
+            var cars = await query.ToListAsync();
+
             return PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
         }
 
