@@ -7,7 +7,6 @@ using Entity;
 using Entity.DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
-using LinqKit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories

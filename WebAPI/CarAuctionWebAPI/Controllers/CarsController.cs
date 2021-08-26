@@ -56,7 +56,7 @@ namespace CarAuctionWebAPI.Controllers
             return Ok(returnData);
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("bid/{id}")]
         [Authorize]
         public async Task<IActionResult> Bid(int id)
         {
