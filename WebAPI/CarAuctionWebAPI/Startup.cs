@@ -33,7 +33,7 @@ namespace CarAuctionWebAPI
             services.ConfigureJwt(Configuration);
             services.AddDbContext(Configuration);
             services.AddRepositories();
-
+            services.AddSwaggerGen();
             services.AddControllers(); 
 
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
@@ -45,9 +45,20 @@ namespace CarAuctionWebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarAuction v1");
+            });
+
+            app.UseCors(options =>
+                options.WithOrigins("http://localhost:4200/")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
             app.UseHangfireDashboard();
             app.UseHttpsRedirection();
 
+            
             app.UseRouting();
             app.UseAuthentication();
 
