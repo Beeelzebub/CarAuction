@@ -12,8 +12,11 @@ namespace Contracts
         Task<Car> GetCarAsync(int id);
         Task<Lot> GetLotAsync(int id);
         IQueryable<Bid> GetBids(int id);
-        Task<Bid> GetActiveBid(int lotId);
+        Task<Bid> GetActiveBidAsync(int lotId);
         Task SaveAsync();
+        Bid GetActiveBid(int lotId);
+        void Save();
+        Lot GetLot(int lotId);
         void AddBid(int lotId, string userId);
 
     }

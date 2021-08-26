@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
+using Contracts.Services;
 using Entity;
 using Entity.DTO;
 using Entity.Models;
@@ -21,11 +22,13 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IAdminRepository _adminRepository;
+        private readonly IBackgroundService _backgroundService;
 
-        public AdminController(IMapper mapper, IAdminRepository adminRepository)
+        public AdminController(IMapper mapper, IAdminRepository adminRepository, IBackgroundService backgroundService)
         {
             _mapper = mapper;
             _adminRepository = adminRepository;
+            _backgroundService = backgroundService;
         }
 
         [HttpGet("cars")]
@@ -68,7 +71,7 @@ namespace CarAuctionWebAPI.Controllers
             {
                 lot.StartDate = DateTime.Now;
                 lot.EndDate = DateTime.Now.AddMinutes(5);
-                BackgroundJob.Schedule(() => _adminRepository.ChooseWinner(id), TimeSpan.FromMinutes(5));
+                BackgroundJob.Schedule(() => _backgroundService.ChooseWinner(id), TimeSpan.FromMinutes(5));
             }
             
             await _adminRepository.SaveAsync();

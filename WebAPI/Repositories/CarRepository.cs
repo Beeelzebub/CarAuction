@@ -64,10 +64,10 @@ namespace Repositories
 
         public async Task<Lot> GetLotAsync(int id)
         {
-            return await _carAuctionContext.Lots.SingleOrDefaultAsync(i => i.Id.Equals(id));
+            return await _carAuctionContext.Lots.FirstOrDefaultAsync(i => i.Id.Equals(id));
         }
 
-        public async Task<Bid> GetActiveBid(int lotId)
+        public async Task<Bid> GetActiveBidAsync(int lotId)
         {
             return await _carAuctionContext.Bids.FirstOrDefaultAsync(b =>
                 b.LotId.Equals(lotId) && b.BidStatus.Equals(BidStatus.Active));
@@ -76,6 +76,22 @@ namespace Repositories
         public Task SaveAsync()
         {
             return _carAuctionContext.SaveChangesAsync();
+        }
+
+        public void Save()
+        {
+            _carAuctionContext.SaveChanges();
+        }
+
+        public Lot GetLot(int lotId)
+        {
+            return _carAuctionContext.Lots.FirstOrDefault(i => i.Id.Equals(lotId));
+        }
+
+        public Bid GetActiveBid(int lotId)
+        {
+            return _carAuctionContext.Bids.FirstOrDefault(b =>
+                b.LotId.Equals(lotId) && b.BidStatus.Equals(BidStatus.Active));
         }
     }
 }
