@@ -73,12 +73,13 @@ namespace CarAuctionWebAPI.Extensions
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
-            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
 
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IBackgroundService, BackgroundService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
     }
 }

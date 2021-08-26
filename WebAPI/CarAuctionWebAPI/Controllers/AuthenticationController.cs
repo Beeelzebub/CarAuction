@@ -15,11 +15,11 @@ namespace CarAuctionWebAPI.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticationManager _authenticationManager;
+        private readonly IAuthenticationService _authenticationManager;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
-        public AuthenticationController(IAuthenticationManager authenticationManager, IMapper mapper, UserManager<User> userManager)
+        public AuthenticationController(IAuthenticationService authenticationManager, IMapper mapper, UserManager<User> userManager)
         {
             _authenticationManager = authenticationManager;
             _mapper = mapper;
