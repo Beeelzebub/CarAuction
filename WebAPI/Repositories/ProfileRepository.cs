@@ -14,7 +14,6 @@ namespace Repositories
 {
     public class ProfileRepository : IProfileRepository
     {
-        //hello
         private readonly CarAuctionContext _carAuctionContext;
         private readonly IMapper _mapper;
 
@@ -49,14 +48,14 @@ namespace Repositories
 
         public async Task<IEnumerable<Car>> GetCarsProfileAsync(string id, CarsParametersInProfile carsParametersInProfile)
         {
-            var predicate = PredicateBuilder.New<Car>(l => l.Lot.SellerId.Equals(id));
+            var query = _carAuctionContext.Cars.Where(l => l.Lot.SellerId.Equals(id));
 
             if (carsParametersInProfile.Status != null)
             {
-                predicate = predicate.And(l => l.Lot.Status.Equals(carsParametersInProfile.Status));
+                query = query.Where(l => l.Lot.Status.Equals(carsParametersInProfile.Status));
             }
 
-            var cars = await _carAuctionContext.Cars.Where(predicate).ToListAsync();
+            var cars = await query.ToListAsync();
 
             return PagedList<Car>.ToPagedList(cars, carsParametersInProfile.PageNumber, carsParametersInProfile.PageSize);
         }
