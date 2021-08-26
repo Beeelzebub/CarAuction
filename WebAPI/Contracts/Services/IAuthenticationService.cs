@@ -6,7 +6,7 @@ using Entity.DTO;
 
 namespace Contracts
 {
-    public interface IAuthenticationManager
+    public interface IAuthenticationService
     {
         Task<bool> ValidateUser(string userName, string password);
         Task<string> CreateToken();

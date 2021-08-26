@@ -61,7 +61,7 @@ namespace Repositories
 
         public async Task<Lot> GetLotAsync(int id)
         {
-            return await _carAuctionContext.Lots.SingleOrDefaultAsync(c => c.Id.Equals(id));
+            return await _carAuctionContext.Lots.FirstOrDefaultAsync(c => c.Id.Equals(id));
         }
 
         public Task SaveAsync()
