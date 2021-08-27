@@ -9,6 +9,7 @@ using Contracts;
 using Entity.DTO;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -28,6 +29,9 @@ namespace CarAuctionWebAPI.Controllers
 
         [HttpPost]
         [Route("api/login")]
+        [SwaggerOperation(Summary = "Authentication user")]
+        [SwaggerResponse(200, "Authentication user")]
+        [SwaggerResponse(401, "Authentication user failed")]
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
         {
             if (!await _authenticationManager.ValidateUser(userForAuthentication.UserName, userForAuthentication.Password))
@@ -40,6 +44,10 @@ namespace CarAuctionWebAPI.Controllers
 
         [HttpPost]
         [Route("api/register")]
+        [SwaggerOperation(Summary = "Registration user")]
+        [SwaggerResponse(400, "If the user is registered")]
+        [SwaggerResponse(401, "Registration user failed")]
+        [SwaggerResponse(201, "Registration success")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
             var user = _mapper.Map<User>(userForRegistrationDto);

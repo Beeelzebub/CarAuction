@@ -12,6 +12,7 @@ using Entity.DTO;
 using Entity.Models;
 using Hangfire;
 using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -32,6 +33,8 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpGet("cars")]
+        [SwaggerOperation(Summary = "Get all the user's cars that have the status Pending")]
+        [SwaggerResponse(200, "Get all cars ")]
         public async Task<IActionResult> GetCars()
         {
             var cars = await _adminRepository.GetCarsByStatusAsync(Status.Pending);
@@ -41,6 +44,9 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpGet("cars/{id}")]
+        [SwaggerOperation(Summary = "Get one the user's car that have the status Pending")]
+        [SwaggerResponse(400, "If car not found")]
+        [SwaggerResponse(200, "Get one car")]
         public async Task<IActionResult> GetOneCar(int id)
         {
             var car = await _adminRepository.GetCarAsync(id);
@@ -56,6 +62,9 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpPut("cars/{id}")]
+        [SwaggerOperation(Summary = "Change status car")]
+        [SwaggerResponse(400, "If car not found")]
+        [SwaggerResponse(200, "Change lot status")]
         public async Task<IActionResult> ChangeLotStatus(int id, [FromBody] LotDtoForChangeStatus statusLot)
         {
             var lot = await _adminRepository.GetLotAsync(id);

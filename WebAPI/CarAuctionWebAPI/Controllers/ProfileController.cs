@@ -8,6 +8,7 @@ using Entity.DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using Microsoft.AspNetCore.Identity;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -28,6 +29,8 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpPost("AddCar")]
+        [SwaggerOperation(Summary = "Adding a car")]
+        [SwaggerResponse(201, "Car is added")]
         public async Task<IActionResult> AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
             var currentUserId = _userManager.GetUserId(User);
@@ -39,7 +42,10 @@ namespace CarAuctionWebAPI.Controllers
         }
         
         [HttpGet("MyCars")]
-        public async Task<IActionResult> GetCarsForUserIsPending([FromQuery] CarsParametersInProfile carsParametersInProfile)
+        [SwaggerOperation(Summary = "Show all user's cars")]
+        [SwaggerResponse(400, "Cars not found")]
+        [SwaggerResponse(200, "Get user's cars")]
+        public async Task<IActionResult> GetCarsForUser([FromQuery] CarsParametersInProfile carsParametersInProfile)
         {
             var currentUserId = _userManager.GetUserId(User);
             var cars =await _profileRepository.GetCarsProfileAsync(currentUserId, carsParametersInProfile);
@@ -55,6 +61,10 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpDelete("MyCars/{id}")]
+        [SwaggerOperation(Summary = "Delete user car")]
+        [SwaggerResponse(400, "Car not found")]
+        [SwaggerResponse(400, "Lot not found")]
+        [SwaggerResponse(200, "Delete car")]
         public async Task<IActionResult> DeleteCar(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
@@ -79,7 +89,10 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpGet("MyCars/{id}")]
-        public async Task<IActionResult> GetCarIsApproved(int id)
+        [SwaggerOperation(Summary = "Show one user's cars")]
+        [SwaggerResponse(400, "Car not found")]
+        [SwaggerResponse(200, "Get user one car")]
+        public async Task<IActionResult> GetCar(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
             var car = await _profileRepository.GetCarByUserAsync(id, currentUserId);
@@ -95,6 +108,8 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpGet("MyBids")]
+        [SwaggerOperation(Summary = "Show last user's bids on cars")]
+        [SwaggerResponse(200, "Get user bids")]
         public async Task<IActionResult> GetUsersBids()
         {
             var currentUserId = _userManager.GetUserId(User);
