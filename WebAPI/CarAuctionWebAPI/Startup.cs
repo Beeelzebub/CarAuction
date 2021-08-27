@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using CarAuctionWebAPI.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +12,7 @@ using Entity;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Repositories;
 
 namespace CarAuctionWebAPI
@@ -26,14 +30,13 @@ namespace CarAuctionWebAPI
         {
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddDbContext(Configuration);
+            services.ConfigureDbContext(Configuration);
 
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJwt(Configuration);
-            services.AddDbContext(Configuration);
             services.AddRepositories();
-            services.AddSwaggerGen();
+            services.ConfigureSwagger();
             services.AddServices();
 
             services.AddControllers(); 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -29,6 +30,9 @@ namespace CarAuctionWebAPI.Controllers
         
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Get all cars")]
+        [SwaggerResponse(400, "If Year not valid")]
+        [SwaggerResponse(200, "Get all cars")]
         public async Task<IActionResult> GetCars([FromQuery] CarParameters carParameters)
         {
             if (!carParameters.ValidYearRange)
@@ -42,6 +46,9 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerOperation(Summary = "Get one car")]
+        [SwaggerResponse(400, "Car not found")]
+        [SwaggerResponse(200, "Get one cars")]
         public async Task<IActionResult> GetCar(int id)
         {
             var car = await _carRepository.GetCarAsync(id);
@@ -58,6 +65,11 @@ namespace CarAuctionWebAPI.Controllers
 
         [HttpPost("{id}")]
         [Authorize]
+        [SwaggerOperation(Summary = "Place a bet")]
+        [SwaggerResponse(400, "Lot not found")]
+        [SwaggerResponse(400, "If current user id and seller id equal that user cannot bet")]
+        [SwaggerResponse(400, "If bid user active that user cannot bet")]
+        [SwaggerResponse(200, "Bid is accepted")]
         public async Task<IActionResult> Bid(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
