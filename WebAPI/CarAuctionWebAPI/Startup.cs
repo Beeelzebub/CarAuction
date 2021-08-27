@@ -34,7 +34,7 @@ namespace CarAuctionWebAPI
             services.AddDbContext(Configuration);
             services.AddRepositories();
             services.AddServices();
-
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddControllers(); 
 
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));

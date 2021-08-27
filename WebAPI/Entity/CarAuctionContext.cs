@@ -11,12 +11,10 @@ namespace Entity
         public CarAuctionContext(DbContextOptions<CarAuctionContext> options)
             : base(options)
         {
-
         }
         public DbSet<Model> Models { get; set; }
         public DbSet<Lot> Lots { get; set; }
         public DbSet<Car> Cars { get; set; }
-
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Bid> Bids { get; set; }
 

@@ -8,16 +8,16 @@ namespace Services
 {
     public class BackgroundService : IBackgroundService
     {
-        private readonly ICarRepository _carRepository;
+        private readonly IRepositoryManager _repository;
 
-        public BackgroundService(ICarRepository carRepository)
+        public BackgroundService(IRepositoryManager repository)
         {
-            _carRepository = carRepository;
+            _repository = repository;
         }
 
         public void ChooseWinner(int lotId)
         {
-            var lot = _carRepository.GetLot(lotId);
+            var lot = _repository.Car.GetLot(lotId);
 
             if (lot == null)
             {
@@ -26,17 +26,17 @@ namespace Services
 
             lot.Status = Status.Ended;
 
-            var winningBid = _carRepository.GetActiveBid(lotId);
+            var winningBid = _repository.Car.GetActiveBid(lotId);
 
             if (winningBid == null)
             {
-                _carRepository.Save();
+                _repository.Car.Save();
                 return;
             }
 
             winningBid.BidStatus = BidStatus.Won;
 
-            _carRepository.Save();
+            _repository.Car.Save();
         }
     }
 }

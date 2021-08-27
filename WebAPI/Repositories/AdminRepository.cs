@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,15 @@ namespace Repositories
         public Task SaveAsync()
         {
             return _carAuctionContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable> GetUsersWithBidsAsync()
+        {
+            return await _carAuctionContext.Users.Include(u => u.Bids).Select(u => new
+            {
+                User = u.UserName,
+                Bids = u.Bids
+            }).ToListAsync();
         }
     }
 }

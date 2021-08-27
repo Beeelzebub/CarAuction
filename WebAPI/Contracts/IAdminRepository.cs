@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace Contracts
         Task<IEnumerable<Car>> GetCarsByStatusAsync(Status status);
         Task<Car> GetCarAsync(int id);
         Task<Lot> GetLotAsync(int id);
+        Task<IEnumerable> GetUsersWithBidsAsync();
     }
 }
