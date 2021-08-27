@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
 using Entity;
-using Entity.DTO;
+using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using LinqKit;

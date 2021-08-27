@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Cont
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{61EA315B-70DF-423C-920C-6B931AA12739}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{1C0C0843-2518-47DD-91E1-4217AA2DD372}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{1C0C0843-2518-47DD-91E1-4217AA2DD372}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{B76FF14A-60B1-4AD1-8C97-7950D6C529F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{1C0C0843-2518-47DD-91E1-4217AA2DD372}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C0C0843-2518-47DD-91E1-4217AA2DD372}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C0C0843-2518-47DD-91E1-4217AA2DD372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B76FF14A-60B1-4AD1-8C97-7950D6C529F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B76FF14A-60B1-4AD1-8C97-7950D6C529F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B76FF14A-60B1-4AD1-8C97-7950D6C529F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B76FF14A-60B1-4AD1-8C97-7950D6C529F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

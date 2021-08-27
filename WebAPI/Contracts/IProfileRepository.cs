@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Entity;
-using Entity.DTO;
+using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 

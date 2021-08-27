@@ -8,7 +8,7 @@ using AutoMapper;
 using Contracts;
 using Contracts.Services;
 using Entity;
-using Entity.DTO;
+using DTO;
 using Entity.Models;
 using Hangfire;
 using Microsoft.AspNetCore.Authorization;

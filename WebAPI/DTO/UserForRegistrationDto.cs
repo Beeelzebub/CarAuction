@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entity.DTO
+namespace DTO
 {
     public class UserForRegistrationDto
     {

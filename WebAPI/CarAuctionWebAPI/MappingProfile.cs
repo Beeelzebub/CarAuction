@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Entity.DTO;
+using DTO;
 using Entity.Models;
 
 namespace CarAuctionWebAPI

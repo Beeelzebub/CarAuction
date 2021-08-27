@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Contracts;
-using Entity.DTO;
+using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using Microsoft.AspNetCore.Identity;

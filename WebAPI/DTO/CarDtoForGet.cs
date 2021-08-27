@@ -1,6 +1,6 @@
 ﻿using Entity.Models;
 
-namespace Entity.DTO
+namespace DTO
 {
     public class CarDtoForGet
     {
