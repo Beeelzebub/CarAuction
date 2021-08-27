@@ -4,30 +4,73 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Contracts;
+using Contracts.Services;
+using DTO;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : ActionResult, IAuthenticationService
     {
         private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
         private User _user;
 
-        public AuthenticationService(UserManager<User> userManager)
+        public AuthenticationService(UserManager<User> userManager, IMapper mapper)
         {
             _userManager = userManager;
+            _mapper = mapper;
+        }
+        public async Task<ActionResult> Registration(UserForRegistrationDto userForRegistrationDto, ModelStateDictionary modelState)
+        {
+            var user = _mapper.Map<User>(userForRegistrationDto);
+            var result = await _userManager.CreateAsync(user, userForRegistrationDto.Password);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    modelState.AddModelError(error.Code, error.Description);
+                }
+                return new ObjectResult(new System.Web.Mvc.ModelState());
+            }
+
+            if (userForRegistrationDto.UserName == "Admin")
+            {
+                await _userManager.AddToRoleAsync(user, "Admin");
+            }
+
+            if (!await ValidateUser(userForRegistrationDto.UserName, userForRegistrationDto.Password))
+            {
+                return new UnauthorizedResult();
+            }
+
+            return new OkObjectResult(new { Token = CreateToken().Result });
         }
 
-        public async Task<bool> ValidateUser(string userName, string password)
+        public async Task<ActionResult> LoginAsync(UserForAuthenticationDto userForAuthenticationDto)
+        {
+            if (!await ValidateUser(userForAuthenticationDto.UserName, userForAuthenticationDto.Password))
+            {
+                return new UnauthorizedResult();
+            }
+
+            return new OkObjectResult(new { Token = CreateToken().Result });
+        }
+
+        private async Task<bool> ValidateUser(string userName, string password)
         {
             _user = await _userManager.FindByNameAsync(userName);
+
             return (_user != null && await _userManager.CheckPasswordAsync(_user, password));
         }
-
-        public async Task<string> CreateToken()
+        private async Task<string> CreateToken()
         {
             var key = "secret123456789secret!!!!!";
             var claims = await GetClaims();
@@ -54,6 +97,6 @@ namespace Services
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
             return claims;
-        }
+        }   
     }
 }

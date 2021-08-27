@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts;
 using Entity;
 using Entity.Models;
 using Entity.RequestFeatures;
-using LinqKit;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
