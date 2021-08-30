@@ -15,7 +15,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repositories;
 using Services;
-using Contracts.Services;
 
 namespace CarAuctionWebAPI.Extensions
 {

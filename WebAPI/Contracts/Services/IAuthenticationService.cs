@@ -10,8 +10,6 @@ namespace Contracts.Services
 {
     public interface IAuthenticationService
     {
-        //Task<bool> ValidateUser(string userName, string password);
-        //Task<string> CreateToken();
         Task<ActionResult> LoginAsync(UserForAuthenticationDto userForAuthenticationDto);
         Task<ActionResult> Registration(UserForRegistrationDto userForRegistrationDto, ModelStateDictionary modelState);
     }

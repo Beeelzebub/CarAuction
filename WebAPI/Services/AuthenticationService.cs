@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,8 @@ namespace Services
                 {
                     modelState.AddModelError(error.Code, error.Description);
                 }
-                return new ObjectResult(new System.Web.Mvc.ModelState());
+
+                return new ObjectResult(modelState.Select(m => m.Value.Errors).ToList());
             }
 
             if (userForRegistrationDto.UserName == "Admin")
