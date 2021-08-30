@@ -54,7 +54,7 @@ namespace Repositories
 
             return PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
         }
-
+       
         public IQueryable<Bid> GetBids(int lotId)
         {
             return _carAuctionContext.Bids.Where(x => x.LotId.Equals(lotId)).AsQueryable();

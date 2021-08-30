@@ -46,22 +46,21 @@ namespace CarAuctionWebAPI
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseCors(options =>
+                options.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            app.UseHangfireDashboard();
+            app.UseHttpsRedirection();
+            app.UseDeveloperExceptionPage();
+            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarAuction v1");
             });
 
-            app.UseCors(options =>
-                options.WithOrigins("http://localhost:4200/")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-            app.UseHangfireDashboard();
-            app.UseHttpsRedirection();
+            
 
             
             app.UseRouting();
