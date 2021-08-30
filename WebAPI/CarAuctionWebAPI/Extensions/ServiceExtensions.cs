@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repositories;
 using Services;
+using Contracts.Services;
 
 namespace CarAuctionWebAPI.Extensions
 {
@@ -74,7 +75,7 @@ namespace CarAuctionWebAPI.Extensions
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            //services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
 
         public static void AddServices(this IServiceCollection services)
