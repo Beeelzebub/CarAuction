@@ -1,5 +1,4 @@
-﻿using Entity.Models;
-
+﻿
 namespace DTO
 {
     public class CarDtoForGet
@@ -7,12 +6,12 @@ namespace DTO
         
         public int Year { get; set; }
         public string ImageUrl { get; set; }
-        public Fuel Fuel { get; set; }
+        public string Fuel { get; set; }
+        public string ModelName { get; set; }
+        public string BrandName { get; set; }
 
-        
-
-        public CarBody CarBody { get; set; }
-        public DriveUnit DriveUnit { get; set; }
+        public string CarBody { get; set; }
+        public string DriveUnit { get; set; }
         
     }
 }

@@ -38,7 +38,10 @@ namespace Repositories
 
         public async Task<IEnumerable<Car>> GetCarsAsync(CarParameters carParameters)
         {
-            var query = _carAuctionContext.Cars.Where(l => l.Lot.Status == Status.Approved);
+            var query = _carAuctionContext.Cars
+                .Include(m=>m.Model)
+                .ThenInclude(b=>b.Brand)
+                .Where(l => l.Lot.Status == Status.Approved);
 
             if (carParameters.BrandId != 0)
             {
