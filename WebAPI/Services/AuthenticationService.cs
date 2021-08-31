@@ -6,7 +6,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Contracts;
 using Contracts.Services;
 using DTO;
 using Entity.Models;

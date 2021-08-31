@@ -29,9 +29,7 @@ namespace CarAuctionWebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-
             services.ConfigureDbContext(Configuration);
-
             services.AddAuthentication();
             services.ConfigureIdentity();
             services.ConfigureJwt(Configuration);
@@ -39,8 +37,7 @@ namespace CarAuctionWebAPI
             services.AddServices();
             services.ConfigureSwagger();
             services.AddScoped<IRepositoryManager, RepositoryManager>();
-            services.AddControllers(); 
-
+            services.AddControllers();
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddHangfireServer();
         }
@@ -53,21 +50,14 @@ namespace CarAuctionWebAPI
             app.UseHangfireDashboard();
             app.UseHttpsRedirection();
             app.UseDeveloperExceptionPage();
-            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarAuction v1");
             });
-
-            
-
-            
             app.UseRouting();
             app.UseAuthentication();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

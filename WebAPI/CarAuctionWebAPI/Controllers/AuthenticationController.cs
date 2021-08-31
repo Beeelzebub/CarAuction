@@ -35,7 +35,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Registration success")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
         {
-            return Ok("qwrtwyh");
+            return await _authenticationService.Registration(userForRegistrationDto, ModelState);
         }
     }
 }
