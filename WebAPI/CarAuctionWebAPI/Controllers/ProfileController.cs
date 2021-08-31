@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using Contracts;
 using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;

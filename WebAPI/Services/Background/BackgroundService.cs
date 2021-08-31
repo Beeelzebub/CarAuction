@@ -1,10 +1,8 @@
 ﻿using System;
-using Contracts;
-using Contracts.Services;
 using Entity.Models;
 using Repositories;
 
-namespace Services
+namespace Services.Background
 {
     public class BackgroundService : IBackgroundService
     {

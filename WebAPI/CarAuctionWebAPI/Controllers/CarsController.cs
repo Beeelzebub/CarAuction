@@ -6,7 +6,6 @@ using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using System.Threading.Tasks;
-using Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Swashbuckle.AspNetCore.Annotations;

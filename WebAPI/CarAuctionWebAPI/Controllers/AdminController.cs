@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Contracts;
-using Contracts.Services;
 using DTO;
 using Entity.Models;
 using Hangfire;
 using Microsoft.AspNetCore.Authorization;
+using Services.Background;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers

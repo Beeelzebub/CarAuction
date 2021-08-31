@@ -6,8 +6,8 @@ namespace Contracts
 {
     public interface IRepositoryManager
     {
-        public IAdminRepository Admin { get; }
-        public IProfileRepository Profile { get; }
-        public ICarRepository Car { get; }
+        private ICarRepository _carRepository;
+        private ILotRepository _lotRepository;
+        private IBidRepository _bidRepository;
     }
 }

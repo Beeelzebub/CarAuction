@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.Text;
-using Contracts;
-using Contracts.Services;
 using Entity;
 using Entity.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repositories;
 using Services;
+using Services.Authentication;
+using Services.Background;
 
 namespace CarAuctionWebAPI.Extensions
 {
@@ -72,8 +72,6 @@ namespace CarAuctionWebAPI.Extensions
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<ICarRepository, CarRepository>();
-            services.AddScoped<IProfileRepository, ProfileRepository>();
-            services.AddScoped<IAdminRepository, AdminRepository>();
         }
 
         public static void AddServices(this IServiceCollection services)

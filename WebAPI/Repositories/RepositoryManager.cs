@@ -12,9 +12,9 @@ namespace Repositories
     {
         private readonly CarAuctionContext _context;
         private readonly IMapper _mapper;
-        private IAdminRepository _adminRepository;
         private ICarRepository _carRepository;
-        private IProfileRepository _profileRepository;
+        private ILotRepository _lotRepository;
+        private IBidRepository _bidRepository;
 
         public RepositoryManager(CarAuctionContext context, IMapper mapper)
         {
@@ -25,10 +25,10 @@ namespace Repositories
         public ICarRepository Car => 
             _carRepository ?? (_carRepository = new CarRepository(_context));
 
-        public IProfileRepository Profile => 
-            _profileRepository ?? (_profileRepository = new ProfileRepository(_context, _mapper));
+        public ILotRepository Lot =>
+            _lotRepository ?? (_lotRepository = new LotRepository(_context));
 
-        public IAdminRepository Admin =>
-            _adminRepository ?? (_adminRepository = new AdminRepository(_context));
+        public IBidRepository Bid =>
+            _bidRepository ?? (_bidRepository = new BidRepository(_context));
     }
 }

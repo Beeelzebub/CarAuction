@@ -6,7 +6,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Contracts.Services;
 using DTO;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Services
+namespace Services.Authentication
 {
     public class AuthenticationService : ActionResult, IAuthenticationService
     {
