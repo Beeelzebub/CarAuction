@@ -6,9 +6,9 @@ using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using System.Threading.Tasks;
-using Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Repositories;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers
@@ -18,13 +18,13 @@ namespace CarAuctionWebAPI.Controllers
     public class CarsController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly ICarRepository _carRepository;
+        private readonly IRepositoryManager _repository;
         private readonly UserManager<User> _userManager;
 
-        public CarsController(IMapper mapper, ICarRepository carRepository, UserManager<User> userManager) 
+        public CarsController(IMapper mapper, IRepositoryManager repository, UserManager<User> userManager) 
         {
             _mapper = mapper;
-            _carRepository = carRepository;
+            _repository = repository;
             _userManager = userManager;
         }
         
@@ -40,7 +40,7 @@ namespace CarAuctionWebAPI.Controllers
                 return BadRequest();
             }
 
-            var cars = await _carRepository.GetCarsAsync(carParameters);
+            var cars = await _repository.Car.GetListCarsAsync(carParameters);
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
             return Ok(returnData);
         }
@@ -51,7 +51,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get one cars")]
         public async Task<IActionResult> GetCar(int id)
         {
-            var car = await _carRepository.GetCarAsync(id);
+            var car = await _repository.Car.GetAsync(id);
 
             if (car == null)
             {
@@ -73,7 +73,7 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> Bid(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
-            var lot = await _carRepository.GetLotAsync(id);
+            var lot = await _repository.Lot.GetAsync(id);
 
             if (lot == null)
             {
@@ -85,7 +85,7 @@ namespace CarAuctionWebAPI.Controllers
                 return BadRequest("You cannot bet");
             }
             
-            var activeBid = await _carRepository.GetActiveBidAsync(id);
+            var activeBid =  _repository.Bid.GetActiveBid(id);
 
             if (activeBid != null)
             {
@@ -98,10 +98,13 @@ namespace CarAuctionWebAPI.Controllers
             }
 
             lot.CurrentCost += lot.MinimalStep;
-
-            _carRepository.AddBid(lot.Id, currentUserId);
-            await _carRepository.SaveAsync();
-
+            var bidInfo = new Bid
+            {
+                LotId = lot.Id,
+                BuyerId = currentUserId
+            };
+            await _repository.Bid.CreateAsync(bidInfo); 
+            _repository.Bid.Save();
             return Ok("Your bid is accepted");
         }
     }

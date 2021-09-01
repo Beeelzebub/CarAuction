@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Contracts;
 using Entity;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +35,6 @@ namespace CarAuctionWebAPI
             services.AddRepositories();
             services.AddServices();
             services.ConfigureSwagger();
-            services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddControllers();
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddHangfireServer();

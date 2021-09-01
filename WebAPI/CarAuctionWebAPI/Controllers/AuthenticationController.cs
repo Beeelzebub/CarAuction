@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Contracts.Services;
 using DTO;
 using Swashbuckle.AspNetCore.Annotations;
+using Services.Authentication;
 
 namespace CarAuctionWebAPI.Controllers
 {

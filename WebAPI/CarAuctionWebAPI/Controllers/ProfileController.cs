@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
-using Contracts;
 using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using Microsoft.AspNetCore.Identity;
+using Repositories;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers
@@ -18,25 +18,25 @@ namespace CarAuctionWebAPI.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IProfileRepository _profileRepository;
+        private readonly IRepositoryManager _repository;
         private readonly UserManager<User> _userManager;
 
-        public ProfileController(IMapper mapper, IProfileRepository profileRepository, UserManager<User> userManager)
+        public ProfileController(IMapper mapper, IRepositoryManager repository, UserManager<User> userManager)
         {
             _mapper = mapper;
-            _profileRepository = profileRepository;
+            _repository = repository;
             _userManager = userManager;
         }
 
         [HttpPost("AddCar")]
         [SwaggerOperation(Summary = "Adding a car")]
         [SwaggerResponse(201, "Car is added")]
-        public async Task<IActionResult> AddCar([FromBody] CarDtoForCreation carDtoForCreation)
+        public IActionResult AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
             var currentUserId = _userManager.GetUserId(User);
 
-            _profileRepository.AddCar(carDtoForCreation, currentUserId);
-            await _profileRepository.SaveAsync();
+            _repository.Car.AddCar(carDtoForCreation, currentUserId); 
+            _repository.Car.Save();
 
             return StatusCode(201);
         }
@@ -48,7 +48,7 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> GetCarsForUser([FromQuery] CarsParametersInProfile carsParametersInProfile)
         {
             var currentUserId = _userManager.GetUserId(User);
-            var cars =await _profileRepository.GetCarsProfileAsync(currentUserId, carsParametersInProfile);
+            var cars =await _repository.Car.GetListCarsProfileAsync(currentUserId, carsParametersInProfile);
 
             if (cars == null)
             {
@@ -68,22 +68,23 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> DeleteCar(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
-            var car = await _profileRepository.GetCarByUserAsync(id, currentUserId);
+            var car = await _repository.Car.GetCarByUserAsync(id, currentUserId);
 
             if (car == null)
             {
                 return BadRequest("Car not found");
             }
 
-            var lot = await _profileRepository.GetLotAsync(car.LotId);
+            var lot = await _repository.Lot.GetAsync(car.LotId);
 
             if (lot == null)
             {
                 return BadRequest("Lot not found");
             }
 
-            _profileRepository.DeleteLotWithCar(car, lot);
-            await _profileRepository.SaveAsync();
+            _repository.Lot.Delete(lot);
+            _repository.Car.Delete(car); 
+            _repository.Car.Save();
 
             return Ok();
         }
@@ -95,7 +96,7 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> GetCar(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
-            var car = await _profileRepository.GetCarByUserAsync(id, currentUserId);
+            var car = await _repository.Car.GetCarByUserAsync(id, currentUserId);
 
             if (car == null)
             {
@@ -113,7 +114,7 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> GetUsersBids()
         {
             var currentUserId = _userManager.GetUserId(User);
-            var bids = await _profileRepository.GetBidsByUserAsync(currentUserId);
+            var bids = await _repository.Bid.GetBidsByUserAsync(currentUserId);
             var returnData = _mapper.Map<IEnumerable<BidsDtoForGet>>(bids);
 
             return Ok(returnData);

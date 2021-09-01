@@ -7,6 +7,6 @@ namespace Entity.RequestFeatures
 {
     public class CarsParametersInProfile: RequestParameters
     {
-        public Status? Status { get; set; }
+        public LotStatus? Status { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Contracts.Services
+namespace Services.Authentication
 {
     public interface IAuthenticationService
     {

@@ -1,10 +1,8 @@
 ﻿using System;
-using Contracts;
-using Contracts.Services;
 using Entity.Models;
 using Repositories;
 
-namespace Services
+namespace Services.Background
 {
     public class BackgroundService : IBackgroundService
     {
@@ -17,26 +15,26 @@ namespace Services
 
         public void ChooseWinner(int lotId)
         {
-            var lot = _repository.Car.GetLot(lotId);
+            var lot =  _repository.Lot.Get(lotId);
 
             if (lot == null)
             {
                 return;
             }
 
-            lot.Status = Status.Ended;
+            lot.Status = LotStatus.Ended;
 
-            var winningBid = _repository.Car.GetActiveBid(lotId);
+            var winningBid =  _repository.Bid.GetActiveBid(lotId);
 
             if (winningBid == null)
             {
-                _repository.Car.Save();
+                _repository.Bid.Save();
                 return;
             }
 
             winningBid.BidStatus = BidStatus.Won;
 
-            _repository.Car.Save();
+            _repository.Bid.Save();
         }
     }
 }
