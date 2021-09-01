@@ -9,6 +9,7 @@ namespace Repositories
     public interface IRepositoryBase<TEntity>
     {
         public Task<TEntity> GetAsync(int id);
+        public TEntity Get(int id);
         public Task<IEnumerable<TEntity>> GetListAsync();
         public Task CreateAsync(TEntity entity);
         public void Delete(TEntity entity);

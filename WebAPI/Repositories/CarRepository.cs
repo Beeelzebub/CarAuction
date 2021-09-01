@@ -34,9 +34,9 @@ namespace Repositories
             _bdContext.Cars.Add(car);
         }
 
-        public Task<Car> GetCarByUserAsync(int id, string idUser)
+        public async Task<Car> GetCarByUserAsync(int id, string idUser)
         {
-            throw new System.NotImplementedException();
+            return await _bdContext.Cars.SingleOrDefaultAsync(c => c.Id.Equals(id) && c.Lot.SellerId.Equals(idUser));
         }
 
         public async Task<IEnumerable<Car>> GetCarsByStatusAsync(LotStatus status)

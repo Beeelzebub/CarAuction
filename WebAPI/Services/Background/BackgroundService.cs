@@ -13,9 +13,9 @@ namespace Services.Background
             _repository = repository;
         }
 
-        public async void ChooseWinner(int lotId)
+        public void ChooseWinner(int lotId)
         {
-            var lot = await _repository.Lot.GetAsync(lotId);
+            var lot =  _repository.Lot.Get(lotId);
 
             if (lot == null)
             {
@@ -24,7 +24,7 @@ namespace Services.Background
 
             lot.Status = LotStatus.Ended;
 
-            var winningBid = await _repository.Bid.GetActiveBidAsync(lotId);
+            var winningBid =  _repository.Bid.GetActiveBid(lotId);
 
             if (winningBid == null)
             {

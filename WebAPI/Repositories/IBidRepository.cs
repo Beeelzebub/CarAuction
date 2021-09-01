@@ -8,7 +8,7 @@ namespace Repositories
 {
     public interface IBidRepository : IRepositoryBase<Bid>
     {
-        public Task<Bid> GetActiveBidAsync(int lotId);
+        public Bid GetActiveBid(int lotId);
 
         public Task<List<Bid>> GetListAsync(int lotId);
         Task<List<Bid>> GetBidsByUserAsync(string currentUserId);

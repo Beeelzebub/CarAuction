@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
 {
-    class BidRepository : RepositoryBase<Bid>, IBidRepository
+    public class BidRepository : RepositoryBase<Bid>, IBidRepository
     {
         private readonly CarAuctionContext _bdContext;
 
@@ -18,8 +18,8 @@ namespace Repositories
             _bdContext = bdContext;
         }
 
-        public async Task<Bid> GetActiveBidAsync(int lotId) =>
-            await _bdContext.Bids.FirstOrDefaultAsync(b => b.LotId == lotId && b.BidStatus == BidStatus.Active);
+        public Bid GetActiveBid(int lotId) =>
+             _bdContext.Bids.FirstOrDefault(b => b.LotId == lotId && b.BidStatus == BidStatus.Active);
 
         public async Task<List<Bid>> GetListAsync(int lotId) =>
             await _bdContext.Bids.Where(b => b.LotId == lotId).ToListAsync();
