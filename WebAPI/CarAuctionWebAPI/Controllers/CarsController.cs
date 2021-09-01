@@ -6,6 +6,7 @@ using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using System.Threading.Tasks;
+using CarAuctionWebAPI.ActionFilters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Repositories;
@@ -49,14 +50,10 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerOperation(Summary = "Get one car")]
         [SwaggerResponse(400, "Car not found")]
         [SwaggerResponse(200, "Get one cars")]
+        [ServiceFilter(typeof(ValidationFilterAttribute<Car>))]
         public async Task<IActionResult> GetCar(int id)
         {
-            var car = await _repository.Car.GetAsync(id);
-
-            if (car == null)
-            {
-                return BadRequest();
-            }
+            var car = HttpContext.Items["entity"] as Car;
 
             var returnData = _mapper.Map<CarDtoForGet>(car);
 

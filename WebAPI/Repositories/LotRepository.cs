@@ -19,7 +19,7 @@ namespace Repositories
         }
 
         public async Task<List<Lot>> GetLotsByStatusAsync(LotStatus status) =>
-            await _bdContext.Lots.Where(l => l.Status == status).ToListAsync();
+            await _bdContext.Lots.Include(l => l.Car).Where(l => l.Status == status).ToListAsync();
 
 
     }

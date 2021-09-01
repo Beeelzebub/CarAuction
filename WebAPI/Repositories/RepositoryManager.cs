@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using Entity;
+using Entity.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
@@ -20,6 +21,9 @@ namespace Repositories
             _context = context;
             _mapper = mapper;
         }
+
+        public IEntityRepository<TEntity> GetRepositoryByEntity<TEntity>() where TEntity : class, IEntity, new() =>
+            new EntityRepository<TEntity>(_context);
 
         public ICarRepository Car => 
             _carRepository ?? (_carRepository = new CarRepository(_context, _mapper));

@@ -9,7 +9,7 @@ using Repositories;
 
 namespace CarAuctionWebAPI.ActionFilters
 {
-    public class ValidationFilterAttribute : IActionFilter
+    public class ValidationFilterAttribute<T> : IActionFilter where T : class, IEntity, new()
     {
         private readonly IRepositoryManager _repositoryManager;
 
@@ -27,19 +27,20 @@ namespace CarAuctionWebAPI.ActionFilters
         {
             var id = (int)context.ActionArguments["id"];
             
-            if(id == 0)
+            if(id < 1)
             {
                 context.Result = new BadRequestObjectResult("Bad id parameter");
                 return;
             }
-            var car = _repositoryManager.Car.GetAsync(id); 
-            if (car == null)
+            
+            var entity = _repositoryManager.GetRepositoryByEntity<T>().Get(id); 
+            if (entity == null)
             {
-                context.Result = new BadRequestObjectResult("Object is null");
+                context.Result = new NotFoundObjectResult("Object is null");
             }
             else
             {
-                context.HttpContext.Items.Add("car", car);
+                context.HttpContext.Items.Add("entity", entity);
             }
         }
     }

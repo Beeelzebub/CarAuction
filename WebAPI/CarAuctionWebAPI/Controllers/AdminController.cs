@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using CarAuctionWebAPI.ActionFilters;
 using DTO;
 using Entity.Models;
 using Hangfire;
@@ -62,14 +63,10 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerOperation(Summary = "Change status car")]
         [SwaggerResponse(400, "If car not found")]
         [SwaggerResponse(200, "Change lot status")]
-        public async Task<IActionResult> ChangeLotStatus(int id, [FromBody] LotDtoForChangeStatus statusLot)
+        [ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
+        public IActionResult ChangeLotStatus(int id, [FromBody] LotDtoForChangeStatus statusLot)
         {
-            var lot = await _repository.Lot.GetAsync(id);
-
-            if (lot == null)
-            {
-                return BadRequest("Car not found");
-            }
+            var lot = HttpContext.Items["entity"] as Lot;
 
             lot.Status = statusLot.Status;
 
