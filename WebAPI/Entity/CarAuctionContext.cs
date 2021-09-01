@@ -12,6 +12,7 @@ namespace Entity
             : base(options)
         {
         }
+
         public DbSet<Model> Models { get; set; }
         public DbSet<Lot> Lots { get; set; }
         public DbSet<Car> Cars { get; set; }

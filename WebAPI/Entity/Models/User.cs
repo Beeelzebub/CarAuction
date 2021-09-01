@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Entity.Models
 {
-    public class User : IdentityUser
+    public class User : IdentityUser, IEntity
     {
         [Required(ErrorMessage = "Name is a required field.")]
         public string Name { get; set; }

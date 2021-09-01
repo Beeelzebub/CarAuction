@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Contracts;
 using Entity;
 using Entity.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Repositories;
 
 
 namespace CarAuctionWebAPI.ActionFilters
@@ -32,7 +32,7 @@ namespace CarAuctionWebAPI.ActionFilters
                 context.Result = new BadRequestObjectResult("Bad id parameter");
                 return;
             }
-            var car = _repositoryManager.Car.GetCarAsync(id); 
+            var car = _repositoryManager.Car.GetAsync(id); 
             if (car == null)
             {
                 context.Result = new BadRequestObjectResult("Object is null");

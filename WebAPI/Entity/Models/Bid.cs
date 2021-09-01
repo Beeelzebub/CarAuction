@@ -1,7 +1,7 @@
 ﻿
 namespace Entity.Models
 {
-    public class Bid
+    public class Bid : IEntity
     {
         public int Id { get; set; }
         
