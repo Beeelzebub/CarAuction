@@ -74,6 +74,7 @@ namespace CarAuctionWebAPI.Extensions
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IBidRepository, BidRepository>();
             services.AddScoped<ILotRepository, LotRepository>();
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
         }
 
         public static void AddServices(this IServiceCollection services)

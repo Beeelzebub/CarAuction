@@ -9,7 +9,7 @@ using Entity.Models;
 
 namespace Repositories
 {
-    public  class LotRepository : RepositoryBase<Lot>, ILotRepository
+    public class LotRepository : RepositoryBase<Lot>, ILotRepository
     {
         private readonly CarAuctionContext _bdContext;
 
