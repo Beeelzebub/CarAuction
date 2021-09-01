@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
-using Contracts;
 using Entity;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +22,7 @@ namespace Repositories
         }
 
         public ICarRepository Car => 
-            _carRepository ?? (_carRepository = new CarRepository(_context));
+            _carRepository ?? (_carRepository = new CarRepository(_context, _mapper));
 
         public ILotRepository Lot =>
             _lotRepository ?? (_lotRepository = new LotRepository(_context));

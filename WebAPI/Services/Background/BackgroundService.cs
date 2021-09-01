@@ -13,28 +13,28 @@ namespace Services.Background
             _repository = repository;
         }
 
-        public void ChooseWinner(int lotId)
+        public async void ChooseWinner(int lotId)
         {
-            var lot = _repository.Car.GetLot(lotId);
+            var lot = await _repository.Lot.GetAsync(lotId);
 
             if (lot == null)
             {
                 return;
             }
 
-            lot.Status = Status.Ended;
+            lot.Status = LotStatus.Ended;
 
-            var winningBid = _repository.Car.GetActiveBid(lotId);
+            var winningBid = await _repository.Bid.GetActiveBidAsync(lotId);
 
             if (winningBid == null)
             {
-                _repository.Car.Save();
+                _repository.Bid.Save();
                 return;
             }
 
             winningBid.BidStatus = BidStatus.Won;
 
-            _repository.Car.Save();
+            _repository.Bid.Save();
         }
     }
 }

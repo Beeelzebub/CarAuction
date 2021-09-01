@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 using Entity;
+using Entity.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
@@ -31,5 +32,10 @@ namespace Repositories
 
         public virtual void Update(TEntity entity) =>
             _dbContext.Set<TEntity>().Update(entity);
+
+        public void Save()
+        {
+            _dbContext.SaveChanges();
+        }
     }
 }

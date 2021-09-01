@@ -11,5 +11,6 @@ namespace Repositories
         public Task<Bid> GetActiveBidAsync(int lotId);
 
         public Task<List<Bid>> GetListAsync(int lotId);
+        Task<List<Bid>> GetBidsByUserAsync(string currentUserId);
     }
 }
