@@ -7,6 +7,6 @@ namespace DTO
 {
     public class LotDtoForChangeStatus
     {
-        public Status Status { get; set; }
+        public LotStatus Status { get; set; }
     }
 }

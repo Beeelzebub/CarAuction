@@ -7,6 +7,7 @@ using DTO;
 using Entity.Models;
 using Hangfire;
 using Microsoft.AspNetCore.Authorization;
+using Repositories;
 using Services.Background;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -18,13 +19,13 @@ namespace CarAuctionWebAPI.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IAdminRepository _adminRepository;
+        private readonly IRepositoryManager _repository;
         private readonly IBackgroundService _backgroundService;
 
-        public AdminController(IMapper mapper, IAdminRepository adminRepository, IBackgroundService backgroundService)
+        public AdminController(IMapper mapper, IRepositoryManager repository, IBackgroundService backgroundService)
         {
             _mapper = mapper;
-            _adminRepository = adminRepository;
+            _repository = repository;
             _backgroundService = backgroundService;
         }
 
@@ -33,7 +34,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get all cars ")]
         public async Task<IActionResult> GetCars()
         {
-            var cars = await _adminRepository.GetCarsByStatusAsync(Status.Pending);
+            var cars = await _repository.Car.GetCarsByStatusAsync(LotStatus.Pending);
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
 
             return Ok(returnData);
@@ -45,7 +46,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get one car")]
         public async Task<IActionResult> GetOneCar(int id)
         {
-            var car = await _adminRepository.GetCarAsync(id);
+            var car = await _repository.Car.GetAsync(id);
 
             if (car == null)
             {
@@ -63,7 +64,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Change lot status")]
         public async Task<IActionResult> ChangeLotStatus(int id, [FromBody] LotDtoForChangeStatus statusLot)
         {
-            var lot = await _adminRepository.GetLotAsync(id);
+            var lot = await _repository.Lot.GetAsync(id);
 
             if (lot == null)
             {
@@ -72,14 +73,13 @@ namespace CarAuctionWebAPI.Controllers
 
             lot.Status = statusLot.Status;
 
-            if (lot.Status == Status.Approved)
+            if (lot.Status == LotStatus.Approved)
             {
                 lot.StartDate = DateTime.Now;
                 lot.EndDate = DateTime.Now.AddMinutes(5);
                 BackgroundJob.Schedule(() => _backgroundService.ChooseWinner(id), TimeSpan.FromMinutes(5));
             }
-            
-            await _adminRepository.SaveAsync();
+            _repository.Lot.Save();
             return Ok();
         }
     }
