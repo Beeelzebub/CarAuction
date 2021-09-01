@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
 {
-    class BidRepository : RepositoryBase<Bid>, IBidRepository
+    public class BidRepository : RepositoryBase<Bid>, IBidRepository
     {
         private readonly CarAuctionContext _bdContext;
 

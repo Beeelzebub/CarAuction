@@ -18,10 +18,10 @@ namespace CarAuctionWebAPI.Controllers
     public class CarsController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly RepositoryManager _repository;
+        private readonly IRepositoryManager _repository;
         private readonly UserManager<User> _userManager;
 
-        public CarsController(IMapper mapper, RepositoryManager repository, UserManager<User> userManager) 
+        public CarsController(IMapper mapper, IRepositoryManager repository, UserManager<User> userManager) 
         {
             _mapper = mapper;
             _repository = repository;
