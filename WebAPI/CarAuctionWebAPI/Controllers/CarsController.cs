@@ -32,14 +32,9 @@ namespace CarAuctionWebAPI.Controllers
 
         [HttpGet]
         [SwaggerOperation(Summary = "Get all cars")]
-        [SwaggerResponse(400, "If Year not valid")]
         [SwaggerResponse(200, "Get all cars")]
         public async Task<IActionResult> GetCars([FromQuery] CarParameters carParameters)
         {
-            if (!carParameters.ValidYearRange)
-            {
-                return BadRequest();
-            }
 
             var cars = await _repository.Car.GetListCarsAsync(carParameters);
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
@@ -51,7 +46,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(400, "Car not found")]
         [SwaggerResponse(200, "Get one cars")]
         [ServiceFilter(typeof(ValidationFilterAttribute<Car>))]
-        public async Task<IActionResult> GetCar(int id)
+        public IActionResult GetCar(int id)
         {
             var car = HttpContext.Items["entity"] as Car;
 
@@ -67,15 +62,12 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(400, "If current user id and seller id equal that user cannot bet")]
         [SwaggerResponse(400, "If bid user active that user cannot bet")]
         [SwaggerResponse(200, "Bid is accepted")]
+        [ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
         public async Task<IActionResult> Bid(int id)
         {
             var currentUserId = _userManager.GetUserId(User);
-            var lot = await _repository.Lot.GetAsync(id);
 
-            if (lot == null)
-            {
-                return BadRequest("Lot is not found");
-            }
+            var lot = HttpContext.Items["entity"] as Lot;
 
             if (currentUserId == lot.SellerId)
             {

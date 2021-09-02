@@ -45,14 +45,10 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerOperation(Summary = "Get one the user's car that have the status Pending")]
         [SwaggerResponse(400, "If car not found")]
         [SwaggerResponse(200, "Get one car")]
-        public async Task<IActionResult> GetOneCar(int id)
+        [ServiceFilter(typeof(ValidationFilterAttribute<Car>))]
+        public IActionResult GetOneCar(int id)
         {
-            var car = await _repository.Car.GetAsync(id);
-
-            if (car == null)
-            {
-                return BadRequest("Car is not found");
-            }
+            var car = HttpContext.Items["entity"] as Car;
 
             var returnData = _mapper.Map<CarDtoForGet>(car);
 

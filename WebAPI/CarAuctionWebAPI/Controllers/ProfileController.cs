@@ -43,20 +43,12 @@ namespace CarAuctionWebAPI.Controllers
         
         [HttpGet("MyCars")]
         [SwaggerOperation(Summary = "Show all user's cars")]
-        [SwaggerResponse(400, "Cars not found")]
         [SwaggerResponse(200, "Get user's cars")]
         public async Task<IActionResult> GetCarsForUser([FromQuery] CarsParametersInProfile carsParametersInProfile)
         {
             var currentUserId = _userManager.GetUserId(User);
             var cars =await _repository.Car.GetListCarsProfileAsync(currentUserId, carsParametersInProfile);
-
-            if (cars == null)
-            {
-                return BadRequest("Cars are not found");
-            }
-
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
-
             return Ok(returnData);
         }
 
@@ -74,14 +66,7 @@ namespace CarAuctionWebAPI.Controllers
             {
                 return BadRequest("Car not found");
             }
-
             var lot = await _repository.Lot.GetAsync(car.LotId);
-
-            if (lot == null)
-            {
-                return BadRequest("Lot not found");
-            }
-
             _repository.Lot.Delete(lot);
             _repository.Car.Delete(car); 
             _repository.Car.Save();
