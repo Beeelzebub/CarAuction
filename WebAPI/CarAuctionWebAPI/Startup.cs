@@ -1,20 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using CarAuctionWebAPI.ActionFilters;
 using CarAuctionWebAPI.Extensions;
+using CarAuctionWebAPI.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Entity;
-using Entity.Models;
 using Hangfire;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using Repositories;
 
 namespace CarAuctionWebAPI
 {
@@ -40,8 +30,11 @@ namespace CarAuctionWebAPI
             services.AddControllers();
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddHangfireServer();
-            services.AddScoped<ValidationFilterAttribute<Car>>();
-            services.AddScoped<ValidationFilterAttribute<Lot>>();
+            services.AddFilters();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(ExceptionFilter));
+            });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

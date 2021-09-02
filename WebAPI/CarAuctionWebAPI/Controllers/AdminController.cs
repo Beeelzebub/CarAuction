@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using CarAuctionWebAPI.ActionFilters;
+using CarAuctionWebAPI.Filters;
 using DTO;
 using Entity.Models;
 using Hangfire;

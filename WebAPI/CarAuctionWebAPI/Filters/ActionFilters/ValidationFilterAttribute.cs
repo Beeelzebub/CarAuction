@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Repositories;
 
 
-namespace CarAuctionWebAPI.ActionFilters
+namespace CarAuctionWebAPI.Filters
 {
     public class ValidationFilterAttribute<T> : IActionFilter where T : class, IEntity, new()
     {

@@ -15,6 +15,7 @@ using Repositories;
 using Services;
 using Services.Authentication;
 using Services.Background;
+using CarAuctionWebAPI.Filters;
 
 namespace CarAuctionWebAPI.Extensions
 {
@@ -78,6 +79,12 @@ namespace CarAuctionWebAPI.Extensions
         {
             services.AddScoped<IBackgroundService, BackgroundService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+        }
+
+        public static void AddFilters(this IServiceCollection services)
+        {
+            services.AddScoped<ValidationFilterAttribute<Car>>();
+            services.AddScoped<ValidationFilterAttribute<Lot>>();
         }
 
         public static void ConfigureSwagger(this IServiceCollection services)

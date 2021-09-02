@@ -6,10 +6,11 @@ using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using System.Threading.Tasks;
-using CarAuctionWebAPI.ActionFilters;
+using CarAuctionWebAPI.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Repositories;
+using Services.Auction;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers
@@ -21,12 +22,14 @@ namespace CarAuctionWebAPI.Controllers
         private readonly IMapper _mapper;
         private readonly IRepositoryManager _repository;
         private readonly UserManager<User> _userManager;
+        private readonly IAuctionService _auctionService;
 
-        public CarsController(IMapper mapper, IRepositoryManager repository, UserManager<User> userManager) 
+        public CarsController(IMapper mapper, IRepositoryManager repository, UserManager<User> userManager, IAuctionService auctionService) 
         {
             _mapper = mapper;
             _repository = repository;
             _userManager = userManager;
+            _auctionService = auctionService;
         }
         
 
@@ -55,7 +58,7 @@ namespace CarAuctionWebAPI.Controllers
             return Ok(returnData);
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("{lotId}")]
         [Authorize]
         [SwaggerOperation(Summary = "Place a bet")]
         [SwaggerResponse(400, "Lot not found")]
@@ -63,37 +66,10 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(400, "If bid user active that user cannot bet")]
         [SwaggerResponse(200, "Bid is accepted")]
         [ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
-        public async Task<IActionResult> Bid(int id)
+        public IActionResult Bid(int lotId)
         {
-            var currentUserId = _userManager.GetUserId(User);
+            _auctionService.Bid(lotId, User);
 
-            var lot = HttpContext.Items["entity"] as Lot;
-
-            if (currentUserId == lot.SellerId)
-            {
-                return BadRequest("You cannot bet");
-            }
-            
-            var activeBid =  _repository.Bid.GetActiveBid(id);
-
-            if (activeBid != null)
-            {
-                if (activeBid.BuyerId == currentUserId)
-                {
-                    return BadRequest("You have already placed a bet");
-                }
-                
-                activeBid.BidStatus = BidStatus.Outbid;
-            }
-
-            lot.CurrentCost += lot.MinimalStep;
-            var bidInfo = new Bid
-            {
-                LotId = lot.Id,
-                BuyerId = currentUserId
-            };
-            await _repository.Bid.CreateAsync(bidInfo); 
-            _repository.Bid.Save();
             return Ok("Your bid is accepted");
         }
     }
