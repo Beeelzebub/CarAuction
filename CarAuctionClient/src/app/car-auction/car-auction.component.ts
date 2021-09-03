@@ -18,7 +18,7 @@ export class CarAuctionComponent implements OnInit {
 
 
   refreshList(){
-    this.service.listEmployees().subscribe(data =>{
+    this.service.listCars().subscribe(data =>{
       this.carsList = data;
     });
   }

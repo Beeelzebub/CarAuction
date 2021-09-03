@@ -1,0 +1,22 @@
+<form [formGroup] = "form">
+    <fieldset>
+        <legend>Register</legend>
+        <div class="form-field">
+            <label>name:</label>
+            <input name="name" formControlName="name">
+        </div>
+        <div class="form-field">
+            <label>User name:</label>
+            <input name="userName" formControlName="userName">
+        </div>
+        <div class="form-field">
+            <label>Password:</label>
+            <input name="password" formControlName="password" 
+                   type="password">
+        </div>
+    </fieldset>
+    <div class="form-buttons">
+        <button class="button button-primary" 
+                (click)="register()">Register</button>
+    </div>
+</form>
