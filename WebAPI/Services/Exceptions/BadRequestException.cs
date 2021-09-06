@@ -5,12 +5,16 @@ using System.Threading.Tasks;
 
 namespace Services.Exceptions
 {
-    public class BadRequestException : Exception
+    public class BadRequestException : Exception, ICustomException
     {
-        public BadRequestException(string message)
+        private object _errorObject;
+
+        public BadRequestException(string message, object errorObject)
             :base(message)
         {
 
         }
+
+        public object ErrorObject => 
     }
 }

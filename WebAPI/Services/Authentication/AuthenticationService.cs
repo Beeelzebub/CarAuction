@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Services.Exceptions;
 
 namespace Services.Authentication
 {
@@ -33,22 +34,19 @@ namespace Services.Authentication
 
             if (!result.Succeeded)
             {
+                result.Errors.
                 foreach (var error in result.Errors)
                 {
                     modelState.AddModelError(error.Code, error.Description);
                 }
 
+                //throw new BadRequestException(modelState.);
                 return new ObjectResult(modelState.Select(m => m.Value.Errors).ToList());
             }
 
             if (userForRegistrationDto.UserName == "Admin")
             {
                 await _userManager.AddToRoleAsync(user, "Admin");
-            }
-
-            if (!await ValidateUser(userForRegistrationDto.UserName, userForRegistrationDto.Password))
-            {
-                return new UnauthorizedResult();
             }
 
             return new OkObjectResult(new { Token = CreateToken().Result });
@@ -58,7 +56,7 @@ namespace Services.Authentication
         {
             if (!await ValidateUser(userForAuthenticationDto.UserName, userForAuthenticationDto.Password))
             {
-                return new UnauthorizedResult();
+                throw new BadRequestException("Wrong username or password");
             }
 
             return new OkObjectResult(new { Token = CreateToken().Result });

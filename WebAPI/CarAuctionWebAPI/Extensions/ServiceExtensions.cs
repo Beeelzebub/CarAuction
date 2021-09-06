@@ -96,7 +96,7 @@ namespace CarAuctionWebAPI.Extensions
                 {
                     Description = "JWT Authorization header using the Bearer scheme ",
                     Name = "Authorization",
-                    In = ParameterLocation.Header,
+                    In = ParameterLocation.Cookie,
                     Type = SecuritySchemeType.Http,
                     BearerFormat = "JWT",
                     Scheme = "Bearer"
