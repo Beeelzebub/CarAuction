@@ -12,7 +12,6 @@ namespace Repositories
 
         public EntityRepository(CarAuctionContext bdContext) : base(bdContext)
         {
-            string test = typeof(TEntity).ToString();
             _bdContext = bdContext;
         }
 

@@ -11,16 +11,16 @@ namespace Services.Auction
 {
     public class AuctionService : IAuctionService
     {
-        private readonly RepositoryManager _repositoryManager;
+        private readonly IRepositoryManager _repositoryManager;
         private readonly UserManager<User> _userManager;
 
-        public AuctionService(RepositoryManager repositoryManager, UserManager<User> userManager)
+        public AuctionService(IRepositoryManager repositoryManager, UserManager<User> userManager)
         {
             _repositoryManager = repositoryManager;
             _userManager = userManager;
         }
 
-        public async void Bid(int lotId, ClaimsPrincipal bidderClaims)
+        public async Task BidAsync(int lotId, ClaimsPrincipal bidderClaims)
         {
             var bidderId = _userManager.GetUserId(bidderClaims);
 

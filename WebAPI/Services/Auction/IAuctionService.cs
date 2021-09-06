@@ -10,6 +10,6 @@ namespace Services.Auction
 {
     public interface IAuctionService
     {
-        void Bid(int lotId, ClaimsPrincipal bidderClaims);
+        Task BidAsync(int lotId, ClaimsPrincipal bidderClaims);
     }
 }

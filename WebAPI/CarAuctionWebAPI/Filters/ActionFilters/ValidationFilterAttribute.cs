@@ -5,6 +5,7 @@ using Entity.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Repositories;
+using Services.Exceptions;
 
 
 namespace CarAuctionWebAPI.Filters
@@ -27,21 +28,19 @@ namespace CarAuctionWebAPI.Filters
         {
             var id = (int)context.ActionArguments["id"];
             
-            if(id < 1)
+            if (id < 1)
             {
-                context.Result = new BadRequestObjectResult("Bad id parameter");
-                return;
+                throw new BadRequestException("Incorrect id");
             }
             
             var entity = _repositoryManager.GetRepositoryByEntity<T>().Get(id); 
+
             if (entity == null)
             {
-                context.Result = new NotFoundObjectResult("Object is null");
+                throw new NotFoundException("Nothing found");
             }
-            else
-            {
-                context.HttpContext.Items.Add("entity", entity);
-            }
+            
+            context.HttpContext.Items.Add("entity", entity);
         }
     }
 }

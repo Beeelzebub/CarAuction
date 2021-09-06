@@ -38,9 +38,10 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get all cars")]
         public async Task<IActionResult> GetCars([FromQuery] CarParameters carParameters)
         {
-
             var cars = await _repository.Car.GetListCarsAsync(carParameters);
+
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+
             return Ok(returnData);
         }
 
@@ -58,17 +59,17 @@ namespace CarAuctionWebAPI.Controllers
             return Ok(returnData);
         }
 
-        [HttpPost("{lotId}")]
+        [HttpPost("{id}")]
         [Authorize]
         [SwaggerOperation(Summary = "Place a bet")]
         [SwaggerResponse(400, "Lot not found")]
         [SwaggerResponse(400, "If current user id and seller id equal that user cannot bet")]
         [SwaggerResponse(400, "If bid user active that user cannot bet")]
         [SwaggerResponse(200, "Bid is accepted")]
-        [ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
-        public IActionResult Bid(int lotId)
+        //[ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
+        public async Task<IActionResult> Bid(int id)
         {
-            _auctionService.Bid(lotId, User);
+            await _auctionService.BidAsync(id, User);
 
             return Ok("Your bid is accepted");
         }

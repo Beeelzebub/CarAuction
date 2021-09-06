@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Text;
 using Entity;
 using Entity.Models;
@@ -12,9 +11,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repositories;
-using Services;
 using Services.Authentication;
 using Services.Background;
+using Services.Auction;
 using CarAuctionWebAPI.Filters;
 
 namespace CarAuctionWebAPI.Extensions
@@ -79,6 +78,7 @@ namespace CarAuctionWebAPI.Extensions
         {
             services.AddScoped<IBackgroundService, BackgroundService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuctionService, AuctionService>();
         }
 
         public static void AddFilters(this IServiceCollection services)
