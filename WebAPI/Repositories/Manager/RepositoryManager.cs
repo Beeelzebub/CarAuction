@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using Entity;
 using Entity.Models;
@@ -33,5 +34,7 @@ namespace Repositories
 
         public IBidRepository Bid =>
             _bidRepository ?? (_bidRepository = new BidRepository(_context));
+
+        public Task SaveAsync() => _context.SaveChangesAsync();
     }
 }

@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using DTO;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Services.Exceptions;
 
 namespace Services.Authentication
 {
@@ -26,51 +28,42 @@ namespace Services.Authentication
             _userManager = userManager;
             _mapper = mapper;
         }
-        public async Task<ActionResult> Registration(UserForRegistrationDto userForRegistrationDto, ModelStateDictionary modelState)
+
+        public async Task RegistrationAsync(UserForRegistrationDto userForRegistrationDto, ModelStateDictionary modelState)
         {
-            var user = _mapper.Map<User>(userForRegistrationDto);
-            var result = await _userManager.CreateAsync(user, userForRegistrationDto.Password);
+            _user = _mapper.Map<User>(userForRegistrationDto);
+
+            var result = await _userManager.CreateAsync(_user, userForRegistrationDto.Password);
 
             if (!result.Succeeded)
             {
+                var exception = new BadRequestException("Identity error");
+
                 foreach (var error in result.Errors)
                 {
-                    modelState.AddModelError(error.Code, error.Description);
+                    exception.Data.Add(error.Code, error.Description);
                 }
 
-                return new ObjectResult(modelState.Select(m => m.Value.Errors).ToList());
+                throw exception;
             }
 
             if (userForRegistrationDto.UserName == "Admin")
             {
-                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(_user, "Admin");
             }
-
-            if (!await ValidateUser(userForRegistrationDto.UserName, userForRegistrationDto.Password))
-            {
-                return new UnauthorizedResult();
-            }
-
-            return new OkObjectResult(new { Token = CreateToken().Result });
         }
 
-        public async Task<ActionResult> LoginAsync(UserForAuthenticationDto userForAuthenticationDto)
+        public async Task ValidateUser(UserForAuthenticationDto userForAuthenticationDto)
         {
-            if (!await ValidateUser(userForAuthenticationDto.UserName, userForAuthenticationDto.Password))
+            _user = await _userManager.FindByNameAsync(userForAuthenticationDto.UserName);
+            
+            if (_user == null || !(await _userManager.CheckPasswordAsync(_user, userForAuthenticationDto.Password)))
             {
-                return new UnauthorizedResult();
+                throw new BadRequestException("Wrong username or password");
             }
-
-            return new OkObjectResult(new { Token = CreateToken().Result });
         }
 
-        private async Task<bool> ValidateUser(string userName, string password)
-        {
-            _user = await _userManager.FindByNameAsync(userName);
-
-            return (_user != null && await _userManager.CheckPasswordAsync(_user, password));
-        }
-        private async Task<string> CreateToken()
+        public async Task<string> CreateTokenAsync()
         {
             var key = "secret123456789secret!!!!!";
             var claims = await GetClaims();
@@ -80,11 +73,11 @@ namespace Services.Authentication
                     issuer: "CarAuctionWebApi",
                     audience: "https://localhost:5001",
                     claims: claims,
-                    expires:
-                    DateTime.Now.AddDays(1),
+                    expires: DateTime.Now.AddDays(1),
                     signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)), SecurityAlgorithms.HmacSha256))
             );
         }
+
         private async Task<List<Claim>> GetClaims()
         {
             var claims = new List<Claim>

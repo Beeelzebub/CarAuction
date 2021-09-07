@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using CarAuctionWebAPI.ActionFilters;
+using CarAuctionWebAPI.Filters;
 using DTO;
 using Entity.Models;
 using Hangfire;
@@ -36,6 +36,7 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> GetCars()
         {
             var cars = await _repository.Car.GetCarsByStatusAsync(LotStatus.Pending);
+
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
 
             return Ok(returnData);

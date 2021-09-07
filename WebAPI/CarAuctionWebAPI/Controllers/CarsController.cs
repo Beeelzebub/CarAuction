@@ -6,10 +6,11 @@ using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using System.Threading.Tasks;
-using CarAuctionWebAPI.ActionFilters;
+using CarAuctionWebAPI.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Repositories;
+using Services.Auction;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers
@@ -20,13 +21,13 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryManager _repository;
-        private readonly UserManager<User> _userManager;
+        private readonly IAuctionService _auctionService;
 
-        public CarsController(IMapper mapper, IRepositoryManager repository, UserManager<User> userManager) 
+        public CarsController(IMapper mapper, IRepositoryManager repository, IAuctionService auctionService) 
         {
             _mapper = mapper;
             _repository = repository;
-            _userManager = userManager;
+            _auctionService = auctionService;
         }
         
 
@@ -35,9 +36,10 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get all cars")]
         public async Task<IActionResult> GetCars([FromQuery] CarParameters carParameters)
         {
-
             var cars = await _repository.Car.GetListCarsAsync(carParameters);
+
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+
             return Ok(returnData);
         }
 
@@ -65,35 +67,8 @@ namespace CarAuctionWebAPI.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
         public async Task<IActionResult> Bid(int id)
         {
-            var currentUserId = _userManager.GetUserId(User);
+            await _auctionService.BidAsync(id, User);
 
-            var lot = HttpContext.Items["entity"] as Lot;
-
-            if (currentUserId == lot.SellerId)
-            {
-                return BadRequest("You cannot bet");
-            }
-            
-            var activeBid =  _repository.Bid.GetActiveBid(id);
-
-            if (activeBid != null)
-            {
-                if (activeBid.BuyerId == currentUserId)
-                {
-                    return BadRequest("You have already placed a bet");
-                }
-                
-                activeBid.BidStatus = BidStatus.Outbid;
-            }
-
-            lot.CurrentCost += lot.MinimalStep;
-            var bidInfo = new Bid
-            {
-                LotId = lot.Id,
-                BuyerId = currentUserId
-            };
-            await _repository.Bid.CreateAsync(bidInfo); 
-            _repository.Bid.Save();
             return Ok("Your bid is accepted");
         }
     }

@@ -1,20 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using CarAuctionWebAPI.ActionFilters;
 using CarAuctionWebAPI.Extensions;
+using CarAuctionWebAPI.Filters;
+using CarAuctionWebAPI.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Entity;
-using Entity.Models;
 using Hangfire;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using Repositories;
+using Microsoft.Extensions.Hosting;
 
 namespace CarAuctionWebAPI
 {
@@ -40,23 +32,29 @@ namespace CarAuctionWebAPI
             services.AddControllers();
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddHangfireServer();
-            services.AddScoped<ValidationFilterAttribute<Car>>();
-            services.AddScoped<ValidationFilterAttribute<Lot>>();
+            services.AddFilters();
+            services.AddTransient<ExceptionHandlingMiddleware>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseHangfireDashboard();
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarAuction v1");
+                });
+            }
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
             app.UseCors(options =>
                 options.WithOrigins("http://localhost:4200")
                     .AllowAnyMethod()
                     .AllowAnyHeader());
-            app.UseHangfireDashboard();
             app.UseHttpsRedirection();
-            app.UseDeveloperExceptionPage();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarAuction v1");
-            });
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

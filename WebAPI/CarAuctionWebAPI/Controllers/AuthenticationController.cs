@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DTO;
+using Hangfire.Storage.Monitoring;
 using Swashbuckle.AspNetCore.Annotations;
 using Services.Authentication;
 
@@ -24,7 +25,11 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(401, "Authentication user failed")]
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
         {
-            return await _authenticationService.LoginAsync(userForAuthentication);
+            await _authenticationService.ValidateUser(userForAuthentication);
+
+            var token = await _authenticationService.CreateTokenAsync();
+
+            return Ok(new { Token = token });
         }
 
         [HttpPost]
@@ -34,8 +39,12 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(401, "Registration user failed")]
         [SwaggerResponse(200, "Registration success")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistrationDto)
-        {
-            return await _authenticationService.Registration(userForRegistrationDto, ModelState);
+        { 
+            await _authenticationService.RegistrationAsync(userForRegistrationDto, ModelState);
+
+            var token = _authenticationService.CreateTokenAsync();
+
+            return Ok(new { Token = token });
         }
     }
 }
