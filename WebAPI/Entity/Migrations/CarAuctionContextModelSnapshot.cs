@@ -59,13 +59,6 @@ namespace Entity.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BrandName = "Audi"
-                        });
                 });
 
             modelBuilder.Entity("Entity.Models.Car", b =>
@@ -110,19 +103,6 @@ namespace Entity.Migrations
                     b.HasIndex("ModelId");
 
                     b.ToTable("Cars");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CarBody = 2,
-                            DriveUnit = 0,
-                            Fuel = 1,
-                            ImageUrl = "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG",
-                            LotId = 1,
-                            ModelId = 1,
-                            Year = 2018
-                        });
                 });
 
             modelBuilder.Entity("Entity.Models.Lot", b =>
@@ -161,19 +141,6 @@ namespace Entity.Migrations
                     b.HasIndex("SellerId");
 
                     b.ToTable("Lots");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CurrentCost = 25000m,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MinimalStep = 1000m,
-                            RedemptionPrice = 100000m,
-                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartingPrice = 25000m,
-                            Status = 0
-                        });
                 });
 
             modelBuilder.Entity("Entity.Models.Model", b =>
@@ -196,14 +163,6 @@ namespace Entity.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("Models");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BrandId = 1,
-                            Name = "A6"
-                        });
                 });
 
             modelBuilder.Entity("Entity.Models.User", b =>
@@ -259,6 +218,7 @@ namespace Entity.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
@@ -304,8 +264,8 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "04473cda-e868-4228-a415-97f0cc98d2ba",
-                            ConcurrencyStamp = "96b4e583-f7ef-40d0-a2c0-0f241bf525ce",
+                            Id = "d2dfe30a-8e28-4955-82a0-f3c5096ef641",
+                            ConcurrencyStamp = "00b49307-e486-4828-9fec-8801b83500a9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -443,7 +403,7 @@ namespace Entity.Migrations
                     b.HasOne("Entity.Models.Model", "Model")
                         .WithMany("Cars")
                         .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

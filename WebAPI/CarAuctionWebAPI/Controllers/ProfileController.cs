@@ -31,12 +31,12 @@ namespace CarAuctionWebAPI.Controllers
         [HttpPost("AddCar")]
         [SwaggerOperation(Summary = "Adding a car")]
         [SwaggerResponse(201, "Car is added")]
-        public IActionResult AddCar([FromBody] CarDtoForCreation carDtoForCreation)
+        public async Task<IActionResult> AddCar([FromBody] CarDtoForCreation carDtoForCreation)
         {
             var currentUserId = _userManager.GetUserId(User);
 
-            _repository.Car.AddCar(carDtoForCreation, currentUserId); 
-            _repository.Car.Save();
+            await _repository.Lot.AddLot(carDtoForCreation, currentUserId);
+            await _repository.SaveAsync();
 
             return StatusCode(201);
         }

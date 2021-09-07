@@ -8,7 +8,8 @@ namespace Entity.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Car> builder)
         {
-            builder.HasOne(x => x.Model).WithMany(x => x.Cars).HasForeignKey(x => x.ModelId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.Model).WithMany(x => x.Cars).HasForeignKey(x => x.ModelId).OnDelete(DeleteBehavior.NoAction);
+
 
             builder.Property(x => x.Year).IsRequired().HasMaxLength(4);
             builder.Property(x => x.Fuel).IsRequired();
@@ -17,7 +18,7 @@ namespace Entity.EntityConfiguration
 
 
 
-
+            /*
              builder.HasData(
                  new Car
                  {
@@ -31,6 +32,7 @@ namespace Entity.EntityConfiguration
                      DriveUnit = DriveUnit.FrontWheelDrive
                  }
              );
+            */
 
         }
     }

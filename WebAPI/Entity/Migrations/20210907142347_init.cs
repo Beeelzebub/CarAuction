@@ -26,7 +26,7 @@ namespace Entity.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    UserName = table.Column<string>(maxLength: 256, nullable: false),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
@@ -178,7 +178,8 @@ namespace Entity.Migrations
                     StartingPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     CurrentCost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     RedemptionPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    SellerId = table.Column<string>(nullable: true)
+                    SellerId = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -272,29 +273,13 @@ namespace Entity.Migrations
                         name: "FK_Cars_Models_ModelId",
                         column: x => x.ModelId,
                         principalTable: "Models",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
-                table: "Brands",
-                columns: new[] { "Id", "BrandName" },
-                values: new object[] { 1, "Audi" });
-
-            migrationBuilder.InsertData(
-                table: "Lots",
-                columns: new[] { "Id", "CurrentCost", "EndDate", "MinimalStep", "RedemptionPrice", "SellerId", "StartDate", "StartingPrice" },
-                values: new object[] { 1, 25000m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1000m, 100000m, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 25000m });
-
-            migrationBuilder.InsertData(
-                table: "Models",
-                columns: new[] { "Id", "BrandId", "Name" },
-                values: new object[] { 1, 1, "A6" });
-
-            migrationBuilder.InsertData(
-                table: "Cars",
-                columns: new[] { "Id", "BrandId", "CarBody", "DriveUnit", "Fuel", "ImageUrl", "LotId", "ModelId", "Year" },
-                values: new object[] { 1, null, 2, 0, 1, "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG", 1, 1, 2018 });
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "9b655e40-ee15-43c4-8535-0c89ccd91f21", "32a50027-24c6-42c4-bf23-7cf2613b945e", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

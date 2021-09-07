@@ -42,7 +42,7 @@ namespace CarAuctionWebAPI.Controllers
         { 
             await _authenticationService.RegistrationAsync(userForRegistrationDto, ModelState);
 
-            var token = _authenticationService.CreateTokenAsync();
+            var token = await _authenticationService.CreateTokenAsync();
 
             return Ok(new { Token = token });
         }

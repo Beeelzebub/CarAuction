@@ -30,7 +30,7 @@ namespace Repositories
             _carRepository ?? (_carRepository = new CarRepository(_context, _mapper));
 
         public ILotRepository Lot =>
-            _lotRepository ?? (_lotRepository = new LotRepository(_context));
+            _lotRepository ?? (_lotRepository = new LotRepository(_context, _mapper));
 
         public IBidRepository Bid =>
             _bidRepository ?? (_bidRepository = new BidRepository(_context));

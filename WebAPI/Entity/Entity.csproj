@@ -19,6 +19,8 @@
     <Compile Remove="Migrations\20210805124445_new164432uy2.Designer.cs" />
     <Compile Remove="Migrations\20210805134224_Test.cs" />
     <Compile Remove="Migrations\20210805134224_Test.Designer.cs" />
+    <Compile Remove="Migrations\20210907142209_init.cs" />
+    <Compile Remove="Migrations\20210907142209_init.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
