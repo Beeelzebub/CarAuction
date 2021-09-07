@@ -21,14 +21,12 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryManager _repository;
-        private readonly UserManager<User> _userManager;
         private readonly IAuctionService _auctionService;
 
-        public CarsController(IMapper mapper, IRepositoryManager repository, UserManager<User> userManager, IAuctionService auctionService) 
+        public CarsController(IMapper mapper, IRepositoryManager repository, IAuctionService auctionService) 
         {
             _mapper = mapper;
             _repository = repository;
-            _userManager = userManager;
             _auctionService = auctionService;
         }
         
@@ -66,7 +64,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(400, "If current user id and seller id equal that user cannot bet")]
         [SwaggerResponse(400, "If bid user active that user cannot bet")]
         [SwaggerResponse(200, "Bid is accepted")]
-        //[ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
+        [ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
         public async Task<IActionResult> Bid(int id)
         {
             await _auctionService.BidAsync(id, User);

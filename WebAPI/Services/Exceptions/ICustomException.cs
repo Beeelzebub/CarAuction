@@ -8,6 +8,6 @@ namespace Services.Exceptions
 {
     public interface ICustomException
     {
-        object ErrorObject { get; set; }
+        public string ToJson();
     }
 }

@@ -36,6 +36,7 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> GetCars()
         {
             var cars = await _repository.Car.GetCarsByStatusAsync(LotStatus.Pending);
+
             var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
 
             return Ok(returnData);

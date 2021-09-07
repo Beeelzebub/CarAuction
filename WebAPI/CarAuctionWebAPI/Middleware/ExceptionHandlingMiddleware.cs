@@ -32,13 +32,9 @@ namespace CarAuctionWebAPI.Middleware
                 NotFoundException => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status500InternalServerError
             };
-
-            if (exception is ICustomException)
-            {
-                return httpContext.Response.WriteAsync(JsonSerializer.Serialize(((ICustomException)exception).ErrorObject));
-            }
-
-            return httpContext.Response.WriteAsync(JsonSerializer.Serialize(new { ErrorMessage = "Internal Server Error" }));
+            
+            return (exception is ICustomException) ? httpContext.Response.WriteAsync(((ICustomException)exception).ToJson())
+                : httpContext.Response.WriteAsync(JsonSerializer.Serialize(new { ErrorMessage = "Internal Server Error" }));
         }
     }
 }
