@@ -1,22 +1,25 @@
-<form [formGroup] = "form">
-    <fieldset>
-        <legend>Register</legend>
-        <div class="form-field">
-            <label>name:</label>
-            <input name="name" formControlName="name">
-        </div>
-        <div class="form-field">
-            <label>User name:</label>
-            <input name="userName" formControlName="userName">
-        </div>
-        <div class="form-field">
-            <label>Password:</label>
-            <input name="password" formControlName="password" 
-                   type="password">
-        </div>
-    </fieldset>
-    <div class="form-buttons">
-        <button class="button button-primary" 
-                (click)="register()">Register</button>
+<div class="d-flex justify-content-center mt-5">
+          
+    <div class="col-lg-3 bg-light border border-secondary box">
+       <h5 class="text-center mt-3">Sign In</h5>
+       <div class="login-form m-3">
+          <form class="form-signing" [formGroup] = "form">
+            <div class="form-group mt-3 mb-3">
+                <label class="mb-2">Name</label>
+                <input class="form-control" placeholder="Name" name="name" formControlName="name" >
+             </div>
+             <div class="form-group mt-3">
+                <label class="mb-2">User Name</label>
+                <input type="text" class="form-control" placeholder="User Name" name="userName" formControlName="userName">
+             </div>
+             <div class="form-group mt-3 mb-3">
+                <label class="mb-2">Password</label>
+                <input type="password" class="form-control" placeholder="Password" name="password" formControlName="password" 
+                type="password">
+             </div>
+             <button type="submit" class="btn btn-outline-primary">Login</button>
+             <button type="submit" class="btn btn-outline-secondary" (click)="register()">Register</button>
+          </form>
+       </div>
     </div>
-</form>
+ </div>

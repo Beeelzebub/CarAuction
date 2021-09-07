@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {CarAuctionService} from 'src/app/shared/car-auction.service'
+import {CarAuctionService} from 'src/app/shared/car-auction.service';
+import { Car } from '../shared/models/car.model';
 
 @Component({
   selector: 'app-car-auction',
@@ -10,7 +11,8 @@ import {CarAuctionService} from 'src/app/shared/car-auction.service'
 export class CarAuctionComponent implements OnInit {
 
   constructor(private service: CarAuctionService) { }
-  carsList:any=[];
+  carsList:Car[];
+
 
   ngOnInit(): void {
     this.refreshList();
@@ -22,4 +24,5 @@ export class CarAuctionComponent implements OnInit {
       this.carsList = data;
     });
   }
+
 }

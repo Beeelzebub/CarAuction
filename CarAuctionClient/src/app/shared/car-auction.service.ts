@@ -23,4 +23,7 @@ export class CarAuctionService {
   GetUserCars(){
     return this.http.get(this.apiURL + '/profile/myCars')
   }
+  getOneCar(id: number): Observable<any>{
+    return this.http.get(this.apiURL + '/cars/' + id)
+  }
 }
