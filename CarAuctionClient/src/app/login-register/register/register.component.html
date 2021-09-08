@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center mt-5">
           
     <div class="col-lg-3 bg-light border border-secondary box">
-       <h5 class="text-center mt-3">Sign In</h5>
+       <h5 class="text-center mt-3">Регистрация</h5>
        <div class="login-form m-3">
           <form class="form-signing" [formGroup] = "form">
             <div class="form-group mt-3 mb-3">
@@ -17,7 +17,7 @@
                 <input type="password" class="form-control" placeholder="Password" name="password" formControlName="password" 
                 type="password">
              </div>
-             <button type="submit" class="btn btn-outline-primary">Login</button>
+             <button type="submit" class="btn btn-outline-primary" routerLink="/login">Login</button>
              <button type="submit" class="btn btn-outline-secondary" (click)="register()">Register</button>
           </form>
        </div>

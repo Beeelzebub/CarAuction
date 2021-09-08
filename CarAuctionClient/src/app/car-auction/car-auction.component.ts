@@ -13,7 +13,6 @@ export class CarAuctionComponent implements OnInit {
   constructor(private service: CarAuctionService) { }
   carsList:Car[];
 
-
   ngOnInit(): void {
     this.refreshList();
   }

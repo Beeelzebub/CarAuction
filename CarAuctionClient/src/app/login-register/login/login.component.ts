@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   public form:FormGroup;
 
+  token:any;
 
   constructor(private fb:FormBuilder, public service: CarAuctionService) {
     this.form = this.fb.group({
@@ -34,11 +35,11 @@ export class LoginComponent implements OnInit {
         this.service.login(val.userName, val.password)
             .subscribe(
                 data => {
-                    console.log(data); 
+                    this.token = data
+                    console.log(data);
                 }
             );
-    }
-    
+    } 
     this.form.reset();
   }
 }
