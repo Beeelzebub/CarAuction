@@ -1,7 +1,9 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Entity;
 using Entity.Models;
+using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Repositories;
@@ -54,6 +56,51 @@ namespace Services.Auction
             await _repositoryManager.Bid.CreateAsync(newBid);
 
             await _repositoryManager.SaveAsync();
+        }
+
+        public async Task ChangeLotStatus(int lotId, LotStatus status)
+        {
+            var lot = await _repositoryManager.Lot.GetAsync(lotId);
+
+            if (lot == null)
+            {
+                throw new NotFoundException($"Lot with id {lotId} is not found");
+            }
+
+            lot.Status = status;
+
+            if (lot.Status == LotStatus.Approved)
+            {
+                lot.StartDate = DateTime.Now;
+                lot.EndDate = DateTime.Now.AddMinutes(5);
+                BackgroundJob.Schedule(() => ChooseWinner(lotId), TimeSpan.FromMinutes(5));
+            }
+
+            await _repositoryManager.SaveAsync();
+        }
+
+        public void ChooseWinner(int lotId)
+        {
+            var lot = _repositoryManager.Lot.Get(lotId);
+
+            if (lot == null)
+            {
+                return;
+            }
+
+            lot.Status = LotStatus.Ended;
+
+            var winningBid = _repositoryManager.Bid.GetActiveBid(lotId);
+
+            if (winningBid == null)
+            {
+                _repositoryManager.Bid.Save();
+                return;
+            }
+
+            winningBid.BidStatus = BidStatus.Won;
+
+            _repositoryManager.Bid.Save();
         }
     }
 }

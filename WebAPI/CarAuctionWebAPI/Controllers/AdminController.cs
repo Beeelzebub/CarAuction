@@ -9,7 +9,7 @@ using Entity.Models;
 using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Repositories;
-using Services.Background;
+using Services.Auction;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace CarAuctionWebAPI.Controllers
@@ -21,13 +21,13 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryManager _repository;
-        private readonly IBackgroundService _backgroundService;
+        private readonly IAuctionService _auctionService;
 
-        public AdminController(IMapper mapper, IRepositoryManager repository, IBackgroundService backgroundService)
+        public AdminController(IMapper mapper, IRepositoryManager repository, IAuctionService auctionService)
         {
             _mapper = mapper;
             _repository = repository;
-            _backgroundService = backgroundService;
+            _auctionService = auctionService;
         }
 
         [HttpGet("cars")]
@@ -47,7 +47,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(400, "If car not found")]
         [SwaggerResponse(200, "Get one car")]
         [ServiceFilter(typeof(ValidationFilterAttribute<Car>))]
-        public IActionResult GetOneCar(int id)
+        public IActionResult GetCar(int id)
         {
             var car = HttpContext.Items["entity"] as Car;
 
@@ -56,24 +56,14 @@ namespace CarAuctionWebAPI.Controllers
             return Ok(returnData);
         }
 
-        [HttpPut("cars/{id}")]
+        [HttpPut("cars/{lotId}")]
         [SwaggerOperation(Summary = "Change status car")]
         [SwaggerResponse(400, "If car not found")]
         [SwaggerResponse(200, "Change lot status")]
-        [ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
-        public IActionResult ChangeLotStatus(int id, [FromBody] LotDtoForChangeStatus statusLot)
+        public async Task<IActionResult> ChangeLotStatus(int lotId, [FromBody] LotDtoForChangeStatus lotStatusDto)
         {
-            var lot = HttpContext.Items["entity"] as Lot;
+            await _auctionService.ChangeLotStatus(lotId, lotStatusDto.Status);
 
-            lot.Status = statusLot.Status;
-
-            if (lot.Status == LotStatus.Approved)
-            {
-                lot.StartDate = DateTime.Now;
-                lot.EndDate = DateTime.Now.AddMinutes(5);
-                BackgroundJob.Schedule(() => _backgroundService.ChooseWinner(id), TimeSpan.FromMinutes(5));
-            }
-            _repository.Lot.Save();
             return Ok();
         }
     }
