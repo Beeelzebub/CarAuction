@@ -24,18 +24,6 @@ namespace Repositories
 
         public async Task<List<Lot>> GetLotsByStatusAsync(LotStatus status) =>
             await _bdContext.Lots.Include(l => l.Car).Where(l => l.Status == status).ToListAsync();
-
-        public async Task AddLot(CarDtoForCreation carDtoForCreation, string userId)
-        {
-            var car = _mapper.Map<Car>(carDtoForCreation);
-
-            var lot = _mapper.Map<Lot>(carDtoForCreation);
-            lot.SellerId = userId;
-            lot.CurrentCost = lot.StartingPrice;
-
-            lot.Car = car;
-
-            await _bdContext.Lots.AddAsync(lot);
-        }
+        
     }
 }

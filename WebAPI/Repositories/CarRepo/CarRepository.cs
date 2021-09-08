@@ -22,7 +22,7 @@ namespace Repositories
             _mapper = mapper;
         }
 
-        public void AddCar(CarDtoForCreation carDtoForCreation, string userId)
+        public void AddCar(LotCreationDto carDtoForCreation, string userId)
         {
             var lot = _mapper.Map<Lot>(carDtoForCreation);
             lot.SellerId = userId;

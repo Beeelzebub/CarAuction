@@ -36,5 +36,7 @@ namespace Repositories
             _bidRepository ?? (_bidRepository = new BidRepository(_context));
 
         public Task SaveAsync() => _context.SaveChangesAsync();
+
+        public void Save() => _context.SaveChanges();
     }
 }

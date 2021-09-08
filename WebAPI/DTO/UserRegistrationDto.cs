@@ -2,7 +2,7 @@
 
 namespace DTO
 {
-    public class UserForRegistrationDto
+    public class UserRegistrationDto
     {
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }

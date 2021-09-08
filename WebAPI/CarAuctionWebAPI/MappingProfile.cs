@@ -8,19 +8,21 @@ namespace CarAuctionWebAPI
     {
         public MappingProfile()
         {
-            CreateMap<UserForRegistrationDto, User>();
+            CreateMap<UserRegistrationDto, User>();
 
-            CreateMap<Car, CarDtoForGet>()
-                .ForMember(opt=>opt.ModelName, 
-                    mn=>mn.MapFrom(x=>x.Model.Name))
-                .ForMember(opt=>opt.BrandName,
-                    bn=>bn.MapFrom(x=>x.Model.Brand.BrandName));
+            CreateMap<Car, CarDto>()
+                .ForMember(opt => opt.ModelName,
+                    mn => mn.MapFrom(x => x.Model.Name))
+                .ForMember(opt => opt.BrandName,
+                    bn => bn.MapFrom(x => x.Model.Brand.BrandName));
 
+            CreateMap<LotCreationDto, Lot>()
+                .ForMember(m => m.CurrentCost,
+                    c => c.MapFrom(x => x.StartingPrice));
 
-            CreateMap<CarDtoForCreation, Car>();
-            CreateMap<Bid, BidsDtoForGet>();
-            CreateMap<CarDtoForCreation, Lot>();
-            CreateMap<CarDtoForCreation, Car>();
+            CreateMap<LotCreationDto, Car>();
+            CreateMap<Bid, GetBidsDto>();
+            CreateMap<LotCreationDto, Car>();
         }
     }
 }

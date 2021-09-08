@@ -94,13 +94,13 @@ namespace Services.Auction
 
             if (winningBid == null)
             {
-                _repositoryManager.Bid.Save();
+                _repositoryManager.Save();
                 return;
             }
 
             winningBid.BidStatus = BidStatus.Won;
 
-            _repositoryManager.Bid.Save();
+            _repositoryManager.Save();
         }
     }
 }

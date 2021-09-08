@@ -14,5 +14,6 @@ namespace Repositories
         IBidRepository Bid { get; }
         IEntityRepository<TEntity> GetRepositoryByEntity<TEntity>() where TEntity : class, IEntity, new();
         Task SaveAsync();
+        void Save();
     }
 }

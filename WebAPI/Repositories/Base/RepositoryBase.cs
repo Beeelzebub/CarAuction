@@ -29,15 +29,10 @@ namespace Repositories
         public virtual async Task CreateAsync(TEntity entity) =>
             await _dbContext.Set<TEntity>().AddAsync(entity);
 
-        public void Delete(TEntity entity) =>
+        public virtual void Delete(TEntity entity) =>
             _dbContext.Set<TEntity>().Remove(entity);
 
         public virtual void Update(TEntity entity) =>
             _dbContext.Set<TEntity>().Update(entity);
-
-        public void Save()
-        {
-            _dbContext.SaveChanges();
-        }
     }
 }

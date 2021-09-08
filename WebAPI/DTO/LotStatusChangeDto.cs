@@ -5,7 +5,7 @@ using Entity.Models;
 
 namespace DTO
 {
-    public class LotDtoForChangeStatus
+    public class LotStatusChangeDto
     {
         public LotStatus Status { get; set; }
     }

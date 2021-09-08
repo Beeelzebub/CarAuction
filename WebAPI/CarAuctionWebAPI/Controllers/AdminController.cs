@@ -37,7 +37,7 @@ namespace CarAuctionWebAPI.Controllers
         {
             var cars = await _repository.Car.GetCarsByStatusAsync(LotStatus.Pending);
 
-            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+            var returnData = _mapper.Map<IEnumerable<CarDto>>(cars);
 
             return Ok(returnData);
         }
@@ -51,7 +51,7 @@ namespace CarAuctionWebAPI.Controllers
         {
             var car = HttpContext.Items["entity"] as Car;
 
-            var returnData = _mapper.Map<CarDtoForGet>(car);
+            var returnData = _mapper.Map<CarDto>(car);
 
             return Ok(returnData);
         }
@@ -60,7 +60,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerOperation(Summary = "Change status car")]
         [SwaggerResponse(400, "If car not found")]
         [SwaggerResponse(200, "Change lot status")]
-        public async Task<IActionResult> ChangeLotStatus(int lotId, [FromBody] LotDtoForChangeStatus lotStatusDto)
+        public async Task<IActionResult> ChangeLotStatus(int lotId, [FromBody] LotStatusChangeDto lotStatusDto)
         {
             await _auctionService.ChangeLotStatus(lotId, lotStatusDto.Status);
 
