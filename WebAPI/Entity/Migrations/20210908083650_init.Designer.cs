@@ -4,14 +4,16 @@ using Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    partial class CarAuctionContextModelSnapshot : ModelSnapshot
+    [Migration("20210908083650_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,6 +61,13 @@ namespace Entity.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BrandName = "Audi"
+                        });
                 });
 
             modelBuilder.Entity("Entity.Models.Car", b =>
@@ -103,6 +112,19 @@ namespace Entity.Migrations
                     b.HasIndex("ModelId");
 
                     b.ToTable("Cars");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CarBody = 2,
+                            DriveUnit = 0,
+                            Fuel = 1,
+                            ImageUrl = "https://americamotorsby.ams3.digitaloceanspaces.com/2269/38169871_Image_1.JPG",
+                            LotId = 1,
+                            ModelId = 1,
+                            Year = 2018
+                        });
                 });
 
             modelBuilder.Entity("Entity.Models.Lot", b =>
@@ -141,6 +163,19 @@ namespace Entity.Migrations
                     b.HasIndex("SellerId");
 
                     b.ToTable("Lots");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CurrentCost = 25000m,
+                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            MinimalStep = 1000m,
+                            RedemptionPrice = 100000m,
+                            StartDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartingPrice = 25000m,
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("Entity.Models.Model", b =>
@@ -163,6 +198,14 @@ namespace Entity.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("Models");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BrandId = 1,
+                            Name = "A6"
+                        });
                 });
 
             modelBuilder.Entity("Entity.Models.User", b =>
@@ -218,7 +261,6 @@ namespace Entity.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
@@ -264,9 +306,8 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d2dfe30a-8e28-4955-82a0-f3c5096ef641",
-                            ConcurrencyStamp = "00b49307-e486-4828-9fec-8801b83500a9",
-
+                            Id = "7429e222-1ae2-4ff9-a318-f22f4d293aee",
+                            ConcurrencyStamp = "7f01a424-73eb-4379-b4f3-3c8bca71ec7f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -404,7 +445,7 @@ namespace Entity.Migrations
                     b.HasOne("Entity.Models.Model", "Model")
                         .WithMany("Cars")
                         .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

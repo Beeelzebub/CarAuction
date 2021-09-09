@@ -12,6 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './login-register/register/register.component';
 import { LoginComponent } from './login-register/login/login.component';
 import { GetCarComponent } from './car-auction/get-car/get-car.component';
+import { AdminComponent } from './admin/admin.component';
+import { GetOneCarComponent } from './admin/get-one-car/get-one-car.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { GetCarComponent } from './car-auction/get-car/get-car.component';
     MyCarsComponent,
     RegisterComponent,
     LoginComponent,
-    GetCarComponent
+    GetCarComponent,
+    AdminComponent,
+    GetOneCarComponent
   ],
   imports: [
     BrowserModule,
