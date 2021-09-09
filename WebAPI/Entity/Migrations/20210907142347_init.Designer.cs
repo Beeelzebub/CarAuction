@@ -4,14 +4,16 @@ using Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    partial class CarAuctionContextModelSnapshot : ModelSnapshot
+    [Migration("20210907142347_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,9 +266,8 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d2dfe30a-8e28-4955-82a0-f3c5096ef641",
-                            ConcurrencyStamp = "00b49307-e486-4828-9fec-8801b83500a9",
-
+                            Id = "9b655e40-ee15-43c4-8535-0c89ccd91f21",
+                            ConcurrencyStamp = "32a50027-24c6-42c4-bf23-7cf2613b945e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

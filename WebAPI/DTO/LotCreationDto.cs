@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DTO
 {
-    public class CarDtoForCreation
+    public class LotCreationDto
     {
         [Range(1900, 2021, ErrorMessage = "Year failed")]
         public int Year { get; set; }

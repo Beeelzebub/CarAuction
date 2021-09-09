@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Entity.EntityConfiguration
 {
-    class BidConfiguration : IEntityTypeConfiguration<Bid>
+    public class BidConfiguration : IEntityTypeConfiguration<Bid>
     {
         public void Configure(EntityTypeBuilder<Bid> builder)
         {

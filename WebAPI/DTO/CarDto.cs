@@ -1,7 +1,7 @@
 ﻿
 namespace DTO
 {
-    public class CarDtoForGet
+    public class CarDto
     {
         public int Id { get; set; }
         public int Year { get; set; }
