@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    [Migration("20210816103638_addAdminRole")]
-    partial class addAdminRole
+    [Migration("20210908083650_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -306,8 +306,8 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "04473cda-e868-4228-a415-97f0cc98d2ba",
-                            ConcurrencyStamp = "96b4e583-f7ef-40d0-a2c0-0f241bf525ce",
+                            Id = "7429e222-1ae2-4ff9-a318-f22f4d293aee",
+                            ConcurrencyStamp = "7f01a424-73eb-4379-b4f3-3c8bca71ec7f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

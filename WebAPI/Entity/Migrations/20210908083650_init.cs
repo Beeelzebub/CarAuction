@@ -178,7 +178,8 @@ namespace Entity.Migrations
                     StartingPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     CurrentCost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     RedemptionPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    SellerId = table.Column<string>(nullable: true)
+                    SellerId = table.Column<string>(nullable: true),
+                    Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -277,14 +278,19 @@ namespace Entity.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "7429e222-1ae2-4ff9-a318-f22f4d293aee", "7f01a424-73eb-4379-b4f3-3c8bca71ec7f", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
                 table: "Brands",
                 columns: new[] { "Id", "BrandName" },
                 values: new object[] { 1, "Audi" });
 
             migrationBuilder.InsertData(
                 table: "Lots",
-                columns: new[] { "Id", "CurrentCost", "EndDate", "MinimalStep", "RedemptionPrice", "SellerId", "StartDate", "StartingPrice" },
-                values: new object[] { 1, 25000m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1000m, 100000m, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 25000m });
+                columns: new[] { "Id", "CurrentCost", "EndDate", "MinimalStep", "RedemptionPrice", "SellerId", "StartDate", "StartingPrice", "Status" },
+                values: new object[] { 1, 25000m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1000m, 100000m, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 25000m, 0 });
 
             migrationBuilder.InsertData(
                 table: "Models",

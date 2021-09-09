@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { CarAuctionService } from 'src/app/shared/car-auction.service'; 
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +13,7 @@ export class RegisterComponent implements OnInit {
 
   public form:FormGroup;
 
-  constructor(private fb:FormBuilder, public service: CarAuctionService) {
+  constructor(private fb:FormBuilder, public service: AuthService) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       userName: ['', Validators.required],

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {CarAuctionService} from 'src/app/shared/car-auction.service';
+import { MainService } from '../shared/services/main.service'; 
 import { Car } from '../shared/models/car.model';
 
 @Component({
@@ -10,7 +10,7 @@ import { Car } from '../shared/models/car.model';
 })
 export class CarAuctionComponent implements OnInit {
 
-  constructor(private service: CarAuctionService) { }
+  constructor(private service: MainService) { }
   carsList:Car[];
 
   ngOnInit(): void {

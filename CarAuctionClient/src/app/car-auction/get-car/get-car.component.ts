@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CarAuctionService } from 'src/app/shared/car-auction.service';
+import { MainService } from 'src/app/shared/services/main.service'; 
 import { ActivatedRoute } from '@angular/router';
 import { Car } from 'src/app/shared/models/car.model';
 
@@ -10,7 +10,7 @@ import { Car } from 'src/app/shared/models/car.model';
 })
 export class GetCarComponent implements OnInit {
 
-  constructor(private service: CarAuctionService, private _activatedRoute: ActivatedRoute) { }
+  constructor(private service: MainService, private _activatedRoute: ActivatedRoute) { }
 
    car: Car;
   

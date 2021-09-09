@@ -1,0 +1,20 @@
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-lg-3">
+        <img  class="img-thumbnail" src= {{car.imageUrl}}/>
+      </div>
+      <div class="col-lg-3">
+        <h6> Бренд: {{car.brandName}}</h6>
+        <h6> Модель: {{car.modelName}}</h6>
+        <h6> Год: {{car.year}}</h6>
+        <h6>Тип топлива: {{car.fuel}}</h6>
+        <h6>Тип кузова: {{car.carBody}}</h6>
+        <h6>Тип привода: {{car.driveUnit}}</h6>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <button class="btn btn-success"   (click)="approvedClick()">Одобрить</button>
+        <button class="btn btn-danger">Отказать</button>
+      </div>
+  </div>

@@ -30,7 +30,8 @@ namespace Entity.Models
         Sedan,
         Coupe,
         Hatchback,
-        Minivan
+        Minivan,
+        Crossover
     }
     public enum DriveUnit
     {

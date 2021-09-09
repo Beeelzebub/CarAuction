@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CarAuctionService } from '../shared/car-auction.service';
+import { ProfileService } from '../shared/services/profile.service';
 
 @Component({
   selector: 'app-my-cars',
@@ -8,7 +8,7 @@ import { CarAuctionService } from '../shared/car-auction.service';
 })
 export class MyCarsComponent implements OnInit {
 
-  constructor(public service: CarAuctionService) { }
+  constructor(public service: ProfileService) { }
 
   carsList:any=[];
 
