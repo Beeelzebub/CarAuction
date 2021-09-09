@@ -18,17 +18,11 @@ namespace CarAuctionWebAPI.Controllers
     [Authorize]
     public class ProfileController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IRepositoryManager _repository;
-        private readonly UserManager<User> _userManager;
         private readonly IProfileService _profileService;
 
-        public ProfileController(IProfileService profileService, IMapper mapper, IRepositoryManager repository, UserManager<User> userManager)
+        public ProfileController(IProfileService profileService)
         {
             _profileService = profileService;
-            _mapper = mapper;
-            _repository = repository;
-            _userManager = userManager;
         }
 
         [HttpPost("AddLot")]
@@ -46,19 +40,18 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get user's cars")]
         public async Task<IActionResult> GetCarsForUser([FromQuery] CarsParametersInProfile carsParametersInProfile)
         {
-            var currentUserId = _userManager.GetUserId(User);
-            var cars = await _repository.Car.GetListCarsProfileAsync(currentUserId, carsParametersInProfile);
-            var returnData = _mapper.Map<IEnumerable<CarDto>>(cars);
+            var returnData = await _profileService.GetUsersCarsAsync(carsParametersInProfile, User);
+
             return Ok(returnData);
         }
 
-        [HttpDelete("MyCars/{lotId}")]
+        [HttpDelete("MyCars/{id}")]
         [SwaggerOperation(Summary = "Delete user's lot")]
         [SwaggerResponse(400, "Lot not found")]
         [SwaggerResponse(200, "Lot has been deleted")]
-        public async Task<IActionResult> RemoveLot(int lotId)
+        public async Task<IActionResult> RemoveLot(int id)
         {
-            await _profileService.RemoveLotAsync(lotId, User);
+            await _profileService.RemoveLotAsync(id, User);
 
             return Ok();
         }
@@ -67,17 +60,9 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerOperation(Summary = "Show one user's cars")]
         [SwaggerResponse(400, "Car not found")]
         [SwaggerResponse(200, "Get user one car")]
-        public async Task<IActionResult> GetCar(int id)
+        public async Task<IActionResult> GetUsersCarInfo(int id)
         {
-            var currentUserId = _userManager.GetUserId(User);
-            var car = await _repository.Car.GetCarByUserAsync(id, currentUserId);
-
-            if (car == null)
-            {
-                return BadRequest("Car is not found");
-            }
-
-            var returnData = _mapper.Map<CarDto>(car);
+            var returnData = await _profileService.GetUsersCarInfoAsync(id, User);
 
             return Ok(returnData);
         }
@@ -87,9 +72,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get user's bids")]
         public async Task<IActionResult> GetUsersBids()
         {
-            var currentUserId = _userManager.GetUserId(User);
-            var bids = await _repository.Bid.GetBidsByUserAsync(currentUserId);
-            var returnData = _mapper.Map<IEnumerable<GetBidsDto>>(bids);
+            var returnData = await _profileService.GetUsersBidsAsync(User);
 
             return Ok(returnData);
         }

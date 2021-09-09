@@ -20,6 +20,7 @@ namespace Repositories
 
         public virtual async Task<TEntity> GetAsync(int id) =>
             await _dbContext.Set<TEntity>().FindAsync(id);
+
         public virtual TEntity Get(int id) =>
              _dbContext.Set<TEntity>().Find(id);
 

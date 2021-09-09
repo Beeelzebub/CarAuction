@@ -21,7 +21,7 @@ namespace CarAuctionWebAPI
                     c => c.MapFrom(x => x.StartingPrice));
 
             CreateMap<LotCreationDto, Car>();
-            CreateMap<Bid, GetBidsDto>();
+            CreateMap<Bid, BidsDto>();
             CreateMap<LotCreationDto, Car>();
         }
     }

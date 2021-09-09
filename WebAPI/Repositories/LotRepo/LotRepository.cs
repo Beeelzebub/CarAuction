@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using DTO;
 using Entity;
 using Entity.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
 {
@@ -24,6 +21,8 @@ namespace Repositories
 
         public async Task<List<Lot>> GetLotsByStatusAsync(LotStatus status) =>
             await _bdContext.Lots.Include(l => l.Car).Where(l => l.Status == status).ToListAsync();
-        
+
+        public override async Task<Lot> GetAsync(int id) =>
+            await _bdContext.Lots.Include(l => l.Car).FirstOrDefaultAsync(l => l.Id == id);
     }
 }
