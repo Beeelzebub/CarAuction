@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Repositories;
 using Services.Auction;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -56,13 +57,13 @@ namespace CarAuctionWebAPI.Controllers
             return Ok(returnData);
         }
 
-        [HttpPut("cars/{lotId}")]
+        [HttpPatch("cars/{lotId}")]
         [SwaggerOperation(Summary = "Change status car")]
         [SwaggerResponse(400, "If car not found")]
         [SwaggerResponse(200, "Change lot status")]
-        public async Task<IActionResult> ChangeLotStatus(int lotId, [FromBody] LotDtoForChangeStatus lotStatusDto)
+        public async Task<IActionResult> ChangeLotStatus(int lotId, [FromBody] JsonPatchDocument<Lot> patchDoc)
         {
-            await _auctionService.ChangeLotStatus(lotId, lotStatusDto.Status);
+            await _auctionService.ChangeLotStatus(lotId, patchDoc);
 
             return Ok();
         }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Repositories;
 using Services.Exceptions;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Services.Auction
 {
@@ -58,7 +59,7 @@ namespace Services.Auction
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task ChangeLotStatus(int lotId, LotStatus status)
+        public async Task ChangeLotStatus(int lotId, JsonPatchDocument<Lot> jsonPatch)
         {
             var lot = await _repositoryManager.Lot.GetAsync(lotId);
 
@@ -67,7 +68,7 @@ namespace Services.Auction
                 throw new NotFoundException($"Lot with id {lotId} is not found");
             }
 
-            lot.Status = status;
+            jsonPatch.ApplyTo(lot);
 
             if (lot.Status == LotStatus.Approved)
             {

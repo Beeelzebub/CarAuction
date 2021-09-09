@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Hangfire;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.JsonPatch;
+
 
 namespace CarAuctionWebAPI
 {
@@ -29,7 +31,7 @@ namespace CarAuctionWebAPI
             services.AddRepositories();
             services.AddServices();
             services.ConfigureSwagger();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(); ;
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddHangfireServer();
             services.AddFilters();
