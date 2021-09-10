@@ -10,8 +10,8 @@ namespace Services.Authentication
 {
     public interface IAuthenticationService
     {
-        Task ValidateUser(UserForAuthenticationDto userForAuthenticationDto);
-        Task RegistrationAsync(UserForRegistrationDto userForRegistrationDto, ModelStateDictionary modelState);
+        Task ValidateUser(UserAuthenticationDto userForAuthenticationDto);
+        Task RegistrationAsync(UserRegistrationDto userForRegistrationDto, ModelStateDictionary modelState);
         Task<string> CreateTokenAsync();
     }
 }

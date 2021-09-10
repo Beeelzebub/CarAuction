@@ -22,7 +22,7 @@ namespace Repositories
             _mapper = mapper;
         }
 
-        public void AddCar(CarDtoForCreation carDtoForCreation, string userId)
+        public void AddCar(LotCreationDto carDtoForCreation, string userId)
         {
             var lot = _mapper.Map<Lot>(carDtoForCreation);
             lot.SellerId = userId;
@@ -66,9 +66,9 @@ namespace Repositories
             return PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
         }
 
-        public async Task<IEnumerable<Car>> GetListCarsProfileAsync(string currentUserId, CarsParametersInProfile carsParametersInProfile)
+        public async Task<IEnumerable<Car>> GetListByParametersAsync(string currentUserId, CarsParametersInProfile carsParametersInProfile)
         {
-            var query = _bdContext.Cars.Where(l => l.Lot.SellerId.Equals(currentUserId));
+            var query = _bdContext.Cars.Include(c => c.Model).ThenInclude(m => m.Brand).Where(l => l.Lot.SellerId.Equals(currentUserId));
 
             if (carsParametersInProfile.Status != null)
             {

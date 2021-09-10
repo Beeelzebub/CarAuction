@@ -22,11 +22,16 @@ namespace Entity
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             builder.ApplyConfiguration(new CarConfiguration());
             builder.ApplyConfiguration(new BrandConfiguration());
             builder.ApplyConfiguration(new ModelConfiguration());
             builder.ApplyConfiguration(new LotConfiguration());
             builder.ApplyConfiguration(new AdminConfigure());
+            builder.ApplyConfiguration(new BidConfiguration());
+            builder.ApplyConfiguration(new BrandConfiguration());
+            builder.ApplyConfiguration(new ModelConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
         }
     }
 

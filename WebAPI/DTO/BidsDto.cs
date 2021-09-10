@@ -2,10 +2,9 @@
 
 namespace DTO
 {
-    public class BidsDtoForGet
+    public class BidsDto
     {
-
-        public BidStatus BidStatus { get; set; }
+        public string BidStatus { get; set; }
         public int LotId { get; set; }
     }
 }

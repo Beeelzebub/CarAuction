@@ -23,7 +23,7 @@ namespace Entity.EntityConfiguration
 
 
 
-
+            /*
             builder.HasData(
                  
                  new Lot
@@ -35,6 +35,7 @@ namespace Entity.EntityConfiguration
                      RedemptionPrice = 100000
                  }
              );
+            */
         }
     }
     

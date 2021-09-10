@@ -2,7 +2,7 @@
 
 namespace DTO
 {
-    public class UserForAuthenticationDto
+    public class UserAuthenticationDto
     {
         [Required(ErrorMessage = "User name is required")]
         public string UserName { get; set; }

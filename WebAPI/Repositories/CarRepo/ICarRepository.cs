@@ -12,8 +12,8 @@ namespace Repositories
     {
         public Task<IEnumerable<Car>> GetCarsByStatusAsync(LotStatus status);
         public Task<IEnumerable<Car>> GetListCarsAsync(CarParameters carParameters);
-        public void AddCar(CarDtoForCreation carDtoForCreation, string userId);
-        public Task<IEnumerable<Car>> GetListCarsProfileAsync(string currentUserId, CarsParametersInProfile carsParametersInProfile);
+        public void AddCar(LotCreationDto carDtoForCreation, string userId);
+        public Task<IEnumerable<Car>> GetListByParametersAsync(string currentUserId, CarsParametersInProfile carsParametersInProfile);
         public Task<Car> GetCarByUserAsync(int id, string idUser);
 
 

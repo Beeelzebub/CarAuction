@@ -29,7 +29,6 @@ namespace CarAuctionWebAPI.Controllers
             _repository = repository;
             _auctionService = auctionService;
         }
-        
 
         [HttpGet]
         [SwaggerOperation(Summary = "Get all cars")]
@@ -38,7 +37,7 @@ namespace CarAuctionWebAPI.Controllers
         {
             var cars = await _repository.Car.GetListCarsAsync(carParameters);
 
-            var returnData = _mapper.Map<IEnumerable<CarDtoForGet>>(cars);
+            var returnData = _mapper.Map<IEnumerable<CarDto>>(cars);
 
             return Ok(returnData);
         }
@@ -52,7 +51,7 @@ namespace CarAuctionWebAPI.Controllers
         {
             var car = HttpContext.Items["entity"] as Car;
 
-            var returnData = _mapper.Map<CarDtoForGet>(car);
+            var returnData = _mapper.Map<CarDto>(car);
 
             return Ok(returnData);
         }

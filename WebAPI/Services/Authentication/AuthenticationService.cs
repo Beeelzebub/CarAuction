@@ -29,7 +29,7 @@ namespace Services.Authentication
             _mapper = mapper;
         }
 
-        public async Task RegistrationAsync(UserForRegistrationDto userForRegistrationDto, ModelStateDictionary modelState)
+        public async Task RegistrationAsync(UserRegistrationDto userForRegistrationDto, ModelStateDictionary modelState)
         {
             _user = _mapper.Map<User>(userForRegistrationDto);
 
@@ -53,7 +53,7 @@ namespace Services.Authentication
             }
         }
 
-        public async Task ValidateUser(UserForAuthenticationDto userForAuthenticationDto)
+        public async Task ValidateUser(UserAuthenticationDto userForAuthenticationDto)
         {
             _user = await _userManager.FindByNameAsync(userForAuthenticationDto.UserName);
             
