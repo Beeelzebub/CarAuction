@@ -1,4 +1,5 @@
-﻿
+﻿using Enums;
+
 namespace Entity.Models
 {
     public class Bid : IEntity
@@ -13,12 +14,5 @@ namespace Entity.Models
         public  User Buyer { get; set; }
 
         public string BuyerId { get; set; }
-    }
-
-    public enum BidStatus
-    {
-        Active,
-        Outbid,
-        Won
     }
 }

@@ -1,5 +1,5 @@
-﻿using Entity.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Enums;
 
 namespace DTO
 {

@@ -12,6 +12,7 @@ using Repositories;
 using Services.Auction;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.JsonPatch;
+using Services.Administration;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -22,13 +23,13 @@ namespace CarAuctionWebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryManager _repository;
-        private readonly IAuctionService _auctionService;
+        private readonly IAdministrationService _administrationService;
 
-        public AdminController(IMapper mapper, IRepositoryManager repository, IAuctionService auctionService)
+        public AdminController(IMapper mapper, IRepositoryManager repository, IAdministrationService administrationService)
         {
             _mapper = mapper;
             _repository = repository;
-            _auctionService = auctionService;
+            _administrationService = administrationService;
         }
 
         [HttpGet("cars")]
@@ -36,9 +37,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get all cars ")]
         public async Task<IActionResult> GetCars()
         {
-            var cars = await _repository.Car.GetCarsByStatusAsync(LotStatus.Pending);
-
-            var returnData = _mapper.Map<IEnumerable<CarDto>>(cars);
+            var returnData = await _administrationService.GetPendingCarsAsync();
 
             return Ok(returnData);
         }
@@ -47,12 +46,9 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerOperation(Summary = "Get one the user's car that have the status Pending")]
         [SwaggerResponse(400, "If car not found")]
         [SwaggerResponse(200, "Get one car")]
-        [ServiceFilter(typeof(ValidationFilterAttribute<Car>))]
-        public IActionResult GetCar(int id)
+        public async Task<IActionResult> GetCar(int id)
         {
-            var car = HttpContext.Items["entity"] as Car;
-
-            var returnData = _mapper.Map<CarDto>(car);
+            var returnData = await _administrationService.GetPendingCarAsync(id);
 
             return Ok(returnData);
         }
@@ -63,7 +59,7 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Change lot status")]
         public async Task<IActionResult> ChangeLotStatus(int lotId, [FromBody] JsonPatchDocument<Lot> patchDoc)
         {
-            await _auctionService.ChangeLotStatus(lotId, patchDoc);
+            await _administrationService.ChangeLotStatusAsync(lotId, patchDoc);
 
             return Ok();
         }

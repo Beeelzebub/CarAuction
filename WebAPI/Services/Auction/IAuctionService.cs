@@ -8,6 +8,5 @@ namespace Services.Auction
     public interface IAuctionService
     {
         Task BidAsync(int lotId, ClaimsPrincipal bidderClaims);
-        Task ChangeLotStatus(int lotId, JsonPatchDocument<Lot> jsonPatch);
     }
 }
