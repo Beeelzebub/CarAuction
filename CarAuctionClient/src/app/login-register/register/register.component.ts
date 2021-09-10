@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit {
             .subscribe(
                 () => {
                     console.log("User is register"); 
+                    
                 }
             );
     }

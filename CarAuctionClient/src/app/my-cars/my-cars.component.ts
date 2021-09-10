@@ -13,10 +13,15 @@ export class MyCarsComponent implements OnInit {
   carsList:any=[];
 
   ngOnInit(): void {
-    this.refreshList();
+    this.allClick();
   }
 
-  refreshList(){
+  allClick(){
+    this.service.GetUserCars().subscribe(data =>{
+      this.carsList = data;
+    });
+  }
+  parClick(status: number){
     this.service.GetUserCars().subscribe(data =>{
       this.carsList = data;
     });

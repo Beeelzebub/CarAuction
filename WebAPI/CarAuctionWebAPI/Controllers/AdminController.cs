@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using CarAuctionWebAPI.Filters;
 using DTO;
 using Entity.Models;
-using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Repositories;
 using Services.Auction;

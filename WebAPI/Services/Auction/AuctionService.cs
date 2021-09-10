@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DTO;
 using Entity;
 using Entity.Models;
 using Hangfire;
@@ -73,8 +74,8 @@ namespace Services.Auction
             if (lot.Status == LotStatus.Approved)
             {
                 lot.StartDate = DateTime.Now;
-                lot.EndDate = DateTime.Now.AddMinutes(5);
-                BackgroundJob.Schedule(() => ChooseWinner(lotId), TimeSpan.FromMinutes(5));
+                lot.EndDate = DateTime.Now.AddHours(24);
+                BackgroundJob.Schedule(() => ChooseWinner(lotId), TimeSpan.FromHours(24));
             }
 
             await _repositoryManager.SaveAsync();

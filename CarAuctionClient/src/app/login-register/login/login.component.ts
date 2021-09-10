@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   token:any;
   tokenString: string;
 
-  constructor(private fb:FormBuilder, public service: AuthService) {
+  constructor(private fb:FormBuilder, public service: AuthService, private router: Router) {
     this.form = this.fb.group({
       userName: ['', Validators.required],
       password: ['', Validators.required]
@@ -39,7 +40,13 @@ export class LoginComponent implements OnInit {
                     this.token = data
                     this.tokenString = this.token.token
                     localStorage.setItem('currentUser', JSON.stringify({ token: this.tokenString, name: this.tokenString }));
-                    console.log(this.tokenString);
+                    if (val.userName === "admin") {
+                      this.router.navigate(['admin/cars']);
+                    }
+                    else{
+                      this.router.navigate(['']);
+                
+                    }
                 }
             );
     } 

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { LoginComponent } from './login-register/login/login.component';
 import { GetCarComponent } from './car-auction/get-car/get-car.component';
 import { AdminComponent } from './admin/admin.component';
 import { GetOneCarComponent } from './admin/get-one-car/get-one-car.component';
+import { AddCarComponent } from './my-cars/add-car/add-car.component';
 
 @NgModule({
   declarations: [
@@ -26,10 +28,12 @@ import { GetOneCarComponent } from './admin/get-one-car/get-one-car.component';
     LoginComponent,
     GetCarComponent,
     AdminComponent,
-    GetOneCarComponent
+    GetOneCarComponent,
+    AddCarComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule

@@ -6,7 +6,7 @@ import{HttpClient} from '@angular/common/http';
 })
 export class AuthService {
 
-  constructor(public http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   readonly apiURL = "https://localhost:44364/api";
 
@@ -14,6 +14,8 @@ export class AuthService {
     return this.http.post(this.apiURL + '/register', {name, userName, password});
   }
   login(userName:string, password:string ) {
+   
     return this.http.post(this.apiURL + '/login', { userName, password});
+    
   }
 }

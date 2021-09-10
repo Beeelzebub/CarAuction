@@ -31,7 +31,7 @@ namespace CarAuctionWebAPI
             services.AddRepositories();
             services.AddServices();
             services.ConfigureSwagger();
-            services.AddControllers().AddNewtonsoftJson(); ;
+            services.AddControllers().AddNewtonsoftJson();
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddHangfireServer();
             services.AddFilters();

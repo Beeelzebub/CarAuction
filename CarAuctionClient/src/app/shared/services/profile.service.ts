@@ -18,4 +18,11 @@ export class ProfileService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get(this.apiURL + '/profile/myCars', { headers: headers });
   }
+  GetUserCarsWithStatus(status: number){
+    
+    var currentUser = JSON.parse(localStorage.getItem('currentUser') || '');
+    var token = currentUser.token;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(this.apiURL + '/profile/myCars',  { headers: headers});
+  }
 }

@@ -32,7 +32,6 @@ export class GetOneCarComponent implements OnInit {
     )
   }
   approvedClick(){
-    console.log(this.id)
     this.service.setStatusLot(this.id, Lot.Approved);
     
   }

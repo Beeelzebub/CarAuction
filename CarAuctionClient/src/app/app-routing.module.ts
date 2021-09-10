@@ -9,6 +9,7 @@ import { MyCarsComponent } from './my-cars/my-cars.component';
 import { GetCarComponent } from './car-auction/get-car/get-car.component';
 import { AdminComponent } from './admin/admin.component';
 import { GetOneCarComponent } from './admin/get-one-car/get-one-car.component';
+import { AddCarComponent } from './my-cars/add-car/add-car.component';
 const routes: Routes = [
   { path: '', component: CarAuctionComponent },
   { path: 'login', component: LoginComponent },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'myCars', component: MyCarsComponent },
   { path: ':id/info', component: GetCarComponent },
   { path: 'admin/cars', component: AdminComponent },
-  { path: 'admin/cars/:id', component: GetOneCarComponent }
+  { path: 'admin/cars/:id', component: GetOneCarComponent },
+  { path: 'myCars/addCar', component: AddCarComponent }
 ];
 
 @NgModule({
