@@ -10,7 +10,7 @@ export class ModelForCreatingLot {
         CarBody: CarBody
         DriveUnit: DriveUnit
         
-        ModelId:number
+        ModelId:number 
         BrandId:number
         MinimalStep: number
         StartingPrice:number

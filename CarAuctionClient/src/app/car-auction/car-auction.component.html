@@ -1,25 +1,32 @@
 
-<div class="mt-5" *ngFor="let data of carsList">
-    <div class="container">
-        <div class="row">
-          <div class="col-lg-3">
-            <img  class="img-thumbnail" src= {{data.imageUrl}}/>
-          </div>
-          <div class="col-lg-3">
-            <h6> Бренд: {{data.brandName}}</h6>
-            <h6> Модель: {{data.modelName}}</h6>
-            <h6> Год: {{data.year}}</h6>
-            <h6>Тип топлива: {{data.fuel}}</h6>
-            <h6>Тип кузова: {{data.carBody}}</h6>
-            <h6>Тип привода: {{data.driveUnit}}</h6>
-          </div>
-          <div class="col-lg-3">
-            <button class="btn btn-outline-primary" [routerLink] = "[(data.id), 'info']">Подробнее</button>
+
+
+<div *ngIf="carListCount; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>
+  <div class="mt-5" *ngFor="let data of carsList">
+      <div class="container">
+          <div class="row">
+            <div class="col-lg-3">
+              <img  class="img-thumbnail" src= {{data.imageUrl}}/>
+            </div>
+            <div class="col-lg-3">
+              <h6> Бренд: {{data.brandName}}</h6>
+              <h6> Модель: {{data.modelName}}</h6>
+              <h6> Год: {{data.year}}</h6>
+              <h6>Тип топлива: {{data.fuel}}</h6>
+              <h6>Тип кузова: {{data.carBody}}</h6>
+              <h6>Тип привода: {{data.driveUnit}}</h6>
+            </div>
+            <div class="col-lg-3">
+              <button class="btn btn-outline-primary" [routerLink] = "[(data.id), 'info']">Подробнее</button>
+            </div>
           </div>
         </div>
-      </div>
-</div>
-
+  </div>
+</ng-template>
+<ng-template #elseBlock>
+  <h1 class="text-center">Cars Not Found</h1>
+</ng-template>
 
     
 

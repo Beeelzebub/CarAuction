@@ -8,16 +8,16 @@
         <button class="btn btn-outline-primary" (click) = "allClick()">Все</button>
       </div>
       <div class="col-lg-3 mr-5">
-        <button class="btn btn-outline-primary">В ожиданиии</button>
+        <button class="btn btn-outline-primary" (click)="filterClick(0)">В ожиданиии</button>
       </div>
       <div class="col-lg-2">
-        <button class="btn btn-outline-primary">Активные</button>
+        <button class="btn btn-outline-primary" (click)="filterClick(1)">Активные</button>
       </div>
       <div class="col-lg-3">
-        <button class="btn btn-outline-primary">Отклоненные</button>
+        <button class="btn btn-outline-primary" (click)="filterClick(2)">Отклоненные</button>
       </div>
       <div class="col-lg-3">
-        <button class="btn btn-outline-primary">Закрытые</button>
+        <button class="btn btn-outline-primary" (click)="filterClick(3)">Закрытые</button>
       </div>
     </div>
   </div>

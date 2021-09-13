@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../shared/services/profile.service';
+import {Lot} from 'src/app/shared/models/enums/lot';
 
 @Component({
   selector: 'app-my-cars',
@@ -21,8 +22,8 @@ export class MyCarsComponent implements OnInit {
       this.carsList = data;
     });
   }
-  parClick(status: number){
-    this.service.GetUserCars().subscribe(data =>{
+  filterClick(status: Lot){
+    this.service.GetUserCarsWithStatus(status).subscribe(data =>{
       this.carsList = data;
     });
   }
