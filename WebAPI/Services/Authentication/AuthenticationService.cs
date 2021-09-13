@@ -8,7 +8,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using DTO;
+using DTO.Response;
 using Entity.Models;
+using Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -29,7 +31,7 @@ namespace Services.Authentication
             _mapper = mapper;
         }
 
-        public async Task RegistrationAsync(UserRegistrationDto userForRegistrationDto, ModelStateDictionary modelState)
+        public async Task<BaseResponse> RegistrationAsync(UserRegistrationDto userForRegistrationDto, ModelStateDictionary modelState)
         {
             _user = _mapper.Map<User>(userForRegistrationDto);
 
@@ -37,37 +39,41 @@ namespace Services.Authentication
 
             if (!result.Succeeded)
             {
-                var exception = new BadRequestException("Identity error");
+                Dictionary<string, string> errors = new Dictionary<string, string>();
 
                 foreach (var error in result.Errors)
                 {
-                    exception.Data.Add(error.Code, error.Description);
+                    errors.Add(error.Code, error.Description);
                 }
 
-                throw exception;
+                return BaseResponse.Fail(ErrorCode.RegistrationError, errors);
             }
 
             if (userForRegistrationDto.UserName == "Admin")
             {
                 await _userManager.AddToRoleAsync(_user, "Admin");
             }
+
+            return BaseResponse.Success();
         }
 
-        public async Task ValidateUser(UserAuthenticationDto userForAuthenticationDto)
+        public async Task<BaseResponse> ValidateUser(UserAuthenticationDto userForAuthenticationDto)
         {
             _user = await _userManager.FindByNameAsync(userForAuthenticationDto.UserName);
             
             if (_user == null || !(await _userManager.CheckPasswordAsync(_user, userForAuthenticationDto.Password)))
             {
-                throw new BadRequestException("Wrong username or password");
+                return BaseResponse.Fail(ErrorCode.WrongUsernameOrPasswordError);
             }
+
+            return BaseResponse.Success();
         }
 
-        public async Task<string> CreateTokenAsync()
+        public async Task<BaseResponse> CreateTokenAsync()
         {
             var key = "secret123456789secret!!!!!";
             var claims = await GetClaims();
-            return new JwtSecurityTokenHandler().WriteToken(
+            var token = new JwtSecurityTokenHandler().WriteToken(
                 new JwtSecurityToken
                 (
                     issuer: "CarAuctionWebApi",
@@ -76,6 +82,8 @@ namespace Services.Authentication
                     expires: DateTime.Now.AddDays(1),
                     signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)), SecurityAlgorithms.HmacSha256))
             );
+
+            return BaseResponse.Success(new JwtTokenDto() { Token = token });
         }
 
         private async Task<List<Claim>> GetClaims()

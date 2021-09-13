@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enums
+namespace DTO
 {
-    public enum InternalCode
+    public class JwtTokenDto
     {
-        Success = 1
+        public string Token { get; set; }
     }
 }

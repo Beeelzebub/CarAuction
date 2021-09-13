@@ -8,19 +8,26 @@ using Enums;
 
 namespace DTO.Response
 {
-    public class BaseResponse<T>
+    public abstract class BaseResponse
     {
-        public int HttpStatusCode { get; set; } 
-        public InternalCode Code { get; set; }
-        public T Data { get; set; }
 
-        protected BaseResponse(int httpStatusCode, InternalCode code, T data)
+        public ErrorCode ErrorCode { get; }
+
+        protected BaseResponse(ErrorCode errorCode)
         {
-            HttpStatusCode = httpStatusCode;
-            Code = code;
-            Data = data;
+            ErrorCode = errorCode;
         }
 
-        //public static BaseResponse<T> Created() => new OperationResult(201, InternalCode.Success, );
+        public static BaseResponse Success() =>
+            new Response(ErrorCode.Success);
+
+        public static BaseResponse Success<T>(T data) =>
+            new Response<T>(ErrorCode.Success, data);
+
+        public static BaseResponse Fail(ErrorCode errorCode) =>
+            new Response(errorCode);
+
+        public static BaseResponse Fail<T>(ErrorCode errorCode, T data) =>
+            new Response<T>(errorCode, data);
     }
 }

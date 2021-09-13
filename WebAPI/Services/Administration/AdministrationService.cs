@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DTO;
+using DTO.Response;
 using Entity.Models;
 using Enums;
 using Hangfire;
@@ -25,13 +26,13 @@ namespace Services.Administration
             _mapper = mapper;
         }
 
-        public async Task ChangeLotStatusAsync(int lotId, JsonPatchDocument<Lot> jsonPatch)
+        public async Task<BaseResponse> ChangeLotStatusAsync(int lotId, JsonPatchDocument<Lot> jsonPatch)
         {
             var lot = await _repositoryManager.Lot.GetAsync(lotId);
 
             if (lot == null)
             {
-                throw new NotFoundException($"Lot with id {lotId} is not found");
+                return BaseResponse.Fail(ErrorCode.LotNotFoundError);
             }
 
             jsonPatch.ApplyTo(lot);
@@ -44,25 +45,31 @@ namespace Services.Administration
             }
 
             await _repositoryManager.SaveAsync();
+
+            return BaseResponse.Success();
         }
 
-        public async Task<List<CarDto>> GetPendingCarsAsync()
+        public async Task<BaseResponse> GetPendingCarsAsync()
         {
             var cars = await _repositoryManager.Car.GetCarsByStatusAsync(LotStatus.Pending);
 
-            return _mapper.Map<List<CarDto>>(cars);
+            var carDtoList = _mapper.Map<List<CarDto>>(cars);
+
+            return BaseResponse.Success(carDtoList);
         }
 
-        public async Task<CarDto> GetPendingCarAsync(int id)
+        public async Task<BaseResponse> GetPendingCarAsync(int id)
         {
             var car = await _repositoryManager.Car.GetAsync(id);
 
             if (car == null || car.Lot.Status != LotStatus.Pending)
             {
-                throw new NotFoundException("Car is not found");
+                return BaseResponse.Fail(ErrorCode.CarNotFound);
             }
 
-            return _mapper.Map<CarDto>(car);
+            var carDto = _mapper.Map<CarDto>(car);
+
+            return BaseResponse.Success(carDto);
         }
 
         public void ChooseWinner(int lotId)

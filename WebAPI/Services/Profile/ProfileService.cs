@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DTO;
+using DTO.Response;
 using Entity.Models;
 using Entity.RequestFeatures;
+using Enums;
 using Microsoft.AspNetCore.Identity;
 using Repositories;
 using Services.Exceptions;
@@ -27,16 +29,25 @@ namespace Services.Profile
             _mapper = mapper;
         }
         
-        public async Task RemoveLotAsync(int lotId, ClaimsPrincipal sellerClaims)
+        public async Task<BaseResponse> RemoveLotAsync(int lotId, ClaimsPrincipal sellerClaims)
         {
-            var lot = await GetLotAsync(lotId, sellerClaims);
+            var lot = await GetLotAsync(lotId);
+
+            var checkResult = LotCheck(lot, sellerClaims);
+
+            if (checkResult != ErrorCode.Success)
+            {
+                return BaseResponse.Fail(checkResult);
+            }
 
             _repositoryManager.Lot.Delete(lot);
 
             await _repositoryManager.SaveAsync();
+
+            return BaseResponse.Success();
         }
 
-        public async Task AddLotAsync(LotCreationDto lotCreationDto, ClaimsPrincipal sellerClaims)
+        public async Task<BaseResponse> AddLotAsync(LotCreationDto lotCreationDto, ClaimsPrincipal sellerClaims)
         {
             var car = _mapper.Map<Car>(lotCreationDto);
 
@@ -48,50 +59,67 @@ namespace Services.Profile
             await _repositoryManager.Lot.CreateAsync(lot);
 
             await _repositoryManager.SaveAsync();
+
+            return BaseResponse.Success();
         }
 
-        public async Task<CarDto> GetUsersCarInfoAsync(int lotId, ClaimsPrincipal userClaims)
+        public async Task<BaseResponse> GetUsersCarInfoAsync(int lotId, ClaimsPrincipal userClaims)
         {
-            var lot = await GetLotAsync(lotId, userClaims);
-            
-            return _mapper.Map<CarDto>(lot.Car);
+            var lot = await GetLotAsync(lotId);
+
+            var checkResult = LotCheck(lot, userClaims);
+
+            if (checkResult != ErrorCode.Success)
+            {
+                return BaseResponse.Fail(checkResult);
+            }
+
+            var carDto = _mapper.Map<CarDto>(lot.Car);
+
+            return BaseResponse.Success(carDto);
         }
 
-        public async Task<List<BidsDto>> GetUsersBidsAsync(ClaimsPrincipal userClaims)
+        public async Task<BaseResponse> GetUsersBidsAsync(ClaimsPrincipal userClaims)
         {
             var userId = _userManager.GetUserId(userClaims);
 
             var bids = await _repositoryManager.Bid.GetBidsByUserAsync(userId);
 
-            return _mapper.Map<List<BidsDto>>(bids);
+            var bidsDto = _mapper.Map<List<BidsDto>>(bids);
+
+            return BaseResponse.Success(bidsDto);
         }
 
-        public async Task<List<CarDto>> GetUsersCarsAsync(CarsParametersInProfile carsParametersInProfile, ClaimsPrincipal userClaims)
+        public async Task<BaseResponse> GetUsersCarsAsync(CarsParametersInProfile carsParametersInProfile, ClaimsPrincipal userClaims)
         {
             var userId = _userManager.GetUserId(userClaims);
 
             var cars = await _repositoryManager.Car.GetListByParametersAsync(userId, carsParametersInProfile);
 
-            return _mapper.Map<List<CarDto>>(cars);
+            var carDtoList = _mapper.Map<List<CarDto>>(cars);
+
+            return BaseResponse.Success(carDtoList);
         }
 
-        private async Task<Lot> GetLotAsync(int lotId, ClaimsPrincipal userClaims)
+        private async Task<Lot> GetLotAsync(int lotId) => 
+            await _repositoryManager.Lot.GetAsync(lotId);
+            
+
+        private ErrorCode LotCheck(Lot lot, ClaimsPrincipal userClaims)
         {
             var userId = _userManager.GetUserId(userClaims);
 
-            var lot = await _repositoryManager.Lot.GetAsync(lotId);
-
             if (lot == null)
             {
-                throw new BadRequestException($"Lot with id {lotId} is not found");
+                return ErrorCode.LotNotFoundError;
             }
 
             if (lot.SellerId != userId)
             {
-                throw new ForbiddenException("You have no permissions");
+                return ErrorCode.NoPermissionsError;
             }
 
-            return lot;
+            return ErrorCode.Success;
         }
     }
 }

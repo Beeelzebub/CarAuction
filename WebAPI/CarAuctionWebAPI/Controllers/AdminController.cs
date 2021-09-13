@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using CarAuctionWebAPI.Extensions;
 using CarAuctionWebAPI.Filters;
 using DTO;
 using Entity.Models;
@@ -37,9 +38,9 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get all cars ")]
         public async Task<IActionResult> GetCars()
         {
-            var returnData = await _administrationService.GetPendingCarsAsync();
+            var result = await _administrationService.GetPendingCarsAsync();
 
-            return Ok(returnData);
+            return this.Answer(result, Ok(result));
         }
 
         [HttpGet("cars/{id}")]
@@ -48,9 +49,9 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get one car")]
         public async Task<IActionResult> GetCar(int id)
         {
-            var returnData = await _administrationService.GetPendingCarAsync(id);
+            var result = await _administrationService.GetPendingCarAsync(id);
 
-            return Ok(returnData);
+            return this.Answer(result, Ok(result));
         }
 
         [HttpPatch("cars/{lotId}")]
@@ -59,9 +60,9 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Change lot status")]
         public async Task<IActionResult> ChangeLotStatus(int lotId, [FromBody] JsonPatchDocument<Lot> patchDoc)
         {
-            await _administrationService.ChangeLotStatusAsync(lotId, patchDoc);
+            var result = await _administrationService.ChangeLotStatusAsync(lotId, patchDoc);
 
-            return Ok();
+            return this.Answer(result, Ok(result));
         }
     }
 }

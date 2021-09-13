@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DTO;
+using DTO.Response;
 using Entity.Models;
 using Microsoft.AspNetCore.JsonPatch;
 
@@ -11,8 +12,8 @@ namespace Services.Administration
 {
     public interface IAdministrationService
     {
-        Task ChangeLotStatusAsync(int lotId, JsonPatchDocument<Lot> jsonPatch);
-        Task<List<CarDto>> GetPendingCarsAsync();
-        Task<CarDto> GetPendingCarAsync(int id);
+        Task<BaseResponse> ChangeLotStatusAsync(int lotId, JsonPatchDocument<Lot> jsonPatch);
+        Task<BaseResponse> GetPendingCarsAsync();
+        Task<BaseResponse> GetPendingCarAsync(int id);
     }
 }

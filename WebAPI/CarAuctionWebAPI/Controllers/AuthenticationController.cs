@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using CarAuctionWebAPI.Extensions;
 using DTO;
+using Enums;
 using Hangfire.Storage.Monitoring;
 using Swashbuckle.AspNetCore.Annotations;
 using Services.Authentication;
@@ -25,11 +27,14 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(401, "Authentication user failed")]
         public async Task<IActionResult> Login([FromBody] UserAuthenticationDto userForAuthentication)
         {
-            await _authenticationService.ValidateUser(userForAuthentication);
+            var result = await _authenticationService.ValidateUser(userForAuthentication);
 
-            var token = await _authenticationService.CreateTokenAsync();
+            if (result.ErrorCode == ErrorCode.Success)
+            {
+                result = await _authenticationService.CreateTokenAsync();
+            }
 
-            return Ok(new { Token = token });
+            return this.Answer(result, Ok(result));
         }
 
         [HttpPost]
@@ -40,11 +45,14 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Registration success")]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationDto userForRegistrationDto)
         { 
-            await _authenticationService.RegistrationAsync(userForRegistrationDto, ModelState);
+            var result = await _authenticationService.RegistrationAsync(userForRegistrationDto, ModelState);
+            
+            if (result.ErrorCode == ErrorCode.Success)
+            {
+                result = await _authenticationService.CreateTokenAsync();
+            }
 
-            var token = await _authenticationService.CreateTokenAsync();
-
-            return Ok(new { Token = token });
+            return this.Answer(result, Ok(result));
         }
     }
 }
