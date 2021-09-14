@@ -1,4 +1,5 @@
-﻿
+﻿using Enums;
+
 namespace Entity.Models
 {
     public class Car : IEntity
@@ -13,30 +14,5 @@ namespace Entity.Models
         public int ModelId { get; set; }
         public  Lot Lot { get; set; }
         public int LotId { get; set; }
-    }
-
-    public enum Fuel
-    {
-        Gas,
-        Petrol,
-        Diesel,
-        Electric
-    }
-
-    public enum CarBody
-    {
-        PickupTrack,
-        Universal,
-        Sedan,
-        Coupe,
-        Hatchback,
-        Minivan,
-        Crossover
-    }
-    public enum DriveUnit
-    {
-        FrontWheelDrive,
-        RearDrive,
-        FourWheelDrive
     }
 }

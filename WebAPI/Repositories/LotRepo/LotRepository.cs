@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Entity;
 using Entity.Models;
+using Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories

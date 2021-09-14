@@ -1,14 +1,16 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using DTO;
+using DTO.Response;
 using Entity.Models;
+using Entity.RequestFeatures;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace Services.Auction
 {
     public interface IAuctionService
     {
-        Task BidAsync(int lotId, ClaimsPrincipal bidderClaims);
-        Task ChangeLotStatus(int lotId, JsonPatchDocument<Lot> jsonPatch);
+        Task<BaseResponse> BidAsync(int lotId, ClaimsPrincipal bidderClaims);
+        Task<BaseResponse> GetCarsAsync(CarParameters carParameters);
+        Task<BaseResponse> GetCarAsync(int carId);
     }
 }

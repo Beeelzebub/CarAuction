@@ -37,6 +37,7 @@ namespace CarAuctionWebAPI
             services.AddFilters();
             services.AddTransient<ExceptionHandlingMiddleware>();
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

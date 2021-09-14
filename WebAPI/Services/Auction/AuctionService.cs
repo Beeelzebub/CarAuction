@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using DTO;
+using DTO.Response;
 using Entity;
 using Entity.Models;
+using Entity.RequestFeatures;
+using Enums;
 using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -15,16 +20,18 @@ namespace Services.Auction
 {
     public class AuctionService : IAuctionService
     {
+        private readonly IMapper _mapper;
         private readonly IRepositoryManager _repositoryManager;
         private readonly UserManager<User> _userManager;
 
-        public AuctionService(IRepositoryManager repositoryManager, UserManager<User> userManager)
+        public AuctionService(IMapper mapper, IRepositoryManager repositoryManager, UserManager<User> userManager)
         {
+            _mapper = mapper;
             _repositoryManager = repositoryManager;
             _userManager = userManager;
         }
 
-        public async Task BidAsync(int lotId, ClaimsPrincipal bidderClaims)
+        public async Task<BaseResponse> BidAsync(int lotId, ClaimsPrincipal bidderClaims)
         {
             var bidderId = _userManager.GetUserId(bidderClaims);
 
@@ -32,7 +39,7 @@ namespace Services.Auction
 
             if (lot == null || lot.Status != LotStatus.Approved)
             {
-                throw new NotFoundException($"Lot with id {lotId} is not found");
+                return BaseResponse.Fail(ErrorCode.LotNotFoundError);
             }
 
             var activeBid = _repositoryManager.Bid.GetActiveBid(lotId);
@@ -41,7 +48,7 @@ namespace Services.Auction
             {
                 if (activeBid.BuyerId == bidderId)
                 {
-                    throw new BadRequestException("You have already placed a bet");
+                    return BaseResponse.Fail(ErrorCode.AlreadyPlacedBetError);
                 }
 
                 activeBid.BidStatus = BidStatus.Outbid;
@@ -58,51 +65,31 @@ namespace Services.Auction
             await _repositoryManager.Bid.CreateAsync(newBid);
 
             await _repositoryManager.SaveAsync();
+
+            return BaseResponse.Success();
         }
 
-        public async Task ChangeLotStatus(int lotId, JsonPatchDocument<Lot> jsonPatch)
+        public async Task<BaseResponse> GetCarsAsync(CarParameters carParameters)
         {
-            var lot = await _repositoryManager.Lot.GetAsync(lotId);
+            var cars = await _repositoryManager.Car.GetListCarsAsync(carParameters);
 
-            if (lot == null)
-            {
-                throw new NotFoundException($"Lot with id {lotId} is not found");
-            }
+            var carDtoList = _mapper.Map<List<CarDto>>(cars);
 
-            jsonPatch.ApplyTo(lot);
-
-            if (lot.Status == LotStatus.Approved)
-            {
-                lot.StartDate = DateTime.Now;
-                lot.EndDate = DateTime.Now.AddHours(24);
-                BackgroundJob.Schedule(() => ChooseWinner(lotId), TimeSpan.FromHours(24));
-            }
-
-            await _repositoryManager.SaveAsync();
+            return BaseResponse.Success(carDtoList);
         }
 
-        public void ChooseWinner(int lotId)
+        public async Task<BaseResponse> GetCarAsync(int carId)
         {
-            var lot = _repositoryManager.Lot.Get(lotId);
+            var car = await _repositoryManager.Car.GetAsync(carId);
 
-            if (lot == null)
+            if (car == null)
             {
-                return;
+                return BaseResponse.Fail(ErrorCode.CarNotFound);
             }
 
-            lot.Status = LotStatus.Ended;
+            var carDto = _mapper.Map<CarDto>(car);
 
-            var winningBid = _repositoryManager.Bid.GetActiveBid(lotId);
-
-            if (winningBid == null)
-            {
-                _repositoryManager.Save();
-                return;
-            }
-
-            winningBid.BidStatus = BidStatus.Won;
-
-            _repositoryManager.Save();
+            return BaseResponse.Success(carDto);
         }
     }
 }
