@@ -17,13 +17,25 @@ namespace CarAuctionWebAPI.Extensions
             return baseResponse.ErrorCode switch
             {
                 ErrorCode.Success => expectedResponse,
-                ErrorCode.LotNotFoundError or 
-                ErrorCode.AlreadyPlacedBetError or
-                ErrorCode.CarNotFound or
-                ErrorCode.WrongUsernameOrPasswordError => controller.BadRequest(baseResponse),
-                ErrorCode.NoPermissionsError => controller.StatusCode(StatusCodes.Status403Forbidden, baseResponse),
+                var c when BadRequestCodes.Contains(c) => controller.BadRequest(baseResponse),
+                var c when NoPermissionsCodes.Contains(c) => controller.StatusCode(StatusCodes.Status403Forbidden, baseResponse),
                 _ => controller.StatusCode(StatusCodes.Status500InternalServerError, baseResponse)
             };
         }
+
+
+        private static readonly ErrorCode[] BadRequestCodes =
+        {
+            ErrorCode.LotNotFoundError,
+            ErrorCode.CarNotFound,
+            ErrorCode.AlreadyPlacedBetError,
+            ErrorCode.WrongUsernameOrPasswordError,
+            ErrorCode.RegistrationError
+        };
+
+        private static readonly ErrorCode[] NoPermissionsCodes =
+        {
+            ErrorCode.NoPermissionsError
+        };
     }
 }

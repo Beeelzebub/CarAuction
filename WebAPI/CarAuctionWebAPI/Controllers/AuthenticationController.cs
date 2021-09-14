@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using CarAuctionWebAPI.Extensions;
 using DTO;
+using DTO.Response;
 using Enums;
 using Hangfire.Storage.Monitoring;
 using Swashbuckle.AspNetCore.Annotations;
@@ -23,8 +24,8 @@ namespace CarAuctionWebAPI.Controllers
         [HttpPost]
         [Route("api/login")]
         [SwaggerOperation(Summary = "Authentication user")]
-        [SwaggerResponse(200, "Authentication user")]
-        [SwaggerResponse(401, "Authentication user failed")]
+        [SwaggerResponse(200, "Authentication user", typeof(Response<JwtTokenDto>))]
+        [SwaggerResponse(400, "Authentication user failed", typeof(Response))]
         public async Task<IActionResult> Login([FromBody] UserAuthenticationDto userForAuthentication)
         {
             var result = await _authenticationService.ValidateUser(userForAuthentication);
@@ -40,9 +41,8 @@ namespace CarAuctionWebAPI.Controllers
         [HttpPost]
         [Route("api/register")]
         [SwaggerOperation(Summary = "Registration user")]
-        [SwaggerResponse(400, "If the user is registered")]
-        [SwaggerResponse(401, "Registration user failed")]
-        [SwaggerResponse(200, "Registration success")]
+        [SwaggerResponse(200, "Registration success", typeof(Response<JwtTokenDto>))]
+        [SwaggerResponse(400, "If the user is registered", typeof(Response))]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationDto userForRegistrationDto)
         { 
             var result = await _authenticationService.RegistrationAsync(userForRegistrationDto, ModelState);

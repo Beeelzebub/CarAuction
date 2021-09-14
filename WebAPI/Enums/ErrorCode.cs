@@ -11,10 +11,10 @@ namespace Enums
         Success,
         LotNotFoundError,
         CarNotFound,
-        NoPermissionsError,
         AlreadyPlacedBetError,
         WrongUsernameOrPasswordError,
         RegistrationError,
+        NoPermissionsError,
         InternalServerError
     }
 }

@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using AutoMapper;
 using CarAuctionWebAPI.Extensions;
-using CarAuctionWebAPI.Filters;
 using DTO;
+using DTO.Response;
 using Entity.Models;
-using Hangfire;
 using Microsoft.AspNetCore.Authorization;
-using Repositories;
-using Services.Auction;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.JsonPatch;
 using Services.Administration;
@@ -22,20 +17,16 @@ namespace CarAuctionWebAPI.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IRepositoryManager _repository;
         private readonly IAdministrationService _administrationService;
 
-        public AdminController(IMapper mapper, IRepositoryManager repository, IAdministrationService administrationService)
+        public AdminController(IAdministrationService administrationService)
         {
-            _mapper = mapper;
-            _repository = repository;
             _administrationService = administrationService;
         }
 
         [HttpGet("cars")]
-        [SwaggerOperation(Summary = "Get all the user's cars that have the status Pending")]
-        [SwaggerResponse(200, "Get all cars ")]
+        [SwaggerOperation(Summary = "Get all cars that have the status Pending")]
+        [SwaggerResponse(200, "Get all cars ", typeof(Response<List<CarDto>>))]
         public async Task<IActionResult> GetCars()
         {
             var result = await _administrationService.GetPendingCarsAsync();
@@ -44,9 +35,9 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpGet("cars/{id}")]
-        [SwaggerOperation(Summary = "Get one the user's car that have the status Pending")]
-        [SwaggerResponse(400, "If car not found")]
-        [SwaggerResponse(200, "Get one car")]
+        [SwaggerOperation(Summary = "Get one car that have the status Pending")]
+        [SwaggerResponse(200, "Get one car", typeof(Response<CarDto>))]
+        [SwaggerResponse(400, "If car not found", typeof(Response))]
         public async Task<IActionResult> GetCar(int id)
         {
             var result = await _administrationService.GetPendingCarAsync(id);
@@ -55,9 +46,9 @@ namespace CarAuctionWebAPI.Controllers
         }
 
         [HttpPatch("cars/{lotId}")]
-        [SwaggerOperation(Summary = "Change status car")]
-        [SwaggerResponse(400, "If car not found")]
-        [SwaggerResponse(200, "Change lot status")]
+        [SwaggerOperation(Summary = "Change car status")]
+        [SwaggerResponse(200, "Change lot status", typeof(Response))]
+        [SwaggerResponse(400, "If car not found", typeof(Response))]
         public async Task<IActionResult> ChangeLotStatus(int lotId, [FromBody] JsonPatchDocument<Lot> patchDoc)
         {
             var result = await _administrationService.ChangeLotStatusAsync(lotId, patchDoc);
