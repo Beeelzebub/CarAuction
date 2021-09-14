@@ -12,6 +12,7 @@ export class CarAuctionComponent implements OnInit {
 
   constructor(private service: MainService) { }
   carsList:Car[];
+  carListCount: boolean;
 
   ngOnInit(): void {
     this.refreshList();
@@ -21,6 +22,13 @@ export class CarAuctionComponent implements OnInit {
   refreshList(){
     this.service.listCars().subscribe(data =>{
       this.carsList = data;
+      
+      if(this.carsList.length < 1){
+        this.carListCount = false;
+      }
+      else{
+        this.carListCount = true;
+      }
     });
   }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../shared/services/profile.service';
+import {Lot} from 'src/app/shared/models/enums/lot';
 
 @Component({
   selector: 'app-my-cars',
@@ -13,11 +14,16 @@ export class MyCarsComponent implements OnInit {
   carsList:any=[];
 
   ngOnInit(): void {
-    this.refreshList();
+    this.allClick();
   }
 
-  refreshList(){
+  allClick(){
     this.service.GetUserCars().subscribe(data =>{
+      this.carsList = data;
+    });
+  }
+  filterClick(status: Lot){
+    this.service.GetUserCarsWithStatus(status).subscribe(data =>{
       this.carsList = data;
     });
   }

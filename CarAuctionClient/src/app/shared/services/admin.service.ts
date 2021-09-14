@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Lot } from '../models/enums/lot';
@@ -12,23 +12,29 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   readonly apiURL = "https://localhost:44364/api";
-
-  getCarsAdmin(): Observable<any>{
+  getToken(){
     var currentUser = JSON.parse(localStorage.getItem('currentUser') || '');
     var token = currentUser.token;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(this.apiURL + '/Admin/cars/', { headers: headers })
+    return headers;
   }
-  setStatusLot(id: number, status: Lot){
-    console.log(id, status);
-    console.log(this.apiURL + '/admin/cars/' + id);
-    return this.http.put(this.apiURL + '/admin/cars/' + id, status);
+
+
+
+  getCarsAdmin(): Observable<any>{
+    return this.http.get(this.apiURL + '/Admin/cars/', { headers: this.getToken() })
+  }
+
+  setStatusLot(id: number, newStatus: Lot){ 
+    const body = [{
+      op: "replace",
+      path: "/status",
+      value: newStatus
+  }];
+    this.http.patch(this.apiURL + '/admin/cars/' + id, body, {headers: this.getToken()}).subscribe();
   }
 
   getOneCarForAdmin(id: number): Observable<any>{
-    var currentUser = JSON.parse(localStorage.getItem('currentUser') || '');
-    var token = currentUser.token;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(this.apiURL + '/admin/cars/' + id,{ headers: headers })
+    return this.http.get(this.apiURL + '/admin/cars/' + id,{ headers: this.getToken() })
   }
 }
