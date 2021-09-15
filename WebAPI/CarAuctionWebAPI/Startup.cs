@@ -35,7 +35,7 @@ namespace CarAuctionWebAPI
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
             services.AddHangfireServer();
             services.AddFilters();
-            services.AddTransient<ExceptionHandlingMiddleware>();
+            //services.AddTransient<ExceptionHandlingMiddleware>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -51,7 +51,7 @@ namespace CarAuctionWebAPI
                 });
             }
 
-            app.UseMiddleware<ExceptionHandlingMiddleware>();
+            //app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseCors(options =>
                 options.WithOrigins("http://localhost:4200")
