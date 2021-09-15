@@ -23,12 +23,12 @@ export class ProfileService {
     return headers;
   }
   
-  GetUserCars(){
+  GetUserCars(): Observable<any>{
    
     return this.http.get(this.apiURL + '/profile/myCars', { headers: this.getToken() });
   }
 
-  GetUserCarsWithStatus(status: Lot){
+  GetUserCarsWithStatus(status: Lot): Observable<any>{
     return this.http.get(this.apiURL + '/profile/myCars', {params:{status:status}, headers: this.getToken()});
   }
 

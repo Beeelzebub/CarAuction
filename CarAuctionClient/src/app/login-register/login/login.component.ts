@@ -38,14 +38,13 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 data => {
                     this.token = data
-                    this.tokenString = this.token.token
+                    this.tokenString = this.token.data.token
                     localStorage.setItem('currentUser', JSON.stringify({ token: this.tokenString, name: this.tokenString }));
                     if (val.userName === "admin") {
                       this.router.navigate(['admin/cars']);
                     }
                     else{
                       this.router.navigate(['']);
-                
                     }
                 }
             );

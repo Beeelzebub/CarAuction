@@ -28,13 +28,13 @@ export class CarAuctionComponent implements OnInit {
   ngOnInit(): void {
     this.refreshList();
     this.getModelsWithBrands();
-    var currentUser = JSON.parse(localStorage.getItem('currentUser') || '');
   }
 
 
   refreshList(){
     this.service.listCars().subscribe(data =>{
-      this.carsList = data;
+      this.carsList = data.data;
+
       
       if(this.carsList.length < 1){
         this.carListCount = false;
@@ -42,13 +42,14 @@ export class CarAuctionComponent implements OnInit {
       else{
         this.carListCount = true;
       }
+    console.log(data);
     });
     
   }
   getCarByCondition(modelName: string, brandName:string, minYear:number, maxYear: number){
     this.carParam = {ModelName: modelName, BrandName: brandName, minYear: minYear, maxYear: maxYear}; 
     this.service.listCarsByCondition(this.carParam).subscribe(data =>{
-      this.carsList = data;
+      this.carsList = data.data;
       
       if(this.carsList.length < 1){
         this.carListCount = false;
@@ -56,14 +57,13 @@ export class CarAuctionComponent implements OnInit {
       else{
         this.carListCount = true;
       }
-      console.log(minYear, maxYear)
     });
     
   }
   getModelsWithBrands(){
     this.service.getModelsWithBrands().subscribe(data=>{
-       this.models = data.modelNames;
-       this.brands = data.brandNames;
+       this.models = data.data.modelNames;
+       this.brands = data.data.brandNames;
        
     });
   }

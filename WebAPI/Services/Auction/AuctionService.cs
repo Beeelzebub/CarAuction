@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -90,6 +91,17 @@ namespace Services.Auction
             var carDto = _mapper.Map<CarDto>(car);
 
             return BaseResponse.Success(carDto);
+        }
+
+        public async Task<BaseResponse> GetModelsWithBrands()
+        {
+            var models = await _repositoryManager.GetRepositoryByEntity<Model>().GetListAsync();
+            var brands = await _repositoryManager.GetRepositoryByEntity<Brand>().GetListAsync();
+
+            var returnModels = models.Select(n => n.Name);
+            var returnBrands = brands.Select(n => n.BrandName);
+            var returnData = new BrandModelDto { BrandNames = returnBrands, ModelNames = returnModels };
+            return BaseResponse.Success(returnData);
         }
     }
 }

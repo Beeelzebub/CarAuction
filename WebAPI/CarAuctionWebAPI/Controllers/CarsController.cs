@@ -44,14 +44,9 @@ namespace CarAuctionWebAPI.Controllers
         [SwaggerResponse(200, "Get all cars")]
         public async Task<IActionResult> GetModels()
         {
-            var models = await _repository.GetRepositoryByEntity<Model>().GetListAsync();
-            var brands = await _repository.GetRepositoryByEntity<Brand>().GetListAsync();
+            var result = await _auctionService.GetModelsWithBrands();
 
-            var returnModels = models.Select(n=>n.Name); 
-            var returnBrands = brands.Select(n=>n.BrandName);
-            var returnData = new BrandModelDto {BrandNames = returnBrands, ModelNames = returnModels};
-
-            return Ok(returnData);
+            return this.Answer(result, Ok(result));
         }
 
 

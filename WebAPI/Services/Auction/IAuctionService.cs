@@ -12,5 +12,7 @@ namespace Services.Auction
         Task<BaseResponse> BidAsync(int lotId, ClaimsPrincipal bidderClaims);
         Task<BaseResponse> GetCarsAsync(CarParameters carParameters);
         Task<BaseResponse> GetCarAsync(int carId);
+        Task<BaseResponse> GetModelsWithBrands();
+
     }
 }

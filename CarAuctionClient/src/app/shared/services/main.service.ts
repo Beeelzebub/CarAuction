@@ -12,10 +12,10 @@ export class MainService {
 
   readonly apiURL = "https://localhost:44364/api";
 
-  listCars(): Observable<any[]>{
+  listCars(): Observable<any>{
     return this.http.get<any>(this.apiURL + '/Cars');
   }
-  listCarsByCondition(carParam:CarsParameters): Observable<any[]>{
+  listCarsByCondition(carParam:CarsParameters): Observable<any>{
     return this.http.get<any>(this.apiURL + '/Cars', {params:{
       modelName: carParam.ModelName, 
       brandName: carParam.BrandName,
