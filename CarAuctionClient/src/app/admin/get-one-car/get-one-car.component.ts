@@ -3,6 +3,7 @@ import { Car } from 'src/app/shared/models/car.model';
 import { AdminService } from 'src/app/shared/services/admin.service'; 
 import { ActivatedRoute } from '@angular/router';
 import { Lot } from 'src/app/shared/models/enums/lot';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-get-one-car',
@@ -11,7 +12,7 @@ import { Lot } from 'src/app/shared/models/enums/lot';
 })
 export class GetOneCarComponent implements OnInit {
 
-  constructor(public service: AdminService, private _activatedRoute: ActivatedRoute) { }
+  constructor(public service: AdminService, private _activatedRoute: ActivatedRoute, private router: Router) { }
 
   car: Car;
   
@@ -32,7 +33,15 @@ export class GetOneCarComponent implements OnInit {
     )
   }
   approvedClick(){
-    this.service.setStatusLot(this.id, Lot.Approved);
+    this.service.setStatusLot(this.id, Lot.Approved).subscribe(data=>{
+      this.router.navigate(['admin/cars']);
+    });
+    
+  }
+  deniedClick(){
+    this.service.setStatusLot(this.id, Lot.Denied).subscribe(data=>{
+      this.router.navigate(['admin/cars']);
+    });
     
   }
 }

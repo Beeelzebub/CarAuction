@@ -49,16 +49,16 @@ namespace Repositories
             var query = _bdContext.Cars
                 .Include(m => m.Model)
                 .ThenInclude(b => b.Brand)
-                .Where(l => l.Lot.Status == LotStatus.Approved);
+                .Where(l => l.Lot.Status == LotStatus.Approved && (l.Year >= carParameters.MinYear && l.Year <= carParameters.MaxYear));
 
-            if (carParameters.BrandId != 0)
+            if (!string.IsNullOrEmpty(carParameters.BrandName))
             {
-                query = query.Where(l => l.Model.BrandId == carParameters.BrandId);
+                query = query.Where(l => l.Model.Brand.BrandName == carParameters.BrandName);
             }
 
-            if (carParameters.ModelId != 0)
+            if (!string.IsNullOrEmpty(carParameters.ModelName))
             {
-                query = query.Where(l => l.Model.Id == carParameters.ModelId);
+                query = query.Where(l => l.Model.Name == carParameters.ModelName);
             }
 
             var cars = await query.ToListAsync();

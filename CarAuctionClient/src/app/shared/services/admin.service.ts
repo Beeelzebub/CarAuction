@@ -31,7 +31,7 @@ export class AdminService {
       path: "/status",
       value: newStatus
   }];
-    this.http.patch(this.apiURL + '/admin/cars/' + id, body, {headers: this.getToken()}).subscribe();
+    return this.http.patch(this.apiURL + '/admin/cars/' + id, body, {headers: this.getToken()});
   }
 
   getOneCarForAdmin(id: number): Observable<any>{

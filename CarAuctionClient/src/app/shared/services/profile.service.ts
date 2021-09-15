@@ -16,24 +16,23 @@ export class ProfileService {
   readonly apiURL = "https://localhost:44364/api";
   
 
+  getToken(){
+    var currentUser = JSON.parse(localStorage.getItem('currentUser') || '');
+    var token = currentUser.token;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return headers;
+  }
+  
   GetUserCars(){
-    
-    var currentUser = JSON.parse(localStorage.getItem('currentUser') || '');
-    var token = currentUser.token;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(this.apiURL + '/profile/myCars', { headers: headers });
+   
+    return this.http.get(this.apiURL + '/profile/myCars', { headers: this.getToken() });
   }
+
   GetUserCarsWithStatus(status: Lot){
-    
-    var currentUser = JSON.parse(localStorage.getItem('currentUser') || '');
-    var token = currentUser.token;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(this.apiURL + '/profile/myCars', {params:{status:status}, headers: headers});
+    return this.http.get(this.apiURL + '/profile/myCars', {params:{status:status}, headers: this.getToken()});
   }
+
   addCar(model: ModelForCreatingLot){
-    var currentUser = JSON.parse(localStorage.getItem('currentUser') || '');
-    var token = currentUser.token;
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post(this.apiURL + '/Profile/AddLot', model, {headers: headers}) ;
+    return this.http.post(this.apiURL + '/Profile/AddLot', model, {headers: this.getToken()}) ;
   }
 }

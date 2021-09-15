@@ -1,4 +1,48 @@
-
+<div>
+  <div class="d-flex justify-content-center mt-3">
+    <div class="row">
+      <div class="col-lg-2 mr-5">
+        <label class="mb-2">Бренд</label>
+        <select class="form-control" [(ngModel)]="brandName">
+          <option ></option>
+          <option *ngFor="let data of brands">
+              {{data}}
+          </option>
+        </select>
+      </div>
+      <div class="col-lg-2 mr-5">
+        <label class="mb-2">Модель</label>
+        <select class="form-control" [(ngModel)]="modelName">
+          <option></option>
+          <option  *ngFor="let data of models">
+              {{data}}
+          </option>
+        </select>
+      </div>
+      
+      <div class="col-lg-6 row">
+        <label class="mb-2">Год</label>
+        <div class="col-lg-3 mr-5">
+          
+          <input type="number" class="form-control" placeholder="Минимальный год" [(ngModel)]="minYear">
+        </div>
+        <div class="col-lg-3 mr-5">
+          <input type="number" class="form-control" placeholder="Максимальный год" [(ngModel)]="maxYear">
+        </div>
+        <div class="col-lg-3">
+          <button class="btn btn-primary" (click)="getCarByCondition(modelName,brandName,minYear,maxYear)">Фильтр</button>
+        </div>
+        <div class="col-lg-3">
+          <button class="btn btn-primary" (click)="dropClick()">Сброс</button>
+        </div>
+      </div>
+      
+     
+     
+    </div>
+  </div>
+  
+</div>
 
 
 <div *ngIf="carListCount; then thenBlock else elseBlock"></div>
@@ -27,6 +71,7 @@
 <ng-template #elseBlock>
   <h1 class="text-center">Cars Not Found</h1>
 </ng-template>
+
 
     
 

@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
@@ -41,6 +42,21 @@ namespace CarAuctionWebAPI.Controllers
 
             return Ok(returnData);
         }
+        [HttpGet("models")]
+        [SwaggerOperation(Summary = "Get all cars")]
+        [SwaggerResponse(200, "Get all cars")]
+        public async Task<IActionResult> GetModels()
+        {
+            var models = await _repository.GetRepositoryByEntity<Model>().GetListAsync();
+            var brands = await _repository.GetRepositoryByEntity<Brand>().GetListAsync();
+
+            var returnModels = models.Select(n=>n.Name); 
+            var returnBrands = brands.Select(n=>n.BrandName);
+            var returnData = new BrandModelDto {BrandNames = returnBrands, ModelNames = returnModels};
+
+            return Ok(returnData);
+        }
+
 
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Get one car")]

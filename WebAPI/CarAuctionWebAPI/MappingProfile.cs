@@ -23,6 +23,10 @@ namespace CarAuctionWebAPI
             CreateMap<LotCreationDto, Car>();
             CreateMap<Bid, BidsDto>();
             CreateMap<LotCreationDto, Car>();
+            CreateMap<Brand, BrandModelDto>().ForMember(opt => opt.BrandNames,
+                mn => mn.MapFrom(x => x.BrandName));
+            CreateMap<Model, BrandModelDto>().ForMember(opt => opt.ModelNames,
+                mn => mn.MapFrom(x => x.Name));
         }
     }
 }
