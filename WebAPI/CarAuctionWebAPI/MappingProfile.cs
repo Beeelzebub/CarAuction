@@ -15,6 +15,23 @@ namespace CarAuctionWebAPI
                     mn => mn.MapFrom(x => x.Model.Name))
                 .ForMember(opt => opt.BrandName,
                     bn => bn.MapFrom(x => x.Model.Brand.BrandName));
+            CreateMap<Car, GetOneCarDto>()
+                .ForMember(opt => opt.ModelName,
+                    mn => mn.MapFrom(x => x.Model.Name))
+                .ForMember(opt => opt.BrandName,
+                    bn => bn.MapFrom(x => x.Model.Brand.BrandName))
+                .ForMember(opt => opt.CurrentCost,
+                    bn => bn.MapFrom(x => x.Lot.CurrentCost))
+                .ForMember(opt => opt.EndDate,
+                bn => bn.MapFrom(x => x.Lot.EndDate))
+                .ForMember(opt => opt.StartDate,
+                    bn => bn.MapFrom(x => x.Lot.StartDate))
+                .ForMember(opt => opt.MinimalStep,
+                    bn => bn.MapFrom(x => x.Lot.MinimalStep))
+                .ForMember(opt => opt.RedemptionPrice,
+                    bn => bn.MapFrom(x => x.Lot.RedemptionPrice))
+                .ForMember(opt => opt.StartingPrice,
+                    bn => bn.MapFrom(x => x.Lot.StartingPrice));
 
             CreateMap<LotCreationDto, Lot>()
                 .ForMember(m => m.CurrentCost,

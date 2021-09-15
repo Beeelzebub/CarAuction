@@ -28,8 +28,21 @@ export class GetCarComponent implements OnInit {
 
     this.service.getOneCar(id).subscribe(
       data=>
-      this.car= data
+      this.car= data.data
     )
+  }
+  clickPlaceBid(id:number){
+    
+    this.service.placeBid(id).subscribe(
+      data=>{},
+      error=>{
+        console.log(`error status : ${error.error.errorCode}`);
+        if(error.status == 400){
+          confirm(`fuck, status code: ${error.error.errorCode}!!!!!!`);
+        }
+        
+      }
+    );
   }
 
 

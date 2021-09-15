@@ -39,10 +39,10 @@ namespace CarAuctionWebAPI.Controllers
 
             return this.Answer(result, Ok(result));
         }
-        [HttpGet("models")]
-        [SwaggerOperation(Summary = "Get all cars")]
-        [SwaggerResponse(200, "Get all cars")]
-        public async Task<IActionResult> GetModels()
+        [HttpGet("/api/GetModelsWithBrands")]
+        [SwaggerOperation(Summary = "Get models with brands")]
+        [SwaggerResponse(200, "Get models with brands")]
+        public async Task<IActionResult> GetModelsWithBrands()
         {
             var result = await _auctionService.GetModelsWithBrands();
 

@@ -7,5 +7,11 @@ export class Car {
     brandName: string = '';
     carBody: string = '';
     driveUnit: string = '';
+    startDate: Date;
+    endDate: Date;
+    minimalStep: number;
+    startingPrice: number;
+    currentCost: number;
+    redemptionPrice:number;
 
 }

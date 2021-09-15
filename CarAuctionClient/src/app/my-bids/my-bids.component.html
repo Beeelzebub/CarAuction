@@ -1,1 +1,21 @@
-<p>my-bids works!</p>
+
+<div class="d-flex justify-content-center">
+    <div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Статус ставки</th>
+                <th scope="col">Id лота</th>
+              </tr>
+            </thead>
+            <tbody *ngFor = "let data of bids">
+              <tr>
+                <td scope="row">{{data.bidStatus}}</td>
+                <td scope="row">{{data.lotId}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    
+</div>
+

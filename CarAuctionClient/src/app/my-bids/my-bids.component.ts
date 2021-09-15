@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfileService } from '../shared/services/profile.service';
 
 @Component({
   selector: 'app-my-bids',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyBidsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: ProfileService) { }
+
+  bids:any[];
 
   ngOnInit(): void {
+    this.getBids();
   }
+
+  getBids(){
+    this.service.getBids().subscribe(data=>{
+      console.log(data.data);
+      this.bids = data.data;
+    });
+  }
+
 
 }

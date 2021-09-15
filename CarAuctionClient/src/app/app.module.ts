@@ -16,6 +16,7 @@ import { GetCarComponent } from './car-auction/get-car/get-car.component';
 import { AdminComponent } from './admin/admin.component';
 import { GetOneCarComponent } from './admin/get-one-car/get-one-car.component';
 import { AddCarComponent } from './my-cars/add-car/add-car.component';
+import { GetOneCarProfileComponent } from './my-cars/get-one-car-profile/get-one-car-profile.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AddCarComponent } from './my-cars/add-car/add-car.component';
     GetCarComponent,
     AdminComponent,
     GetOneCarComponent,
-    AddCarComponent
+    AddCarComponent,
+    GetOneCarProfileComponent
   ],
   imports: [
     BrowserModule,

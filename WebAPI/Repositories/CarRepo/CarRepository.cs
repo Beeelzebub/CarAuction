@@ -31,6 +31,13 @@ namespace Repositories
         {
             return await _bdContext.Cars.Where(sl => sl.Lot.Status == status).ToListAsync();
         }
+        public async Task<Car> GetCarAsync(int id)
+        {
+            return await _bdContext.Cars.Include(l=>l.Lot)
+                .Include(m=>m.Model)
+                .ThenInclude(b=>b.Brand)
+                .SingleOrDefaultAsync(c => c.Id.Equals(id));
+        }
 
         public async Task<IEnumerable<Car>> GetListCarsAsync(CarParameters carParameters)
         {

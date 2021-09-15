@@ -42,7 +42,6 @@ export class CarAuctionComponent implements OnInit {
       else{
         this.carListCount = true;
       }
-    console.log(data);
     });
     
   }

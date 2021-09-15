@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace DTO
 {
     public class CarDto
@@ -12,6 +14,6 @@ namespace DTO
 
         public string CarBody { get; set; }
         public string DriveUnit { get; set; }
-        
+
     }
 }

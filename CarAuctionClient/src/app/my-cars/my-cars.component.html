@@ -38,5 +38,9 @@
             <h6>Тип привода: {{data.driveUnit}}</h6>
           </div> 
         </div>
+        
+      <div class="col-lg-3 mt-3">
+        <button class="btn btn-outline-primary" [routerLink] = "['/myCars', (data.id), 'info']">Подробнее</button>
+      </div>
       </div>
 </div>

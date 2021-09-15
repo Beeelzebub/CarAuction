@@ -81,14 +81,14 @@ namespace Services.Auction
 
         public async Task<BaseResponse> GetCarAsync(int carId)
         {
-            var car = await _repositoryManager.Car.GetAsync(carId);
+            var car = await _repositoryManager.Car.GetCarAsync(carId);
 
             if (car == null)
             {
                 return BaseResponse.Fail(ErrorCode.CarNotFound);
             }
 
-            var carDto = _mapper.Map<CarDto>(car);
+            var carDto = _mapper.Map<GetOneCarDto>(car);
 
             return BaseResponse.Success(carDto);
         }
