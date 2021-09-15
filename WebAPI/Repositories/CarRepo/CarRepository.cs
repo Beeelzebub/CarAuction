@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DTO;
 using Entity;
 using Entity.Models;
 using Entity.RequestFeatures;
+using Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
@@ -20,18 +20,6 @@ namespace Repositories
         {
             _bdContext = bdContext;
             _mapper = mapper;
-        }
-
-        public void AddCar(LotCreationDto carDtoForCreation, string userId)
-        {
-            var lot = _mapper.Map<Lot>(carDtoForCreation);
-            lot.SellerId = userId;
-            lot.CurrentCost = lot.StartingPrice;
-
-            var car = _mapper.Map<Car>(carDtoForCreation);
-            car.Lot = lot;
-
-            _bdContext.Cars.Add(car);
         }
 
         public async Task<Car> GetCarByUserAsync(int id, string idUser)
@@ -79,5 +67,8 @@ namespace Repositories
 
             return PagedList<Car>.ToPagedList(cars, carsParametersInProfile.PageNumber, carsParametersInProfile.PageSize);
         }
+
+        public override async Task<Car> GetAsync(int id) =>
+            await _bdContext.Cars.Include(c => c.Lot).Include(c => c.Model).ThenInclude(m => m.Brand).FirstOrDefaultAsync(c => c.Id == id);
     }
 }

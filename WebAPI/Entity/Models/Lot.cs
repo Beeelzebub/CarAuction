@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Enums;
 
 namespace Entity.Models
 {
@@ -17,13 +18,5 @@ namespace Entity.Models
         public string SellerId { get; set; } 
         public LotStatus Status { get; set; }
         public ICollection<Bid> Bids { get; set; } = new List<Bid>();
-    }
-
-    public enum LotStatus
-    {
-        Pending,
-        Approved,
-        Denied,
-        Ended
     }
 }

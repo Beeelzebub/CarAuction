@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
+﻿using System.Collections.Generic;
 using DTO;
-using Entity.Models;
 using Entity.RequestFeatures;
-using Microsoft.AspNetCore.Identity;
-using Repositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.Profile;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Threading.Tasks;
+using CarAuctionWebAPI.Extensions;
+using DTO.Response;
 
 namespace CarAuctionWebAPI.Controllers
 {
@@ -27,54 +25,54 @@ namespace CarAuctionWebAPI.Controllers
 
         [HttpPost("AddLot")]
         [SwaggerOperation(Summary = "Adding a lot")]
-        [SwaggerResponse(201, "Lot has been added")]
+        [SwaggerResponse(201, "Lot has been added", typeof(Response))]
         public async Task<IActionResult> AddLot([FromBody] LotCreationDto lotCreationDto)
         {
-            await _profileService.AddLotAsync(lotCreationDto, User);
+            var result = await _profileService.AddLotAsync(lotCreationDto, User);
 
-            return StatusCode(201);
+            return this.Answer(result, StatusCode(201, result));
         }
-        
+
         [HttpGet("MyCars")]
         [SwaggerOperation(Summary = "Show all user's cars")]
-        [SwaggerResponse(200, "Get user's cars")]
+        [SwaggerResponse(200, "Get user's cars", typeof(Response<List<CarDto>>))]
         public async Task<IActionResult> GetCarsForUser([FromQuery] CarsParametersInProfile carsParametersInProfile)
         {
-            var returnData = await _profileService.GetUsersCarsAsync(carsParametersInProfile, User);
+            var result = await _profileService.GetUsersCarsAsync(carsParametersInProfile, User);
 
-            return Ok(returnData);
+            return this.Answer(result, Ok(result));
         }
 
         [HttpDelete("MyCars/{id}")]
         [SwaggerOperation(Summary = "Delete user's lot")]
-        [SwaggerResponse(400, "Lot not found")]
-        [SwaggerResponse(200, "Lot has been deleted")]
+        [SwaggerResponse(200, "Lot has been deleted", typeof(Response))]
+        [SwaggerResponse(400, "Lot not found", typeof(Response))]
         public async Task<IActionResult> RemoveLot(int id)
         {
-            await _profileService.RemoveLotAsync(id, User);
+            var result = await _profileService.RemoveLotAsync(id, User);
 
-            return Ok();
+            return this.Answer(result, Ok(result));
         }
 
         [HttpGet("MyCars/{id}")]
         [SwaggerOperation(Summary = "Show one user's cars")]
-        [SwaggerResponse(400, "Car not found")]
-        [SwaggerResponse(200, "Get user one car")]
+        [SwaggerResponse(200, "Get user one car", typeof(Response<CarDto>))]
+        [SwaggerResponse(400, "Car not found", typeof(Response))]
         public async Task<IActionResult> GetUsersCarInfo(int id)
         {
-            var returnData = await _profileService.GetUsersCarInfoAsync(id, User);
+            var result = await _profileService.GetUsersCarInfoAsync(id, User);
 
-            return Ok(returnData);
+            return this.Answer(result, Ok(result));
         }
 
         [HttpGet("MyBids")]
         [SwaggerOperation(Summary = "Show last user's bids")]
-        [SwaggerResponse(200, "Get user's bids")]
+        [SwaggerResponse(200, "Get user's bids", typeof(Response<List<BidsDto>>))]
         public async Task<IActionResult> GetUsersBids()
         {
-            var returnData = await _profileService.GetUsersBidsAsync(User);
-
-            return Ok(returnData);
+            var result = await _profileService.GetUsersBidsAsync(User);
+            
+            return this.Answer(result, Ok(result));
         }
     }
 }

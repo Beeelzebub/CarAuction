@@ -7,9 +7,12 @@ using DTO;
 using Entity.Models;
 using Entity.RequestFeatures;
 using System.Threading.Tasks;
+using CarAuctionWebAPI.Extensions;
 using CarAuctionWebAPI.Filters;
+using DTO.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.VisualBasic;
 using Repositories;
 using Services.Auction;
 using Swashbuckle.AspNetCore.Annotations;
@@ -20,27 +23,21 @@ namespace CarAuctionWebAPI.Controllers
     [ApiController]
     public class CarsController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IRepositoryManager _repository;
         private readonly IAuctionService _auctionService;
 
-        public CarsController(IMapper mapper, IRepositoryManager repository, IAuctionService auctionService) 
+        public CarsController(IAuctionService auctionService) 
         {
-            _mapper = mapper;
-            _repository = repository;
             _auctionService = auctionService;
         }
 
         [HttpGet]
         [SwaggerOperation(Summary = "Get all cars")]
-        [SwaggerResponse(200, "Get all cars")]
+        [SwaggerResponse(200, "Get all cars", typeof(Response<List<CarDto>>))]
         public async Task<IActionResult> GetCars([FromQuery] CarParameters carParameters)
         {
-            var cars = await _repository.Car.GetListCarsAsync(carParameters);
+            var result = await _auctionService.GetCarsAsync(carParameters);
 
-            var returnData = _mapper.Map<IEnumerable<CarDto>>(cars);
-
-            return Ok(returnData);
+            return this.Answer(result, Ok(result));
         }
         [HttpGet("models")]
         [SwaggerOperation(Summary = "Get all cars")]
@@ -60,31 +57,29 @@ namespace CarAuctionWebAPI.Controllers
 
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Get one car")]
-        [SwaggerResponse(400, "Car not found")]
-        [SwaggerResponse(200, "Get one cars")]
-        [ServiceFilter(typeof(ValidationFilterAttribute<Car>))]
-        public IActionResult GetCar(int id)
+        [SwaggerResponse(200, "Get one cars", typeof(Response<CarDto>))]
+        [SwaggerResponse(400, "Car not found", typeof(Response))]
+        public async Task<IActionResult> GetCar(int id)
         {
-            var car = HttpContext.Items["entity"] as Car;
+            var result = await _auctionService.GetCarAsync(id);
 
-            var returnData = _mapper.Map<CarDto>(car);
-
-            return Ok(returnData);
+            return this.Answer(result, Ok(result));
         }
 
         [HttpPost("{id}")]
         [Authorize]
         [SwaggerOperation(Summary = "Place a bet")]
-        [SwaggerResponse(400, "Lot not found")]
-        [SwaggerResponse(400, "If current user id and seller id equal that user cannot bet")]
-        [SwaggerResponse(400, "If bid user active that user cannot bet")]
-        [SwaggerResponse(200, "Bid is accepted")]
-        [ServiceFilter(typeof(ValidationFilterAttribute<Lot>))]
+        [SwaggerResponse(200, "Bid is accepted", typeof(Response))]
+        [SwaggerResponse(400, "Lot not found", typeof(Response))]
+        [SwaggerResponse(400, "If current user id and seller id equal that user cannot bet", typeof(Response))]
+        [SwaggerResponse(400, "If bid user active that user cannot bet", typeof(Response))]
         public async Task<IActionResult> Bid(int id)
         {
-            await _auctionService.BidAsync(id, User);
+            var result = await _auctionService.BidAsync(id, User);
 
-            return Ok("Your bid is accepted");
+            return this.Answer(result, Ok(result));
         }
     }
+
+    
 }

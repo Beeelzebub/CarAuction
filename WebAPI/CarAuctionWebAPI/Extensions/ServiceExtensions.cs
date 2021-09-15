@@ -14,6 +14,7 @@ using Repositories;
 using Services.Authentication;
 using Services.Auction;
 using CarAuctionWebAPI.Filters;
+using Services.Administration;
 using Services.Profile;
 
 namespace CarAuctionWebAPI.Extensions
@@ -79,6 +80,7 @@ namespace CarAuctionWebAPI.Extensions
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IAuctionService, AuctionService>();
             services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<IAdministrationService, AdministrationService>();
         }
 
         public static void AddFilters(this IServiceCollection services)

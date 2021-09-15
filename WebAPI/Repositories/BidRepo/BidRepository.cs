@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entity;
 using Entity.Models;
+using Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositories
