@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 
 namespace CarAuctionWebAPI
@@ -17,6 +18,11 @@ namespace CarAuctionWebAPI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                })
+                .UseNLog();
     }
 }

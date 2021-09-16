@@ -14,6 +14,7 @@ using Repositories;
 using Services.Authentication;
 using Services.Auction;
 using CarAuctionWebAPI.Filters;
+using NLog.Extensions.Logging;
 using Services.Administration;
 using Services.Profile;
 
@@ -64,7 +65,7 @@ namespace CarAuctionWebAPI.Extensions
             services.AddDbContext<CarAuctionContext>(options =>
                 options.UseLoggerFactory(LoggerFactory.Create(builder =>
                     {
-                        builder.AddConsole();
+                        builder.AddNLog();
                     }))
                     .UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly("Entity")));
