@@ -14,6 +14,9 @@ export class RegisterComponent implements OnInit {
 
   public form:FormGroup;
 
+  token:any;
+  tokenString: string;
+
   constructor(private fb:FormBuilder, public service: AuthService, private router: Router) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -31,15 +34,12 @@ export class RegisterComponent implements OnInit {
     if (val.name && val.userName && val.password) {
         this.service.registration(val.name, val.userName, val.password)
             .subscribe(
-                () => {
-                    console.log("User is register"); 
-                    if (val.userName === "admin") {
-                      this.router.navigate(['admin/cars']);
-                    }
-                    else{
-                      this.router.navigate(['']);
-                
-                    }
+                data => {
+                  this.token = data
+                  this.tokenString = this.token.data.token
+                  localStorage.setItem('currentUser', JSON.stringify({ token: this.tokenString, name: this.tokenString }));
+                  this.service.isAuthorithed = true;
+                  this.router.navigate(['']).then(()=>window.location.reload());
                 }
             );
     }

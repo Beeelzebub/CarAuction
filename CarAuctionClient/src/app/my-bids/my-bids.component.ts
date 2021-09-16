@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../shared/services/profile.service';
+import { BidDto } from '../shared/models/bid-dto.model';
 
 @Component({
   selector: 'app-my-bids',
@@ -10,7 +11,7 @@ export class MyBidsComponent implements OnInit {
 
   constructor(private service: ProfileService) { }
 
-  bids:any[];
+  bids:BidDto[];
 
   ngOnInit(): void {
     this.getBids();

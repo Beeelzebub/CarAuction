@@ -27,7 +27,11 @@ namespace Repositories
 
         public async Task<List<Bid>> GetBidsByUserAsync(string currentUserId)
         {
-            var bids = await _bdContext.Bids.Where(i => i.BuyerId.Equals(currentUserId)).ToListAsync();
+            var bids = await _bdContext.Bids.Include(l=>l.Lot)
+                .ThenInclude(c=>c.Car)
+                .ThenInclude(m=>m.Model)
+                .ThenInclude(b=>b.Brand)
+                .Where(i => i.BuyerId.Equals(currentUserId)).ToListAsync();
 
             var distinctBids = bids.GroupBy(x => x.LotId).Select(x => x.Last());
 

@@ -1,0 +1,28 @@
+<nav class="navbar  navbar-light bg-light">
+    <div class="">
+      <a class="navbar-brand m-3" routerLink ="">Главная</a>
+      <a class="navbar-brand" routerLink="myCars">Мои лоты</a>
+      <a class="navbar-brand" routerLink="myBids">Мои ставки</a>
+    </div>
+    <div>
+
+
+      <div *ngIf="service.isAuthorithed; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <a class="navbar-brand " routerLink="login">Войти</a>
+          <a class="navbar-brand m-3" routerLink="register">Регистрация</a>
+        </ng-template>
+        <ng-template #elseBlock>
+          <a class="navbar-brand m-3" (click)="service.logoutClick()">Выйти</a>
+</ng-template>
+
+  
+      
+      
+    </div>
+  </nav>
+  
+  
+  
+  
+<router-outlet></router-outlet>

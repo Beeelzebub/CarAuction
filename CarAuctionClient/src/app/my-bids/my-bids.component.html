@@ -1,21 +1,40 @@
 
-<div class="d-flex justify-content-center">
-    <div>
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Статус ставки</th>
-                <th scope="col">Id лота</th>
-              </tr>
-            </thead>
-            <tbody *ngFor = "let data of bids">
-              <tr>
-                <td scope="row">{{data.bidStatus}}</td>
-                <td scope="row">{{data.lotId}}</td>
-              </tr>
-            </tbody>
-          </table>
-    </div>
-    
-</div>
 
+
+<div class="d-flex justify-content-center" *ngFor = "let data of bids">
+  <div class="mt-5 border-bottom border-secondary bg-light">
+    <div class="row m-3">
+
+      <div class="col-lg-3">
+        <img  class="img-thumbnail" src= {{data.imageUrl}}/>
+      </div>
+
+      <div class="col-lg-3">
+        <h6> Бренд: {{data.brandName}}</h6>
+        <h6> Модель: {{data.modelName}}</h6>
+        <h6> Год: {{data.year}}</h6>
+        <h6>Тип топлива: {{data.fuel}}</h6>
+        <h6>Тип кузова: {{data.carBody}}</h6>
+        <h6>Тип привода: {{data.driveUnit}}</h6>
+        <div class="mt-5">
+          <h6>Начало аукциона: {{data.startDate | date:'medium'}}</h6>
+        <h6>Конец аукциона: {{data.endDate | date:'medium'}}</h6>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <h6>Минимальный шаг: {{data.minimalStep}}</h6>
+        <h6>Стартовая цена: {{data.startingPrice}}</h6>
+        <h6>Текущая цена: {{data.currentCost}}</h6>
+        <h6>Цена выкупа: {{data.redemptionPrice}}</h6>
+      </div>
+
+        
+
+      <div class="col-lg-3">
+          <h6 class="align-bottom">Статус ставки: {{data.bidStatus}}</h6>
+      </div>
+      
+   </div>
+ </div>
+</div>

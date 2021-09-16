@@ -40,15 +40,17 @@ export class LoginComponent implements OnInit {
                     this.token = data
                     this.tokenString = this.token.data.token
                     localStorage.setItem('currentUser', JSON.stringify({ token: this.tokenString, name: this.tokenString }));
+                    this.service.isAuthorithed = true;
                     if (val.userName === "admin") {
-                      this.router.navigate(['admin/cars']);
+                      this.router.navigate(['admin/cars']).then(()=>window.location.reload());
                     }
-                    else{
-                      this.router.navigate(['']);
-                    }
+                    else  this.router.navigate(['']).then(()=>window.location.reload());
+                    
+                    
                 }
             );
     } 
+    
     this.form.reset();
   }
 }
