@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginComponent } from '../login-register/login/login.component';
 import { AuthService } from '../shared/services/auth.service';
+import {MatDialog} from '@angular/material/dialog';
+import { RegisterComponent } from '../login-register/register/register.component';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +11,7 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor( public service: AuthService) { }
+  constructor( public service: AuthService,public dialog: MatDialog) { }
 
   
 
@@ -23,6 +26,12 @@ export class HeaderComponent implements OnInit {
       this.service.isAuthorithed = true;
     }
     else this.service.isAuthorithed= false;
+  }
+  openLogin(){
+    this.dialog.open(LoginComponent, {width:'500px'});
+  }
+  openRegister(){
+    this.dialog.open(RegisterComponent, {width:'500px'});
   }
   
 

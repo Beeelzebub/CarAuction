@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MainService } from 'src/app/shared/services/main.service'; 
 import { ActivatedRoute } from '@angular/router';
 import { Car } from 'src/app/shared/models/car.model';
+import {MatDialog} from '@angular/material/dialog';
+import { ModalWindowComponent } from './modal-window/modal-window.component';
 
 @Component({
   selector: 'app-get-car',
@@ -10,11 +12,12 @@ import { Car } from 'src/app/shared/models/car.model';
 })
 export class GetCarComponent implements OnInit {
 
-  constructor(private service: MainService, private _activatedRoute: ActivatedRoute) { }
+  constructor(private service: MainService, private _activatedRoute: ActivatedRoute,public dialog: MatDialog) { }
 
    car: Car;
   
-   id!: number;
+   id: number;
+   message:string
    
   ngOnInit(): void {
     this._activatedRoute.paramMap.subscribe(
@@ -34,15 +37,27 @@ export class GetCarComponent implements OnInit {
   clickPlaceBid(id:number){
     
     this.service.placeBid(id).subscribe(
-      data=>{},
+      data=>{
+        this.message = "Ваша ставка принята!"
+          this.dialog.open(ModalWindowComponent, {
+            data: {message:this.message}
+          });
+      },
       error=>{
-        console.log(`error status : ${error.error.errorCode}`);
-        if(error.status == 400){
-          confirm(`fuck, status code: ${error.error.errorCode}!!!!!!`);
+        if(error.error.errorCode != ""){
+          this.message = "Вы не можете сделать ставку!"
+          this.dialog.open(ModalWindowComponent, {
+            data: {message:this.message}
+          });
         }
+          
+        
         
       }
     );
+    
+    
+    
   }
 
 

@@ -1,27 +1,29 @@
-<div class="d-flex justify-content-center mt-5">
-          
-    <div class="col-lg-3 bg-light border border-secondary box">
-       <h5 class="text-center mt-3">Регистрация</h5>
-       <div class="login-form m-3">
-          <form class="form-signing" [formGroup] = "form">
-            <div class="form-group mt-3 mb-3">
-                <label class="mb-2">Name</label>
-                <input class="form-control" placeholder="Name" name="name" formControlName="name" >
-             </div>
-             <div class="form-group mt-3">
-                <label class="mb-2">User Name</label>
-                <input type="text" class="form-control" placeholder="User Name" name="userName" formControlName="userName">
-             </div>
-             <div class="form-group mt-3 mb-3">
-                <label class="mb-2">Password</label>
-                <input type="password" class="form-control" placeholder="Password" name="password" formControlName="password" 
-                type="password">
-             </div>
-             
-             <button type="submit" class="btn btn-outline-primary" (click)="register()">Submit</button>
 
-             <button type="submit" class="btn btn-outline-secondary" routerLink="/login">Login</button>
-          </form>
+ <h1 mat-dialog-title>Регистрация</h1>
+ <form novalidate #form="ngForm">
+   <div class="login-form m-3">
+      <div mat-dialog-content>
+         <div *ngIf="message">
+            <p class="text-danger">{{message}}</p> 
+          </div>
+         <div class="form-group mt-3 mb-3">
+             <label class="mb-2">Name</label>
+             <input class="form-control" placeholder="Name" name="name" [(ngModel)]= "name"
+             required>
+          </div>
+          <div class="form-group mt-3">
+             <label class="mb-2">User Name</label>
+             <input type="text" class="form-control" placeholder="User Name" name="userName"  [(ngModel)]= "userName"
+             required>
+          </div>
+          <div class="form-group mt-3 mb-3">
+             <label class="mb-2">Password</label>
+             <input type="password" class="form-control" placeholder="Password" name="password"  [(ngModel)]= "password"
+             required>
+          </div>
+      </div>
+      <div mat-dialog-actions>
+         <button type="submit" class="btn btn-outline-primary" (click)="register(name,userName,password)" [disabled] ="form.invalid">Submit</button>
        </div>
-    </div>
  </div>
+</form>

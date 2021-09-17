@@ -18,6 +18,9 @@ import { GetOneCarComponent } from './admin/get-one-car/get-one-car.component';
 import { AddCarComponent } from './my-cars/add-car/add-car.component';
 import { GetOneCarProfileComponent } from './my-cars/get-one-car-profile/get-one-car-profile.component';
 import { HeaderComponent } from './header/header.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalWindowComponent } from './car-auction/get-car/modal-window/modal-window.component';
 
 @NgModule({
   declarations: [
@@ -33,14 +36,17 @@ import { HeaderComponent } from './header/header.component';
     GetOneCarComponent,
     AddCarComponent,
     GetOneCarProfileComponent,
-    HeaderComponent
+    HeaderComponent,
+    ModalWindowComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

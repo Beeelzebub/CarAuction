@@ -1,10 +1,8 @@
-import { createUrlResolverWithoutPackagePrefix } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
+import { DictionaryError } from 'src/app/shared/models/dictionary-error.dictionary';
 
 @Component({
   selector: 'app-login',
@@ -13,16 +11,16 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  public form:FormGroup;
 
   token:any;
   tokenString: string;
+  userName:string;
+  password:string;
+  message:string;
+  dictionary: DictionaryError = new DictionaryError();
+  
 
-  constructor(private fb:FormBuilder, public service: AuthService, private router: Router) {
-    this.form = this.fb.group({
-      userName: ['', Validators.required],
-      password: ['', Validators.required]
-  });
+  constructor(public service: AuthService, private router: Router) {
    }
 
   ngOnInit(): void {
@@ -30,27 +28,24 @@ export class LoginComponent implements OnInit {
 
 
 
-  login() {
-    const val = this.form.value;
-
-    if (val.userName && val.password) {
-        this.service.login(val.userName, val.password)
-            .subscribe(
+  login(userName: string, password: string) {
+    this.service.login(userName, password).subscribe(
                 data => {
                     this.token = data
                     this.tokenString = this.token.data.token
                     localStorage.setItem('currentUser', JSON.stringify({ token: this.tokenString, name: this.tokenString }));
                     this.service.isAuthorithed = true;
-                    if (val.userName === "admin") {
+                    if (userName === "admin") {
                       this.router.navigate(['admin/cars']).then(()=>window.location.reload());
                     }
-                    else  this.router.navigate(['']).then(()=>window.location.reload());
-                    
-                    
+                    else  this.router.navigate(['']).then(()=>window.location.reload()); 
+                },
+                error=>{
+                  if(error.error.errorCode != ""){
+                    this.message = this.dictionary.dictionary['4']
+                  }
                 }
             );
-    } 
     
-    this.form.reset();
   }
 }

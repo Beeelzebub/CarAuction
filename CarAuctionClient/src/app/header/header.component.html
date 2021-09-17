@@ -9,11 +9,11 @@
 
       <div *ngIf="service.isAuthorithed; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
-          <a class="navbar-brand " routerLink="login">Войти</a>
-          <a class="navbar-brand m-3" routerLink="register">Регистрация</a>
+          <a class="navbar-brand " type="button" mat-button (click)="openLogin()">Войти</a>
+          <a class="navbar-brand m-3" type="button" mat-button (click)="openRegister()">Регистрация</a>
         </ng-template>
         <ng-template #elseBlock>
-          <a class="navbar-brand m-3" (click)="service.logoutClick()">Выйти</a>
+          <a class="navbar-brand m-3" type="button" (click)="service.logoutClick()">Выйти</a>
 </ng-template>
 
   
