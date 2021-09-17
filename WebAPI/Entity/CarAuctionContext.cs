@@ -8,7 +8,7 @@ namespace Entity
 {
     public class CarAuctionContext : IdentityDbContext<User>
     {
-        public CarAuctionContext(DbContextOptions<CarAuctionContext> options)
+        public CarAuctionContext(DbContextOptions options)
             : base(options)
         {
         }
