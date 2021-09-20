@@ -21,6 +21,7 @@ import { HeaderComponent } from './header/header.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalWindowComponent } from './car-auction/get-car/modal-window/modal-window.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ModalWindowComponent } from './car-auction/get-car/modal-window/modal-w
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

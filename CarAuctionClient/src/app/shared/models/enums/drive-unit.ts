@@ -1,5 +1,5 @@
 export enum DriveUnit {
-    FrontWheelDrive ,
-    RearDrive ,
-    FourWheelDrive 
+    FrontWheelDrive = "Передний привод",
+    RearDrive = "Задний привод",
+    FourWheelDrive = "Полный привод"
 }

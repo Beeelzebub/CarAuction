@@ -1,6 +1,6 @@
 export enum Fuel {
-    Gas,
-    Petrol,
-    Diesel,
-    Electric
+    Gas = 'Газ',
+    Petrol = 'Бензин',
+    Diesel = 'Дизель',
+    Electric = 'Электро'
 }
