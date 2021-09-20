@@ -1,78 +1,83 @@
-        <div class="d-flex justify-content-center mt-3">
-            <div>
-                <h5>Форма добавления лота</h5>
+<form novalidate #form="ngForm">
+    <div class="d-flex justify-content-center mt-3">
+        <div>
+            <h5>Форма добавления лота</h5>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <div class="row">
+            <div class="col ">
+                <input type="number" class="form-control" name="modelForCreatingLot.BrandId" [(ngModel)]="modelForCreatingLot.BrandId"
+                placeholder="Бренд" required>
+            </div>
+            <div class="col">
+                <input type="number" class="form-control" name="modelForCreatingLot.ModelId" [(ngModel)]="modelForCreatingLot.ModelId"
+                placeholder="Модель" required>
             </div>
         </div>
-        <div class="d-flex justify-content-center mt-3">
-            <div class="row">
-                <div class="col-lg-6">
-                    <input type="number" class="form-control" [(ngModel)]="modelForCreatingLot.BrandId"
-                    placeholder="Бренд">
-                </div>
-                <div class="col-lg-6">
-                    <input type="number" class="form-control" [(ngModel)]="modelForCreatingLot.ModelId"
-                    placeholder="Модель">
-                </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <div class="row">
+            <div class="col">
+                <input type="number" class="form-control" name="modelForCreatingLot.Year"  [(ngModel)]="modelForCreatingLot.Year"
+                placeholder="Год" required>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name="modelForCreatingLot.ImageUrl" [(ngModel)]="modelForCreatingLot.ImageUrl"
+                placeholder="Картинка" required>
             </div>
         </div>
-        <div class="d-flex justify-content-center mt-3">
-            <div class="row">
-                <div class="col-lg-6">
-                    <input type="number" class="form-control"  [(ngModel)]="modelForCreatingLot.Year"
-                    placeholder="Год">
-                </div>
-                <div class="col-lg-6">
-                    <input type="text" class="form-control" [(ngModel)]="modelForCreatingLot.ImageUrl"
-                    placeholder="Картинка" required>
-                </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col">
+                <ng-select class="form-control"
+                [(ngModel)]="modelForCreatingLot.Fuel" 
+                placeholder="Топливо"
+                name="modelForCreatingLot.Fuel"
+                required>
+                    <ng-option *ngFor="let car of fuel | keyvalue" [value]="car.key">{{car.value}}</ng-option>
+                 </ng-select>
+            </div>
+            <div class="col">
+                  <ng-select class="form-control" 
+                  [(ngModel)]="modelForCreatingLot.CarBody"
+                  placeholder="Кузов"
+                  name="modelForCreatingLot.CarBody"
+                  required>
+                    <ng-option *ngFor="let car of carBody | keyvalue" [value]="car.key">{{car.value}}</ng-option>
+                 </ng-select>
+            </div>
+            <div class="col">
+                <ng-select class="form-control" 
+                [(ngModel)]="modelForCreatingLot.DriveUnit" 
+                placeholder="Привод"
+                name="modelForCreatingLot.DriveUnit"
+                required>
+                    <ng-option *ngFor="let car of driveUnit | keyvalue" [value]="car.key">{{car.value}}</ng-option>
+                 </ng-select>
             </div>
         </div>
-        <div class="container mt-3">
-            <div class="row">
-                <div class="col-lg-4">
-                    <ng-select class="form-control"
-                    [(ngModel)]="modelForCreatingLot.Fuel" 
-                    placeholder="Топливо"
-                    >
-                        <ng-option *ngFor="let car of fuel | keyvalue" [value]="car.key">{{car.value}}</ng-option>
-                     </ng-select>
-                </div>
-                <div class="col-lg-4">
-                      <ng-select class="form-control" 
-                      [(ngModel)]="modelForCreatingLot.CarBody"
-                      placeholder="Кузов"
-                      name="modelForCreatingLot.CarBody">
-                        <ng-option *ngFor="let car of carBody | keyvalue" [value]="car.key">{{car.value}}</ng-option>
-                     </ng-select>
-                </div>
-                <div class="col-lg-4">
-                    <ng-select class="form-control" 
-                    [(ngModel)]="modelForCreatingLot.DriveUnit" 
-                    placeholder="Привод"
-                    name="modelForCreatingLot.DriveUnit">
-                        <ng-option *ngFor="let car of driveUnit | keyvalue" [value]="car.key">{{car.value}}</ng-option>
-                     </ng-select>
-                </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" name="modelForCreatingLot.StartingPrice"  [(ngModel)]="modelForCreatingLot.StartingPrice"
+                placeholder="Стартовая цена" required>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name="modelForCreatingLot.MinimalStep" [(ngModel)]="modelForCreatingLot.MinimalStep"
+                placeholder="Минимальный шаг" required>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name="modelForCreatingLot.RedemptionPrice" [(ngModel)]="modelForCreatingLot.RedemptionPrice"
+                placeholder="Цена выкупа" required>
             </div>
         </div>
-        <div class="d-flex justify-content-center mt-3">
-            <div class="row">
-                <div class="col-lg-4">
-                    <input type="text" class="form-control" [(ngModel)]="modelForCreatingLot.StartingPrice"
-                    placeholder="Стартовая цена">
-                </div>
-                <div class="col-lg-4">
-                    <input type="text" class="form-control" [(ngModel)]="modelForCreatingLot.MinimalStep"
-                    placeholder="Минимальный шаг">
-                </div>
-                <div class="col-lg-4">
-                    <input type="text" class="form-control" [(ngModel)]="modelForCreatingLot.RedemptionPrice"
-                    placeholder="Цена выкупа">
-                </div>
-            </div>
-        </div>
-        <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-primary" (click) = addCar(modelForCreatingLot)>
-                Добавить
-            </button>
-        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-primary" (click) = addCar(modelForCreatingLot) [disabled] ="form.invalid">
+            Добавить
+        </button>
+    </div>
+</form>

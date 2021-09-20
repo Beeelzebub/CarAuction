@@ -7,7 +7,6 @@ namespace DTO
     {
         [Range(1900, 2021, ErrorMessage = "Year failed")]
         public int Year { get; set; }
-        [Required(ErrorMessage = "ImageFailed")]
         public string ImageUrl { get; set; }
         public Fuel Fuel { get; set; }
 
