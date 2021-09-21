@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
                     if (userName === "admin") {
                       this.router.navigate(['admin/cars']).then(()=>window.location.reload());
                     }
-                    else  this.router.navigate(['']).then(()=>window.location.reload()); 
+                    else window.location.reload(); 
                 },
                 error=>{
                   if(error.error.errorCode != ""){

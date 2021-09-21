@@ -13,7 +13,7 @@ export class ProfileService {
 
   constructor(public http: HttpClient) { }
 
-  readonly apiURL = "https://localhost:44364/api";
+  readonly apiURL = "https://localhost:5001/api";
   
 
   getToken(){

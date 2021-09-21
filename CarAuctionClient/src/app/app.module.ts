@@ -22,6 +22,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalWindowComponent } from './car-auction/get-car/modal-window/modal-window.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ModalDeleteComponent } from './my-cars/get-one-car-profile/modal-delete/modal-delete.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AddCarComponent,
     GetOneCarProfileComponent,
     HeaderComponent,
-    ModalWindowComponent
+    ModalWindowComponent,
+    ModalDeleteComponent
   ],
   imports: [
     BrowserModule,

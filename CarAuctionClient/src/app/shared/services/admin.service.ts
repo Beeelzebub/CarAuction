@@ -11,7 +11,7 @@ export class AdminService {
 
   constructor(private http: HttpClient) { }
 
-  readonly apiURL = "https://localhost:44364/api";
+  readonly apiURL = "https://localhost:5001/api";
   getToken(){
     var currentUser = JSON.parse(localStorage.getItem('currentUser') || '');
     var token = currentUser.token;

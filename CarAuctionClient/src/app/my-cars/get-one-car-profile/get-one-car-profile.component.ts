@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Car } from 'src/app/shared/models/car.model';
 import { ProfileService } from 'src/app/shared/services/profile.service';
 import { Router } from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import { ModalDeleteComponent } from './modal-delete/modal-delete.component';
 
 @Component({
   selector: 'app-get-one-car-profile',
@@ -11,11 +13,11 @@ import { Router } from '@angular/router';
 })
 export class GetOneCarProfileComponent implements OnInit {
 
-  constructor(private service: ProfileService, private _activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private service: ProfileService,private dialog: MatDialog, private _activatedRoute: ActivatedRoute, private router: Router) { }
 
   car: Car;
   
-   id!: number;
+   id: number;
 
   ngOnInit(): void {
     this._activatedRoute.paramMap.subscribe(
@@ -32,10 +34,13 @@ export class GetOneCarProfileComponent implements OnInit {
       this.car= data.data
     )
   }
-  deleteClick(id: number){
-    this.service.deleteCar(id).subscribe(data =>{
-      this.router.navigate(['/myCars']);
+
+  openModalDelete(){
+    this.dialog.open(ModalDeleteComponent,{
+      data: {id:this.id}
     });
   }
+
+  
 
 }

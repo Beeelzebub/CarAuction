@@ -52,9 +52,13 @@ namespace Services.Profile
             var car = _mapper.Map<Car>(lotCreationDto);
 
             var lot = _mapper.Map<Lot>(lotCreationDto);
+            var model = _mapper.Map<Model>(lotCreationDto); ;
+            var brand = _mapper.Map<Brand>(lotCreationDto); ;
 
             lot.SellerId = _userManager.GetUserId(sellerClaims);
             lot.Car = car;
+            lot.Car.Model = model;
+            lot.Car.Model.Brand = brand;
 
             await _repositoryManager.Lot.CreateAsync(lot);
 

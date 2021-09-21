@@ -89,6 +89,7 @@ namespace Services.Auction
             }
 
             var carDto = _mapper.Map<GetOneCarDto>(car);
+            _mapper.Map(car.Lot, carDto);
 
             return BaseResponse.Success(carDto);
         }

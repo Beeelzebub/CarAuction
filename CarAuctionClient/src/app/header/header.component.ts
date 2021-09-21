@@ -3,6 +3,7 @@ import { LoginComponent } from '../login-register/login/login.component';
 import { AuthService } from '../shared/services/auth.service';
 import {MatDialog} from '@angular/material/dialog';
 import { RegisterComponent } from '../login-register/register/register.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ import { RegisterComponent } from '../login-register/register/register.component
 })
 export class HeaderComponent implements OnInit {
 
-  constructor( public service: AuthService,public dialog: MatDialog) { }
+  constructor( public service: AuthService,public dialog: MatDialog, private router: Router) { }
 
   
 
@@ -32,6 +33,22 @@ export class HeaderComponent implements OnInit {
   }
   openRegister(){
     this.dialog.open(RegisterComponent, {width:'500px'});
+  }
+  openMyCars(){
+    if(this.service.isAuthorithed==true){
+      this.dialog.open(LoginComponent, {width:'500px'});
+    }
+    else{
+      this.router.navigate(['/myCars']);
+    }
+  }
+  openMyBids(){
+    if(this.service.isAuthorithed==true){
+      this.dialog.open(LoginComponent, {width:'500px'});
+    }
+    else{
+      this.router.navigate(['/myBids']);
+    }
   }
   
 

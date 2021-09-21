@@ -13,8 +13,8 @@ namespace DTO
         public CarBody CarBody { get; set; }
         public DriveUnit DriveUnit { get; set; }
         
-        public int ModelId { get; set; }
-        public int BrandId { get; set; }
+        public string Name { get; set; }
+        public string BrandName { get; set; }
         public decimal MinimalStep { get; set; }
         public decimal StartingPrice { get; set; }
         public decimal RedemptionPrice { get; set; }

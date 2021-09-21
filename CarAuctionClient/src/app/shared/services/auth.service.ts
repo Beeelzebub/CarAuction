@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import{HttpClient} from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  readonly apiURL = "https://localhost:44364/api";
+  readonly apiURL = "https://localhost:5001/api";
   isAuthorithed:boolean = true;
 
   registration(name:string, userName:string, password:string ) {
@@ -20,8 +21,9 @@ export class AuthService {
     
   }
   logoutClick(){
+    
     localStorage.clear();
     this.isAuthorithed= false;
-    location.reload();
+    this.router.navigate(['']).then(()=>location.reload());
   }
 }
