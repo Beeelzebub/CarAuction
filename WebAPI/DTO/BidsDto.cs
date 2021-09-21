@@ -10,7 +10,7 @@ namespace DTO
 
         
         public int Year { get; set; }
-        public string ImageUrl { get; set; }
+        public string Image { get; set; }
         public string Fuel { get; set; }
         public string ModelName { get; set; }
         public string BrandName { get; set; }

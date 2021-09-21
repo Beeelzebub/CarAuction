@@ -5,25 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20210805115833_new164uy2.cs" />
-    <Compile Remove="Migrations\20210805115833_new164uy2.Designer.cs" />
-    <Compile Remove="Migrations\20210805120142_new164uy2.cs" />
-    <Compile Remove="Migrations\20210805120142_new164uy2.Designer.cs" />
-    <Compile Remove="Migrations\20210805123449_new164432uy2.cs" />
-    <Compile Remove="Migrations\20210805123449_new164432uy2.Designer.cs" />
-    <Compile Remove="Migrations\20210805123722_new164432uy2.cs" />
-    <Compile Remove="Migrations\20210805123722_new164432uy2.Designer.cs" />
-    <Compile Remove="Migrations\20210805124159_new164432uy2.cs" />
-    <Compile Remove="Migrations\20210805124159_new164432uy2.Designer.cs" />
-    <Compile Remove="Migrations\20210805124445_new164432uy2.cs" />
-    <Compile Remove="Migrations\20210805124445_new164432uy2.Designer.cs" />
-    <Compile Remove="Migrations\20210805134224_Test.cs" />
-    <Compile Remove="Migrations\20210805134224_Test.Designer.cs" />
-    <Compile Remove="Migrations\20210907142209_init.cs" />
-    <Compile Remove="Migrations\20210907142209_init.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.10">
@@ -36,10 +17,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

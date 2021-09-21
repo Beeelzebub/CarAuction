@@ -1,6 +1,6 @@
 export class BidDto {
     bidStatus: number = 0;
-    imageUrl: string = '';
+    image: string = '';
     year: number = 0;
     fuel: string = '';
     modelName:string = '';

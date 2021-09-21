@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace DTO
 {
@@ -7,7 +8,7 @@ namespace DTO
     {
         [Range(1900, 2021, ErrorMessage = "Year failed")]
         public int Year { get; set; }
-        public string ImageUrl { get; set; }
+        public IFormFile Image { get; set; }
         public Fuel Fuel { get; set; }
 
         public CarBody CarBody { get; set; }

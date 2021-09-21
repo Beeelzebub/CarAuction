@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -49,11 +50,25 @@ namespace Services.Profile
 
         public async Task<BaseResponse> AddLotAsync(LotCreationDto lotCreationDto, ClaimsPrincipal sellerClaims)
         {
-            var car = _mapper.Map<Car>(lotCreationDto);
 
+
+            byte[] imageData = null;
+            using (var binaryReader = new BinaryReader(lotCreationDto.Image.OpenReadStream()))
+            {
+                imageData = binaryReader.ReadBytes((int)lotCreationDto.Image.Length);
+            }
+            var car = new Car
+            {
+                Image = imageData,
+                Year = lotCreationDto.Year,
+                Fuel = lotCreationDto.Fuel,
+                CarBody = lotCreationDto.CarBody,
+                DriveUnit = lotCreationDto.DriveUnit
+            }; 
+           // car = _mapper.Map<Car>(lotCreationDto);
             var lot = _mapper.Map<Lot>(lotCreationDto);
-            var model = _mapper.Map<Model>(lotCreationDto); ;
-            var brand = _mapper.Map<Brand>(lotCreationDto); ;
+            var model = _mapper.Map<Model>(lotCreationDto);
+            var brand = _mapper.Map<Brand>(lotCreationDto);
 
             lot.SellerId = _userManager.GetUserId(sellerClaims);
             lot.Car = car;

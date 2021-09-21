@@ -33,7 +33,7 @@ export class ProfileService {
   }
 
   addCar(model: ModelForCreatingLot){
-    return this.http.post(this.apiURL + '/Profile/AddLot', model, {headers: this.getToken()}) ;
+    return this.http.post(this.apiURL + '/Profile/AddLot', model, {headers: this.getToken()});
   }
   getBids(): Observable<any>{
     return this.http.get(this.apiURL + '/Profile/myBids', {headers: this.getToken()}) ;

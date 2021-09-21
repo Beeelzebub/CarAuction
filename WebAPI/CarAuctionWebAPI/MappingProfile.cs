@@ -56,8 +56,8 @@ namespace CarAuctionWebAPI
                     mn => mn.MapFrom(x => x.Lot.RedemptionPrice))
                 .ForMember(opt => opt.Year,
                     mn => mn.MapFrom(x => x.Lot.Car.Year))
-                .ForMember(opt => opt.ImageUrl,
-                    mn => mn.MapFrom(x => x.Lot.Car.ImageUrl))
+                .ForMember(opt => opt.Image,
+                    mn => mn.MapFrom(x => x.Lot.Car.Image))
                 .ForMember(opt => opt.Fuel,
                     mn => mn.MapFrom(x => x.Lot.Car.Fuel))
                 .ForMember(opt => opt.CarBody,

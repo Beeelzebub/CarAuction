@@ -4,7 +4,7 @@ import { DriveUnit } from "./enums/drive-unit";
 
 export class ModelForCreatingLot {
         Year:number
-        ImageUrl:string
+        Image:FormData
         Fuel: Fuel
 
         CarBody: CarBody

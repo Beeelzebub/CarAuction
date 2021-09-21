@@ -26,7 +26,7 @@ namespace CarAuctionWebAPI.Controllers
         [HttpPost("AddLot")]
         [SwaggerOperation(Summary = "Adding a lot")]
         [SwaggerResponse(201, "Lot has been added", typeof(Response))]
-        public async Task<IActionResult> AddLot([FromBody] LotCreationDto lotCreationDto)
+        public async Task<IActionResult> AddLot([FromForm] LotCreationDto lotCreationDto)
         {
             var result = await _profileService.AddLotAsync(lotCreationDto, User);
 
