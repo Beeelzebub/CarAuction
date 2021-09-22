@@ -16,6 +16,7 @@ namespace Entity.Models
         public virtual Car Car { get; set; }
         public User Seller { get; set; } 
         public string SellerId { get; set; } 
+        public string BackgroundJobId { get; set; }
         public LotStatus Status { get; set; }
         public ICollection<Bid> Bids { get; set; } = new List<Bid>();
     }

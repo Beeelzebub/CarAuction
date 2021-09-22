@@ -41,7 +41,8 @@ namespace Services.Administration
             {
                 lot.StartDate = DateTime.Now;
                 lot.EndDate = DateTime.Now.AddDays(7);
-                BackgroundJob.Schedule(() => ChooseWinner(lotId), TimeSpan.FromDays(7));
+                var backgroundJobId = BackgroundJob.Schedule(() => ChooseWinner(lotId), TimeSpan.FromDays(7));
+                lot.BackgroundJobId = backgroundJobId;
             }
 
             await _repositoryManager.SaveAsync();

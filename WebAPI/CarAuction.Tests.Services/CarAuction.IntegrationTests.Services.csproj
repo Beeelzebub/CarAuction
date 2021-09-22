@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CarAuction.Tests.Shared\CarAuction.IntegrationTests.Shared.csproj" />
-    <ProjectReference Include="..\CarAuction.Tests.Shared\CarAuction.Tests.Shared.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 

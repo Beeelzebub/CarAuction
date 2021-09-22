@@ -21,7 +21,6 @@ namespace CarAuction.UnitTests.Shared
                     CarBody = CarBody.Coupe,
                     DriveUnit = DriveUnit.FourWheelDrive,
                     Fuel = Fuel.Diesel,
-                    ImageUrl = "url",
                     ModelId = 1
                 },
                 StartDate = DateTime.Now,
@@ -49,7 +48,6 @@ namespace CarAuction.UnitTests.Shared
                     CarBody = CarBody.Coupe,
                     DriveUnit = DriveUnit.FourWheelDrive,
                     Fuel = Fuel.Diesel,
-                    ImageUrl = "url",
                     ModelId = 1
                 },
                 new Car()
@@ -57,7 +55,6 @@ namespace CarAuction.UnitTests.Shared
                     CarBody = CarBody.Coupe,
                     DriveUnit = DriveUnit.FourWheelDrive,
                     Fuel = Fuel.Diesel,
-                    ImageUrl = "url",
                     ModelId = 2
                 },
                 new Car()
@@ -65,7 +62,6 @@ namespace CarAuction.UnitTests.Shared
                     CarBody = CarBody.Coupe,
                     DriveUnit = DriveUnit.FourWheelDrive,
                     Fuel = Fuel.Diesel,
-                    ImageUrl = "url",
                     ModelId = 3
                 }
             };
@@ -81,7 +77,6 @@ namespace CarAuction.UnitTests.Shared
                         CarBody = CarBody.Coupe,
                         DriveUnit = DriveUnit.FourWheelDrive,
                         Fuel = Fuel.Diesel,
-                        ImageUrl = "url",
                         ModelId = 1
                     },
                     StartDate = DateTime.Now,
@@ -98,7 +93,6 @@ namespace CarAuction.UnitTests.Shared
                         CarBody = CarBody.Coupe,
                         DriveUnit = DriveUnit.FourWheelDrive,
                         Fuel = Fuel.Diesel,
-                        ImageUrl = "url",
                         ModelId = 2
                     },
                     StartDate = DateTime.Now,
@@ -124,7 +118,6 @@ namespace CarAuction.UnitTests.Shared
                         CarBody = CarBody.Coupe,
                         DriveUnit = DriveUnit.FourWheelDrive,
                         Fuel = Fuel.Diesel,
-                        ImageUrl = "url",
                         ModelId = 3
                     },
                     StartDate = DateTime.Now,

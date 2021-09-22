@@ -107,7 +107,48 @@ namespace Services.Auction
             var returnModels = models.Select(n => n.Name);
             var returnBrands = brands.Select(n => n.BrandName);
             var returnData = new BrandModelDto { BrandNames = returnBrands, ModelNames = returnModels };
+
             return BaseResponse.Success(returnData);
+        }
+
+        public async Task<BaseResponse> RedemptionAsync(int lotId, ClaimsPrincipal userClaims)
+        {
+            var userId = _userManager.GetUserId(userClaims);
+
+            var lot = await _repositoryManager.Lot.GetAsync(lotId);
+
+            if (lot == null || lot.Status != LotStatus.Approved)
+            {
+                return BaseResponse.Fail(ErrorCode.LotNotFoundError);
+            }
+
+            if (lot.SellerId == userId)
+            {
+                return BaseResponse.Fail(ErrorCode.NoPermissionsError);
+            }
+
+            BackgroundJob.Delete(lot.BackgroundJobId);
+            lot.Status = LotStatus.Ended;
+            lot.CurrentCost = lot.RedemptionPrice;
+
+            var activeBid = _repositoryManager.Bid.GetActiveBid(lotId);
+
+            if (activeBid != null)
+            {
+                activeBid.BidStatus = BidStatus.Outbid;
+            }
+
+            var redemptionBid = new Bid()
+            {
+                BidStatus = BidStatus.Won,
+                LotId = lotId,
+                BuyerId = userId
+            };
+
+            await _repositoryManager.Bid.CreateAsync(redemptionBid);
+            await _repositoryManager.SaveAsync();
+
+            return BaseResponse.Success();
         }
     }
 }
