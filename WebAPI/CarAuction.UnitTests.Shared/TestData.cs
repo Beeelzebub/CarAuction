@@ -5,63 +5,73 @@ using System.Text;
 using System.Threading.Tasks;
 using Entity.Models;
 using Enums;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
-namespace CarAuction.Tests.Shared.DataAccess.Helpers
+namespace CarAuction.UnitTests.Shared
 {
-    public class TestDataSeed
+    public static class TestData
     {
-        public static void Seed(TestCarAuctionDbContext context)
-        {
-            AddBrandsWithModels(context);
+        public const string TestUserId = "TestUserId";
 
-            context.SaveChanges();
-        }
-
-        private static void AddBrandsWithModels(TestCarAuctionDbContext context)
-        {
-            var brands = new List<Brand>
+        public static Lot GetTestLot() =>
+            new Lot()
             {
-                new Brand()
+                Id = 1,
+                Car = new Car()
                 {
-                    BrandName = "Audi", Models =
-                        new List<Model>()
-                        {
-                            new Model() {Name = "A6"},
-                            new Model() {Name = "A7"},
-                            new Model() {Name = "A8"},
-                        },
+                    CarBody = CarBody.Coupe,
+                    DriveUnit = DriveUnit.FourWheelDrive,
+                    Fuel = Fuel.Diesel,
+                    ImageUrl = "url",
+                    ModelId = 1
                 },
-                new Brand()
+                StartDate = DateTime.Now,
+                Status = LotStatus.Approved,
+                MinimalStep = 2000,
+                StartingPrice = 10000,
+                RedemptionPrice = 20000,
+                CurrentCost = 10000,
+                Bids = new List<Bid>
                 {
-                    BrandName = "BMW", Models =
-                        new List<Model>()
-                        {
-                            new Model() {Name = "M1"},
-                            new Model() {Name = "I3"},
-                            new Model() {Name = "X5"},
-                        },
+                    new Bid()
+                    {
+                        Id = 1,
+                        BidStatus = BidStatus.Active
+                    }
                 },
-                new Brand()
-                {
-                    BrandName = "MERCEDES-BENZ", Models =
-                        new List<Model>()
-                        {
-                            new Model() {Name = "S-CLASS MAYBACH PULLMAN"},
-                            new Model() {Name = "S-CLASS CABRIOLET"},
-                            new Model() {Name = "A-CLASS AMG"},
-                        },
-                },
+                SellerId = TestUserId
             };
 
-            context.Brands.AddRange(brands);
-            context.SaveChanges();
-        }
+        public static IEnumerable<Car> GetTestCarsList() =>
+            new List<Car>()
+            {
+                new Car()
+                {
+                    CarBody = CarBody.Coupe,
+                    DriveUnit = DriveUnit.FourWheelDrive,
+                    Fuel = Fuel.Diesel,
+                    ImageUrl = "url",
+                    ModelId = 1
+                },
+                new Car()
+                {
+                    CarBody = CarBody.Coupe,
+                    DriveUnit = DriveUnit.FourWheelDrive,
+                    Fuel = Fuel.Diesel,
+                    ImageUrl = "url",
+                    ModelId = 2
+                },
+                new Car()
+                {
+                    CarBody = CarBody.Coupe,
+                    DriveUnit = DriveUnit.FourWheelDrive,
+                    Fuel = Fuel.Diesel,
+                    ImageUrl = "url",
+                    ModelId = 3
+                }
+            };
 
-        private static void AddLotsWithCars(TestCarAuctionDbContext context)
-        {
-            var lots = new List<Lot>
+        public static IEnumerable<Lot> GetTestLotsList() => 
+            new List<Lot>
             {
                 new Lot()
                 {
@@ -73,7 +83,7 @@ namespace CarAuction.Tests.Shared.DataAccess.Helpers
                         Fuel = Fuel.Diesel,
                         ImageUrl = "url",
                         ModelId = 1
-                    },  
+                    },
                     StartDate = DateTime.Now,
                     Status = LotStatus.Pending,
                     MinimalStep = 2000,
@@ -126,8 +136,15 @@ namespace CarAuction.Tests.Shared.DataAccess.Helpers
                 }
             };
 
-            context.Lots.AddRange(lots);
-            context.SaveChanges();
-        }
+        public static IEnumerable<Bid> GetTestBidsList() =>
+            new List<Bid>()
+            {
+                new Bid()
+                {
+                    Id = 1,
+                    BidStatus = BidStatus.Active,
+                    BuyerId = TestUserId
+                }
+            };
     }
 }

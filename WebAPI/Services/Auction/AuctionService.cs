@@ -43,6 +43,11 @@ namespace Services.Auction
                 return BaseResponse.Fail(ErrorCode.LotNotFoundError);
             }
 
+            if (lot.SellerId == bidderId)
+            {
+                return BaseResponse.Fail(ErrorCode.NoPermissionsError);
+            }
+
             var activeBid = _repositoryManager.Bid.GetActiveBid(lotId);
 
             if (activeBid != null)

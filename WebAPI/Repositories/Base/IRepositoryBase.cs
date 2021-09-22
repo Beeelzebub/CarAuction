@@ -10,7 +10,7 @@ namespace Repositories
     {
         public Task<TEntity> GetAsync(int id);
         public TEntity Get(int id);
-        public Task<IEnumerable<TEntity>> GetListAsync();
+        public Task<List<TEntity>> GetListAsync();
         public Task CreateAsync(TEntity entity);
         public void Delete(TEntity entity);
         public void Update(TEntity entity);

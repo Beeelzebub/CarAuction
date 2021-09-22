@@ -23,7 +23,7 @@ namespace Repositories
         public virtual TEntity Get(int id) =>
              _dbContext.Set<TEntity>().Find(id);
 
-        public virtual async Task<IEnumerable<TEntity>> GetListAsync() =>
+        public virtual async Task<List<TEntity>> GetListAsync() =>
             await _dbContext.Set<TEntity>().ToListAsync();
 
         public virtual async Task CreateAsync(TEntity entity) =>
