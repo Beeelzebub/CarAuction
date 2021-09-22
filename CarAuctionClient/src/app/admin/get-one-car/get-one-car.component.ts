@@ -16,30 +16,32 @@ export class GetOneCarComponent implements OnInit {
 
   car: Car;
   
-   id!: number;
+   id: number;
 
   ngOnInit(): void {
     this._activatedRoute.paramMap.subscribe(
       params => { 
         this.id = parseInt(params.get('id') || '{}') ; }
      );
-     this.getCar(this.id);
+     this.getCar();
   }
 
-  getCar(id:number){
+  getCar(){
 
-    this.service.getOneCarForAdmin(id).subscribe(
-      data=> this.car= data
+    this.service.getOneCarForAdmin(this.id).subscribe(
+      data=> {
+        this.car= data.data
+      }
     )
   }
   approvedClick(){
-    this.service.setStatusLot(this.id, Lot.Approved).subscribe(data=>{
+    this.service.setStatusLot(this.id, Lot.Approved).subscribe(()=>{
       this.router.navigate(['admin/cars']);
     });
     
   }
   deniedClick(){
-    this.service.setStatusLot(this.id, Lot.Denied).subscribe(data=>{
+    this.service.setStatusLot(this.id, Lot.Denied).subscribe(()=>{
       this.router.navigate(['admin/cars']);
     });
     

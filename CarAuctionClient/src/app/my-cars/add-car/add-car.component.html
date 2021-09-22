@@ -10,7 +10,7 @@
                 <input type="text" class="form-control" name="modelForCreatingLot.BrandId" [(ngModel)]="modelForCreatingLot.BrandName"
                 placeholder="Бренд" required>
             </div>
-            <div class="col">
+            <div class="col"> 
                 <input type="text" class="form-control" name="modelForCreatingLot.ModelId" [(ngModel)]="modelForCreatingLot.Name"
                 placeholder="Модель" required>
             </div>
@@ -23,7 +23,7 @@
                 placeholder="Год" required>
             </div>
             <div class="col">
-                <input type="file" class="form-control" name="modelForCreatingLot.Image" [(ngModel)]="modelForCreatingLot.Image"
+                <input type="file" class="form-control" (change)="getFiles($event)" accept="*" name="modelForCreatingLot.Image"
                 placeholder="Картинка" required>
             </div>
         </div>

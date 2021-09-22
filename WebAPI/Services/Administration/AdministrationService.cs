@@ -40,8 +40,8 @@ namespace Services.Administration
             if (lot.Status == LotStatus.Approved)
             {
                 lot.StartDate = DateTime.Now;
-                lot.EndDate = DateTime.Now.AddMinutes(5);
-                BackgroundJob.Schedule(() => ChooseWinner(lotId), TimeSpan.FromMinutes(5));
+                lot.EndDate = DateTime.Now.AddDays(7);
+                BackgroundJob.Schedule(() => ChooseWinner(lotId), TimeSpan.FromDays(7));
             }
 
             await _repositoryManager.SaveAsync();

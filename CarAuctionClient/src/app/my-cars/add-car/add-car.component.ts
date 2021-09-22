@@ -24,6 +24,9 @@ export class AddCarComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getFiles(event:any){  
+    this.modelForCreatingLot.Image = event.target.files[0];  
+}
   
   addCar(model: ModelForCreatingLot){
     model = this.modelForCreatingLot;

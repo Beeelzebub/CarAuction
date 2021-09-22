@@ -1,6 +1,6 @@
 export class Car {
     id: number;
-    imageUrl: string;
+    image: string;
     year: number;
     fuel: string;
     modelName:string;

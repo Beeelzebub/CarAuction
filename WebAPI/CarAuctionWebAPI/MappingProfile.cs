@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using DTO;
 using Entity.Models;
 
@@ -14,7 +15,9 @@ namespace CarAuctionWebAPI
                 .ForMember(opt => opt.ModelName,
                     mn => mn.MapFrom(x => x.Model.Name))
                 .ForMember(opt => opt.BrandName,
-                    bn => bn.MapFrom(x => x.Model.Brand.BrandName));
+                    bn => bn.MapFrom(x => x.Model.Brand.BrandName))
+                .ForMember(opt => opt.Image,
+                    bn => bn.MapFrom(x => Convert.ToBase64String(x.Image)));
 
 
 
@@ -23,7 +26,9 @@ namespace CarAuctionWebAPI
                 .ForMember(opt => opt.ModelName,
                     mn => mn.MapFrom(x => x.Model.Name))
                 .ForMember(opt => opt.BrandName,
-                    bn => bn.MapFrom(x => x.Model.Brand.BrandName));
+                    bn => bn.MapFrom(x => x.Model.Brand.BrandName))
+                .ForMember(opt => opt.Image,
+                    bn => bn.MapFrom(x => Convert.ToBase64String(x.Image)));
 
             CreateMap<Lot, GetOneCarDto>();
 
@@ -57,7 +62,7 @@ namespace CarAuctionWebAPI
                 .ForMember(opt => opt.Year,
                     mn => mn.MapFrom(x => x.Lot.Car.Year))
                 .ForMember(opt => opt.Image,
-                    mn => mn.MapFrom(x => x.Lot.Car.Image))
+                    bn => bn.MapFrom(x => Convert.ToBase64String(x.Lot.Car.Image)))
                 .ForMember(opt => opt.Fuel,
                     mn => mn.MapFrom(x => x.Lot.Car.Fuel))
                 .ForMember(opt => opt.CarBody,

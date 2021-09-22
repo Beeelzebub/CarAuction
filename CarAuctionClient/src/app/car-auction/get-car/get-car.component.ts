@@ -32,8 +32,10 @@ export class GetCarComponent implements OnInit {
   getCar(id:number){
 
     this.service.getOneCar(id).subscribe(
-      data=>
-      this.car= data.data
+      data=>{
+        console.log(data.data)
+      this.car= data.data;
+      }
     )
   }
   clickPlaceBid(id:number){
