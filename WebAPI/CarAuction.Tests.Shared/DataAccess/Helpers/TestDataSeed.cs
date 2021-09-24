@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Entity;
 using Entity.Models;
 using Enums;
 using Microsoft.AspNetCore.Identity;
@@ -12,14 +13,15 @@ namespace CarAuction.Tests.Shared.DataAccess.Helpers
 {
     public class TestDataSeed
     {
-        public static void Seed(TestCarAuctionDbContext context)
+        public static void Seed(CarAuctionContext context)
         {
             AddBrandsWithModels(context);
+            AddLotsWithCars(context);
 
             context.SaveChanges();
         }
 
-        private static void AddBrandsWithModels(TestCarAuctionDbContext context)
+        private static void AddBrandsWithModels(CarAuctionContext context)
         {
             var brands = new List<Brand>
             {
@@ -59,7 +61,7 @@ namespace CarAuction.Tests.Shared.DataAccess.Helpers
             context.SaveChanges();
         }
 
-        private static void AddLotsWithCars(TestCarAuctionDbContext context)
+        private static void AddLotsWithCars(CarAuctionContext context)
         {
             var lots = new List<Lot>
             {
@@ -68,6 +70,7 @@ namespace CarAuction.Tests.Shared.DataAccess.Helpers
                     Id = 1,
                     Car = new Car()
                     {
+                        Id = 1,
                         CarBody = CarBody.Coupe,
                         DriveUnit = DriveUnit.FourWheelDrive,
                         Fuel = Fuel.Diesel,
@@ -84,6 +87,7 @@ namespace CarAuction.Tests.Shared.DataAccess.Helpers
                     Id = 2,
                     Car = new Car()
                     {
+                        Id = 2,
                         CarBody = CarBody.Coupe,
                         DriveUnit = DriveUnit.FourWheelDrive,
                         Fuel = Fuel.Diesel,
@@ -109,13 +113,14 @@ namespace CarAuction.Tests.Shared.DataAccess.Helpers
                     Id = 3,
                     Car = new Car()
                     {
+                        Id = 3,
                         CarBody = CarBody.Coupe,
                         DriveUnit = DriveUnit.FourWheelDrive,
                         Fuel = Fuel.Diesel,
                         ModelId = 3
                     },
                     StartDate = DateTime.Now,
-                    Status = LotStatus.Ended,
+                    Status = LotStatus.Approved,
                     CurrentCost = 10000,
                     MinimalStep = 2000,
                     StartingPrice = 10000,

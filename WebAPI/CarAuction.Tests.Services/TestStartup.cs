@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CarAuction.Tests.Shared.DataAccess.Helpers;
 using CarAuctionWebAPI;
 using Entity;
 using Microsoft.AspNetCore.Hosting;
@@ -39,17 +40,17 @@ namespace CarAuction.IntegrationTests.Services
 
                 using (var scope = sp.CreateScope())
                 {
-                    using (var appContext = scope.ServiceProvider.GetRequiredService<CarAuctionContext>())
+                    var scopedServices = scope.ServiceProvider;
+                    var db = scopedServices.GetRequiredService<CarAuctionContext>();
+
+                    db.Database.EnsureCreated();
+
+                    try
                     {
-                        try
-                        {
-                            appContext.Database.EnsureCreated();
-                        }
-                        catch (Exception ex)
-                        {
-                            //Log errors or do anything you think it's needed
-                            throw;
-                        }
+                        TestDataSeed.Seed(db);
+                    }
+                    catch (Exception ex)
+                    {
                     }
                 }
             });
