@@ -9,10 +9,10 @@ namespace Services.Auction
 {
     public interface IAuctionService
     {
-        Task<BaseResponse> BidAsync(int lotId, ClaimsPrincipal bidderClaims);
+        Task<BaseResponse> BidAsync(int lotId, ClaimsPrincipal userClaims);
         Task<BaseResponse> GetCarsAsync(CarParameters carParameters);
         Task<BaseResponse> GetCarAsync(int carId);
         Task<BaseResponse> GetModelsWithBrands();
-
+        Task<BaseResponse> RedemptionAsync(int lotId, ClaimsPrincipal userClaims);
     }
 }

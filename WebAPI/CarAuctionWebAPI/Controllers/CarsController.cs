@@ -39,6 +39,7 @@ namespace CarAuctionWebAPI.Controllers
 
             return this.Answer(result, Ok(result));
         }
+
         [HttpGet("/api/GetModelsWithBrands")]
         [SwaggerOperation(Summary = "Get models with brands")]
         [SwaggerResponse(200, "Get models with brands")]
@@ -71,6 +72,19 @@ namespace CarAuctionWebAPI.Controllers
         public async Task<IActionResult> Bid(int id)
         {
             var result = await _auctionService.BidAsync(id, User);
+
+            return this.Answer(result, Ok(result));
+        }
+
+        [HttpPost("/Redemption/{lotId}")]
+        [Authorize]
+        [SwaggerOperation(Summary = "Lot redemption")]
+        [SwaggerResponse(200, "Bid is accepted", typeof(Response))]
+        [SwaggerResponse(400, "Lot not found", typeof(Response))]
+        [SwaggerResponse(400, "Seller cannot redeem his own car", typeof(Response))]
+        public async Task<IActionResult> Redemption(int lotId)
+        {
+            var result = await _auctionService.RedemptionAsync(lotId, User);
 
             return this.Answer(result, Ok(result));
         }
