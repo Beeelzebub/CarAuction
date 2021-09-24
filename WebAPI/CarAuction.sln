@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{DECCDB46-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarAuction.UnitTests.Services", "CarAuction.UnitTests.Services\CarAuction.UnitTests.Services.csproj", "{BF6DE580-7BFA-4BA6-856E-DA45191ECB4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarAuction.UnitTests.Shared", "CarAuction.UnitTests.Shared\CarAuction.UnitTests.Shared.csproj", "{800C0755-8394-4EB1-BA97-44B8974EB90A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarAuction.UnitTests.Shared", "CarAuction.UnitTests.Shared\CarAuction.UnitTests.Shared.csproj", "{800C0755-8394-4EB1-BA97-44B8974EB90A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -38,6 +38,29 @@ export class GetCarComponent implements OnInit {
       }
     )
   }
+  clickRedemption(id:number){
+    if(this.authService.isAuthorithed==true){
+      this.dialog.open(LoginComponent, {width:'500px'});
+    }
+    else{
+      this.service.placeBid(id).subscribe(
+        ()=>{
+          this.message = "Ваша ставка принята!"
+            this.dialog.open(ModalWindowComponent, {
+              data: {message:this.message}
+            });
+        },
+        error=>{
+          if(error.error.errorCode != ""){
+            this.message = "Вы не можете сделать ставку!"
+            this.dialog.open(ModalWindowComponent, {
+              data: {message:this.message}
+            });
+          }
+        }
+      );
+    }
+  }
   clickPlaceBid(id:number){
     if(this.authService.isAuthorithed==true){
       this.dialog.open(LoginComponent, {width:'500px'});
