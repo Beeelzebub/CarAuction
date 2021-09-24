@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
-using CarAuction.Tests.Shared;
+using CarAuction.IntegrationTests.Shared;
 using Entity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Profile;
 using Xunit;
 
-namespace CarAuction.Tests.Services.Profile
+namespace CarAuction.IntegrationTests.Services.Profile
 {
     public class ProfileServiceTests : TestBase
     {

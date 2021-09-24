@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CarAuction.Tests.Shared;
+using CarAuction.IntegrationTests.Shared;
 
-namespace CarAuction.Tests.Services
+namespace CarAuction.IntegrationTests.Services
 {
     public class ServiceTestBase : TestBase
     {

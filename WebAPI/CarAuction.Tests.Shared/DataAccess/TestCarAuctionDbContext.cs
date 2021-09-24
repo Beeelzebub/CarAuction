@@ -7,14 +7,13 @@ using Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarAuction.Tests.Shared.DataAccess
+namespace CarAuction.IntegrationTests.DataAccess
 {
     public class TestCarAuctionDbContext : CarAuctionContext
     {
         public TestCarAuctionDbContext(DbContextOptions<CarAuctionContext> options) 
             : base(options)
         {
-
         }
         
     }
