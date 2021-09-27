@@ -31,6 +31,9 @@ namespace Entity
             builder.ApplyConfiguration(new ModelConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
 
+            AdminRoleInit.SeedRoles(builder);
+            AdminRoleInit.SeedUser(builder);
+            AdminRoleInit.SeedUserRoles(builder);
             base.OnModelCreating(builder);
         }
     }

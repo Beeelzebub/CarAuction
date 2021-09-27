@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    [Migration("20210927091445_init")]
+    [Migration("20210927122914_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -238,6 +238,23 @@ namespace Entity.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "b74ddd14-6340-4840-95c2-db12554843e5",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "02ad28b3-7fe7-42ed-a231-679172e78436",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            Name = "admin",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAzUgNIx0GFI01og07FqMxrLoh6aWMcLF9Q44AhNoiLEdRnepZJLwIJFSF/g5yJ2RQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f549fad2-900c-4fb5-9a43-9008a26a9027",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -269,9 +286,9 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cd2c209a-7d06-43af-815a-5792da84ddb6",
-                            ConcurrencyStamp = "1e66e557-59c2-4589-936b-2518171fc2fc",
-                            Name = "Admin",
+                            Id = "fab4fac1-c546-41de-aebc-a14da6895711",
+                            ConcurrencyStamp = "bcfb02c1-4861-4bb2-9cb2-aeff1c10f98d",
+                            Name = "admin",
                             NormalizedName = "ADMIN"
                         });
                 });
@@ -359,6 +376,13 @@ namespace Entity.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "b74ddd14-6340-4840-95c2-db12554843e5",
+                            RoleId = "fab4fac1-c546-41de-aebc-a14da6895711"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
