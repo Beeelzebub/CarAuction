@@ -40,4 +40,7 @@ export class MainService {
   placeBid(id:number): Observable<any>{
     return this.http.post(this.apiURL + '/cars/' + id, {}, {headers: this.getToken()});
   }
+  redemption(id:number): Observable<any>{
+    return this.http.post(this.apiURL + '/cars/redemption/' + id, {}, {headers: this.getToken()});
+  }
 }

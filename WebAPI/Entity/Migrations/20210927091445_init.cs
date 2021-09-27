@@ -179,6 +179,7 @@ namespace Entity.Migrations
                     CurrentCost = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     RedemptionPrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
                     SellerId = table.Column<string>(nullable: true),
+                    BackgroundJobId = table.Column<string>(nullable: true),
                     Status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -279,7 +280,7 @@ namespace Entity.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "4d9f7456-7798-4270-a2d3-1895d260dc1f", "615b49ac-7438-49b3-b4f7-6e22dd272c23", "Admin", "ADMIN" });
+                values: new object[] { "cd2c209a-7d06-43af-815a-5792da84ddb6", "1e66e557-59c2-4589-936b-2518171fc2fc", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entity.Migrations
 {
     [DbContext(typeof(CarAuctionContext))]
-    [Migration("20210921091705_init")]
+    [Migration("20210927091445_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,6 +113,9 @@ namespace Entity.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BackgroundJobId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("CurrentCost")
                         .HasColumnType("decimal(10,2)");
@@ -266,8 +269,8 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4d9f7456-7798-4270-a2d3-1895d260dc1f",
-                            ConcurrencyStamp = "615b49ac-7438-49b3-b4f7-6e22dd272c23",
+                            Id = "cd2c209a-7d06-43af-815a-5792da84ddb6",
+                            ConcurrencyStamp = "1e66e557-59c2-4589-936b-2518171fc2fc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

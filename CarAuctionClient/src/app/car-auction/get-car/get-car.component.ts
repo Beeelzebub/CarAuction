@@ -43,16 +43,16 @@ export class GetCarComponent implements OnInit {
       this.dialog.open(LoginComponent, {width:'500px'});
     }
     else{
-      this.service.placeBid(id).subscribe(
+      this.service.redemption(id).subscribe(
         ()=>{
-          this.message = "Ваша ставка принята!"
+          this.message = "Поздравляем, вы выкупили автомобиль!!!"
             this.dialog.open(ModalWindowComponent, {
               data: {message:this.message}
             });
         },
         error=>{
-          if(error.error.errorCode != ""){
-            this.message = "Вы не можете сделать ставку!"
+          if(error.errorCode != ""){
+            this.message = "Вы не можете выкупить авто"
             this.dialog.open(ModalWindowComponent, {
               data: {message:this.message}
             });

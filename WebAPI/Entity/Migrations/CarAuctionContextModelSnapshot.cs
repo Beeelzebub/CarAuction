@@ -267,8 +267,8 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "91b649e6-9639-4063-bb35-cdc03590e782",
-                            ConcurrencyStamp = "a98a7ba6-25cc-44a3-8509-227062003e24",
+                            Id = "cd2c209a-7d06-43af-815a-5792da84ddb6",
+                            ConcurrencyStamp = "1e66e557-59c2-4589-936b-2518171fc2fc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

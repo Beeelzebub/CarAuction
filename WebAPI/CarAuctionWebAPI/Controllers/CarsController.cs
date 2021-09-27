@@ -76,15 +76,15 @@ namespace CarAuctionWebAPI.Controllers
             return this.Answer(result, Ok(result));
         }
 
-        [HttpPost("/Redemption/{lotId}")]
+        [HttpPost("Redemption/{id}")]
         [Authorize]
         [SwaggerOperation(Summary = "Lot redemption")]
         [SwaggerResponse(200, "Bid is accepted", typeof(Response))]
         [SwaggerResponse(400, "Lot not found", typeof(Response))]
         [SwaggerResponse(400, "Seller cannot redeem his own car", typeof(Response))]
-        public async Task<IActionResult> Redemption(int lotId)
+        public async Task<IActionResult> Redemption(int id)
         {
-            var result = await _auctionService.RedemptionAsync(lotId, User);
+            var result = await _auctionService.RedemptionAsync(id, User);
 
             return this.Answer(result, Ok(result));
         }
