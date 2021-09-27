@@ -65,7 +65,6 @@ namespace Services.Profile
                 CarBody = lotCreationDto.CarBody,
                 DriveUnit = lotCreationDto.DriveUnit
             }; 
-           // car = _mapper.Map<Car>(lotCreationDto);
             var lot = _mapper.Map<Lot>(lotCreationDto);
             var model = _mapper.Map<Model>(lotCreationDto);
             var brand = _mapper.Map<Brand>(lotCreationDto);
