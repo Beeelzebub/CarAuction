@@ -13,7 +13,7 @@ using Services.Administration;
 namespace CarAuctionWebAPI.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "admin")]
     [ApiController]
     public class AdminController : ControllerBase
     {

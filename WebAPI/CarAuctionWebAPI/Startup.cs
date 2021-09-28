@@ -1,6 +1,8 @@
 using CarAuctionWebAPI.Extensions;
 using CarAuctionWebAPI.Filters;
 using CarAuctionWebAPI.Middleware;
+using Entity.DbInitializer;
+using Entity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Hangfire;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.JsonPatch;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace CarAuctionWebAPI
 {
@@ -60,6 +62,7 @@ namespace CarAuctionWebAPI
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
+            
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
