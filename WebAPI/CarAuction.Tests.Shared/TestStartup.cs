@@ -17,7 +17,6 @@ namespace CarAuction.IntegrationTests
             services.AddDbContext<TestCarAuctionDbContext>(options =>
             {
                 options.UseInMemoryDatabase("CarAuctionTestDb");
-                options.
             });
 
             services.AddServices();

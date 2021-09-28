@@ -12,6 +12,51 @@ namespace CarAuction.UnitTests.Shared
     {
         public const string TestUserId = "TestUserId";
 
+        public static Car GetTestCar() =>
+            new Car()
+            {
+                Id = 1,
+                CarBody = CarBody.Coupe,
+                DriveUnit = DriveUnit.FourWheelDrive,
+                Fuel = Fuel.Diesel,
+                Image = Encoding.ASCII.GetBytes("hello"),
+                Model = new Model()
+                {
+                    Id = 1,
+                    Name = "Audi",
+                    BrandId = 1,
+                    Brand = new Brand()
+                    {
+                        Id = 1,
+                        BrandName = "A6"
+                    }
+                },
+                ModelId = 1,
+                LotId = 1,
+                Year = 2018,
+
+                Lot = new Lot()
+                {
+                    Id = 1,
+                    StartDate = DateTime.Now,
+                    Status = LotStatus.Pending,
+                    MinimalStep = 2000,
+                    StartingPrice = 10000,
+                    RedemptionPrice = 20000,
+                    CurrentCost = 10000,
+                    SellerId = TestUserId,
+                    
+                    Bids = new List<Bid>
+                    {
+                    new Bid()
+                        {
+                        Id = 1,
+                        BidStatus = BidStatus.Active
+                        }
+                    }
+                }
+            };
+
         public static Lot GetTestLot() =>
             new Lot()
             {
@@ -21,6 +66,7 @@ namespace CarAuction.UnitTests.Shared
                     CarBody = CarBody.Coupe,
                     DriveUnit = DriveUnit.FourWheelDrive,
                     Fuel = Fuel.Diesel,
+                    Image = Encoding.ASCII.GetBytes("hello"),
                     ModelId = 1
                 },
                 StartDate = DateTime.Now,
@@ -48,6 +94,7 @@ namespace CarAuction.UnitTests.Shared
                     CarBody = CarBody.Coupe,
                     DriveUnit = DriveUnit.FourWheelDrive,
                     Fuel = Fuel.Diesel,
+                    Image = Encoding.ASCII.GetBytes("hello"),
                     ModelId = 1
                 },
                 new Car()
@@ -55,6 +102,7 @@ namespace CarAuction.UnitTests.Shared
                     CarBody = CarBody.Coupe,
                     DriveUnit = DriveUnit.FourWheelDrive,
                     Fuel = Fuel.Diesel,
+                    Image = Encoding.ASCII.GetBytes("hello"),
                     ModelId = 2
                 },
                 new Car()
@@ -62,6 +110,7 @@ namespace CarAuction.UnitTests.Shared
                     CarBody = CarBody.Coupe,
                     DriveUnit = DriveUnit.FourWheelDrive,
                     Fuel = Fuel.Diesel,
+                    Image = Encoding.ASCII.GetBytes("hello"),
                     ModelId = 3
                 }
             };
@@ -77,6 +126,7 @@ namespace CarAuction.UnitTests.Shared
                         CarBody = CarBody.Coupe,
                         DriveUnit = DriveUnit.FourWheelDrive,
                         Fuel = Fuel.Diesel,
+                        Image = Encoding.ASCII.GetBytes("hello"),
                         ModelId = 1
                     },
                     StartDate = DateTime.Now,
@@ -93,6 +143,7 @@ namespace CarAuction.UnitTests.Shared
                         CarBody = CarBody.Coupe,
                         DriveUnit = DriveUnit.FourWheelDrive,
                         Fuel = Fuel.Diesel,
+                        Image = Encoding.ASCII.GetBytes("hello"),
                         ModelId = 2
                     },
                     StartDate = DateTime.Now,
@@ -118,6 +169,7 @@ namespace CarAuction.UnitTests.Shared
                         CarBody = CarBody.Coupe,
                         DriveUnit = DriveUnit.FourWheelDrive,
                         Fuel = Fuel.Diesel,
+                        Image = Encoding.ASCII.GetBytes("hello"),
                         ModelId = 3
                     },
                     StartDate = DateTime.Now,
