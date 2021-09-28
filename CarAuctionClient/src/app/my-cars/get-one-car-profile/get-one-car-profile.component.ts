@@ -13,7 +13,7 @@ import { ModalDeleteComponent } from './modal-delete/modal-delete.component';
 })
 export class GetOneCarProfileComponent implements OnInit {
 
-  constructor(private service: ProfileService,private dialog: MatDialog, private _activatedRoute: ActivatedRoute, private router: Router) { }
+  constructor(private service: ProfileService,private dialog: MatDialog, private _activatedRoute: ActivatedRoute) { }
 
   car: Car;
   

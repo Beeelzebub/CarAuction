@@ -22,7 +22,7 @@ export class ModalDeleteComponent implements OnInit {
 
   deleteClick(){
     this.service.deleteCar(this.id).subscribe(() =>{
-      this.router.navigate(['/myCars']);
+      this.router.navigate(['/profile/myCars']);
     });
   }
 

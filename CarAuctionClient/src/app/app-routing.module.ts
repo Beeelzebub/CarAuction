@@ -11,16 +11,16 @@ import { GetOneCarComponent } from './admin/get-one-car/get-one-car.component';
 import { AddCarComponent } from './my-cars/add-car/add-car.component';
 import { GetOneCarProfileComponent } from './my-cars/get-one-car-profile/get-one-car-profile.component';
 const routes: Routes = [
-  { path: '', component: CarAuctionComponent },
+  { path: 'cars', component: CarAuctionComponent },
+  { path: 'cars/:id/info', component: GetCarComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'myBids', component: MyBidsComponent },
-  { path: 'myCars', component: MyCarsComponent },
-  { path: ':id/info', component: GetCarComponent },
+  { path: 'profile/myBids', component: MyBidsComponent },
+  { path: 'profile/myCars', component: MyCarsComponent },
+  { path: 'profile/myCars/addCar', component: AddCarComponent },
+  { path: 'profile/myCars/:id/info', component: GetOneCarProfileComponent },
   { path: 'admin/cars', component: AdminComponent },
-  { path: 'admin/cars/:id', component: GetOneCarComponent },
-  { path: 'myCars/addCar', component: AddCarComponent },
-  { path: 'myCars/:id/info', component: GetOneCarProfileComponent }
+  { path: 'admin/cars/:id', component: GetOneCarComponent }
 ];
 
 @NgModule({

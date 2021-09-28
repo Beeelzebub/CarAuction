@@ -24,6 +24,6 @@ export class AuthService {
     
     localStorage.clear();
     this.isAuthorithed= false;
-    this.router.navigate(['']).then(()=>location.reload());
+    this.router.navigate(['/cars']).then(()=>location.reload());
   }
 }
