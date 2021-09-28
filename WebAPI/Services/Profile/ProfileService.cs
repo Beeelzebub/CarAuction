@@ -50,7 +50,7 @@ namespace Services.Profile
 
         public async Task<BaseResponse> AddLotAsync(LotCreationDto lotCreationDto, ClaimsPrincipal sellerClaims)
         {
-
+            
 
             byte[] imageData = null;
             using (var binaryReader = new BinaryReader(lotCreationDto.Image.OpenReadStream()))
@@ -64,15 +64,39 @@ namespace Services.Profile
                 Fuel = lotCreationDto.Fuel,
                 CarBody = lotCreationDto.CarBody,
                 DriveUnit = lotCreationDto.DriveUnit
-            }; 
+            };
+            
             var lot = _mapper.Map<Lot>(lotCreationDto);
-            var model = _mapper.Map<Model>(lotCreationDto);
-            var brand = _mapper.Map<Brand>(lotCreationDto);
-
+            //var model = _mapper.Map<Model>(lotCreationDto);
+            //var brand = _mapper.Map<Brand>(lotCreationDto);
+            var models = await _repositoryManager.GetRepositoryByEntity<Model>().GetListAsync();
+            var brands = await _repositoryManager.GetRepositoryByEntity<Brand>().GetListAsync();
             lot.SellerId = _userManager.GetUserId(sellerClaims);
             lot.Car = car;
-            lot.Car.Model = model;
-            lot.Car.Model.Brand = brand;
+            foreach (var data in models)
+            {
+                if (data.Name == lotCreationDto.Name)
+                {
+                    lot.Car.Model = data;
+                }
+            }
+            lot.Car.Model ??= new Model
+            {
+                Name = lotCreationDto.Name
+            };
+            foreach (var data in brands)
+            {
+                if (data.BrandName == lotCreationDto.BrandName)
+                {
+                    lot.Car.Model.Brand = data;
+                }
+            }
+            lot.Car.Model.Brand ??= new Brand
+            {
+                BrandName = lotCreationDto.BrandName
+            };
+            //lot.Car.Model = model;
+            //lot.Car.Model.Brand = brand;
 
             await _repositoryManager.Lot.CreateAsync(lot);
 
