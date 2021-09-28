@@ -4,29 +4,26 @@ using System.Linq;
 
 namespace Entity.RequestFeatures
 {
-    public class PagedList<T> : List<T>
+    public class PagedList<T>
     {
-        public MetaData MetaData { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
+        public int PageSize { get; set; }
+        public int TotalCount { get; set; }
+        public IEnumerable<T> Items { get; set; } = new List<T>();
 
-        public PagedList(IEnumerable<T> cars, int count, int pageNumber, int pageSize)
+        public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
         {
-            MetaData = new MetaData
-            {
-                TotalCount = count,
-                PageSize = pageSize,
-                CurrentPage = pageNumber,
-                TotalPages = (int)(count / (double) pageSize)
-            };
-            AddRange(cars);
+            TotalCount = count;
+            PageSize = pageSize;
+            CurrentPage = pageNumber;
+            TotalPages = (int)(count / (double)pageSize) + 1;
+            Items = items;
         }
 
-        public static PagedList<T> ToPagedList(IEnumerable<T> cars, int pageNumber, int pageSize)
+        public PagedList()
         {
-            var count = cars.Count();
-            var returnCars = cars
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize).ToList();
-            return new PagedList<T>(returnCars, count, pageNumber, pageSize);
+
         }
     }
 }

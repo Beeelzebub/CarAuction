@@ -2,6 +2,7 @@
 using AutoMapper;
 using DTO;
 using Entity.Models;
+using Entity.RequestFeatures;
 
 namespace CarAuctionWebAPI
 {
@@ -19,7 +20,7 @@ namespace CarAuctionWebAPI
                 .ForMember(opt => opt.Image,
                     bn => bn.MapFrom(x => Convert.ToBase64String(x.Image)));
 
-
+            CreateMap<PagedList<Car>, PagedList<CarDto>>();
 
 
             CreateMap<Car, GetOneCarDto>()

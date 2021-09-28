@@ -9,7 +9,7 @@ using Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
-namespace CarAuction.Tests.Shared.DataAccess.Helpers
+namespace CarAuction.IntegrationTests.DataAccess.Helpers
 {
     public class TestDataSeed
     {
