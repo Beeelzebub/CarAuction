@@ -32,7 +32,7 @@ namespace CarAuctionWebAPI.Controllers
 
         [HttpGet]
         [SwaggerOperation(Summary = "Get all cars")]
-        [SwaggerResponse(200, "Get all cars", typeof(Response<List<CarDto>>))]
+        [SwaggerResponse(200, "Get all cars", typeof(Response<PagedList<CarDto>>))]
         public async Task<IActionResult> GetCars([FromQuery] CarParameters carParameters)
         {
             var result = await _auctionService.GetCarsAsync(carParameters);

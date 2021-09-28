@@ -79,7 +79,7 @@ namespace Services.Auction
         {
             var cars = await _repositoryManager.Car.GetListCarsAsync(carParameters);
 
-            var carDtoList = _mapper.Map<List<CarDto>>(cars);
+            var carDtoList = _mapper.Map<PagedList<CarDto>>(cars);
 
             return BaseResponse.Success(carDtoList);
         }

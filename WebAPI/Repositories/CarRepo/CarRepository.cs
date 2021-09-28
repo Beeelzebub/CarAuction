@@ -41,7 +41,7 @@ namespace Repositories
                 .SingleOrDefaultAsync(c => c.Id.Equals(id));
         }
 
-        public async Task<IEnumerable<Car>> GetListCarsAsync(CarParameters carParameters)
+        public async Task<PagedList<Car>> GetListCarsAsync(CarParameters carParameters)
         {
             var query = _bdContext.Cars
                 .Include(m => m.Model)
@@ -60,10 +60,10 @@ namespace Repositories
 
             var cars = await query.ToListAsync();
 
-            return PagedList<Car>.ToPagedList(cars, carParameters.PageNumber, carParameters.PageSize);
+            return cars.ToPagedList(carParameters);
         }
 
-        public async Task<IEnumerable<Car>> GetListByParametersAsync(string currentUserId, CarsParametersInProfile carsParametersInProfile)
+        public async Task<PagedList<Car>> GetListByParametersAsync(string currentUserId, CarsParametersInProfile carsParametersInProfile)
         {
             var query = _bdContext.Cars.Include(c => c.Model).ThenInclude(m => m.Brand).Where(l => l.Lot.SellerId.Equals(currentUserId));
 
@@ -74,7 +74,7 @@ namespace Repositories
 
             var cars = await query.ToListAsync();
 
-            return PagedList<Car>.ToPagedList(cars, carsParametersInProfile.PageNumber, carsParametersInProfile.PageSize);
+            return cars.ToPagedList(carsParametersInProfile);
         }
 
         public override async Task<Car> GetAsync(int id) =>

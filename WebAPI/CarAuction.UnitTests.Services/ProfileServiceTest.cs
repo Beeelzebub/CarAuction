@@ -74,8 +74,8 @@ namespace CarAuction.UnitTests.Services
         public async Task GetUsersCarsAsyncTest()
         {
             var userClaims = new ClaimsPrincipal();
-            _mockRepositoryManager.Setup(repo => repo.Car.GetListByParametersAsync(TestData.TestUserId, null))
-                .Returns(Task.FromResult(TestData.GetTestCarsList()));
+           // _mockRepositoryManager.Setup(repo => repo.Car.GetListByParametersAsync(TestData.TestUserId, null))
+           //    .Returns(Task.FromResult(null));
             _mockUserManager.Setup(mg => mg.GetUserId(userClaims))
                 .Returns(TestData.TestUserId);
 
