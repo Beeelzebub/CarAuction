@@ -5,8 +5,6 @@
       <a class="navbar-brand" type="button" mat-button (click)="openMyBids()">Мои ставки</a>
     </div>
     <div>
-
-
       <div *ngIf="service.isAuthorithed; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
           <a class="navbar-brand " type="button" mat-button (click)="openLogin()">Войти</a>
@@ -15,14 +13,6 @@
         <ng-template #elseBlock>
           <a class="navbar-brand m-3" type="button" (click)="service.logoutClick()">Выйти</a>
 </ng-template>
-
-  
-      
-      
     </div>
   </nav>
-  
-  
-  
-  
 <router-outlet></router-outlet>

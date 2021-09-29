@@ -19,7 +19,6 @@ export class MyBidsComponent implements OnInit {
 
   getBids(){
     this.service.getBids().subscribe(data=>{
-      console.log(data.data);
       this.bids = data.data;
     });
   }

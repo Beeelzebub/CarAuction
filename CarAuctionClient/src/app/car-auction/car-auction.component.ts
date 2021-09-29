@@ -6,8 +6,7 @@ import { CarsParameters } from '../shared/models/cars-parameters.model';
 @Component({
   selector: 'app-car-auction',
   templateUrl: './car-auction.component.html',
-  styles: [
-  ]
+  styleUrls: ['./car-auction.component.css']
 })
 export class CarAuctionComponent implements OnInit {
 
@@ -23,17 +22,32 @@ export class CarAuctionComponent implements OnInit {
   modelName:string = "";
   minYear:number=0;
   maxYear:number=2021;
+  totalPages:number;
+  currentPage:number;
+  isFiltering: boolean = false;
 
 
   ngOnInit(): void {
     this.refreshList();
     this.getModelsWithBrands();
   }
-  refreshList(){
-    this.service.listCars().subscribe(data =>{
-      this.carsList = data.data;
 
-      
+  createRange(){
+    var items: number[] = [];
+    for(var i = 1; i <= this.totalPages; i++){
+      items.push(i);
+    }
+    return items;
+    
+  }
+
+
+  refreshList(page?: number){
+    this.isFiltering = false;
+    this.currentPage = page || 1;
+    this.service.listCars(this.currentPage).subscribe(data =>{
+      this.carsList = data.data.items;
+      this.totalPages = data.data.totalPages
       if(this.carsList.length < 1){
         this.carListCount = false;
       }
@@ -43,11 +57,13 @@ export class CarAuctionComponent implements OnInit {
     });
     
   }
-  getCarByCondition(modelName: string, brandName:string, minYear:number, maxYear: number){
+  getCarByCondition(modelName: string, brandName:string, minYear:number, maxYear: number, page?: number){
+    this.isFiltering = true;
+    this.currentPage = page || 1;
     this.carParam = {ModelName: modelName, BrandName: brandName, minYear: minYear, maxYear: maxYear}; 
-    this.service.listCarsByCondition(this.carParam).subscribe(data =>{
-      this.carsList = data.data;
-      
+    this.service.listCarsByCondition(this.carParam, this.currentPage).subscribe(data =>{
+      this.carsList = data.data.items;
+      this.totalPages = data.data.totalPages
       if(this.carsList.length < 1){
         this.carListCount = false;
       }

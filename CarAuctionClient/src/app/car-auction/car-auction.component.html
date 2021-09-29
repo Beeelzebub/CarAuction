@@ -19,11 +19,9 @@
           </option>
         </select>
       </div>
-      
       <div class="col-lg-6 row">
         <label class="mb-2">Год</label>
         <div class="col-lg-3 mr-5">
-          
           <input type="number" class="form-control" placeholder="Минимальный год" [(ngModel)]="minYear">
         </div>
         <div class="col-lg-3 mr-5">
@@ -36,17 +34,11 @@
           <button class="btn btn-primary" (click)="dropClick()">Сброс</button>
         </div>
       </div>
-      
-     
-     
     </div>
   </div>
-  
 </div>
-
-
-<div *ngIf="carListCount; then thenBlock else elseBlock"></div>
-<ng-template #thenBlock>
+<div *ngIf="carListCount; then showCars else notFound"></div>
+<ng-template #showCars>
   <div class="mt-5" *ngFor="let data of carsList">
       <div class="container">
           <div class="row ">
@@ -68,6 +60,41 @@
         </div>
   </div>
 </ng-template>
-<ng-template #elseBlock>
+<ng-template #notFound>
   <h1 class="text-center">Cars Not Found</h1>
 </ng-template>
+<div>
+  <div *ngIf="isFiltering; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+      <div class="d-flex justify-content-center">
+        <div class="pagination" *ngFor="let number of createRange()">
+          <a type="button" (click)="getCarByCondition(modelName,brandName,minYear,maxYear,number)">{{number}}</a>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #elseBlock>
+      <div class="d-flex justify-content-center">
+        <div *ngIf="currentPage>1; then thenBl else elseBl"></div>
+        <ng-template #thenBl>
+          <div class="pagination">
+            <a type="button" [ngModel]="currentPage" (click)=" refreshList(currentPage-1)">&laquo;</a>
+          </div> 
+        </ng-template>
+        <ng-template #elseBl>
+        </ng-template>
+        <div class="pagination" *ngFor="let number of createRange()">
+          <a type="button" (click)=" refreshList(number)">{{number}}</a>
+        </div>
+        <div *ngIf="currentPage<totalPages; then thenB else elseB"></div>
+        <ng-template #thenB>
+          <div class="pagination">
+            <a type="button" [ngModel]="currentPage" (click)=" refreshList(currentPage+1)">&raquo;</a>
+          </div> 
+        </ng-template>
+        <ng-template #elseB>
+        </ng-template>
+      </div>
+    </ng-template>
+</div>
+
+

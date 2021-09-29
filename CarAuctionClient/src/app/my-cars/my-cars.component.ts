@@ -20,13 +20,12 @@ export class MyCarsComponent implements OnInit {
 
   allClick(){
     this.service.GetUserCars().subscribe(data =>{
-      this.carsList = data.data;
-      console.log(this.carsList);
+      this.carsList = data.data.items;
     });
   }
   filterClick(status: Lot){
     this.service.GetUserCarsWithStatus(status).subscribe(data =>{
-      this.carsList = data.data;
+      this.carsList = data.data.items;
     });
   }
 

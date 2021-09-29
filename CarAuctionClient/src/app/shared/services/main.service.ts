@@ -19,15 +19,16 @@ export class MainService {
     return headers;
   }
 
-  listCars(): Observable<any>{
-    return this.http.get<any>(this.apiURL + '/Cars');
+  listCars(currentPage?: number): Observable<any>{
+    return this.http.get<any>(this.apiURL + '/Cars', {params:{PageNumber:currentPage || 1,}});
   }
-  listCarsByCondition(carParam:CarsParameters): Observable<any>{
+  listCarsByCondition(carParam:CarsParameters, currentPage?: number): Observable<any>{
     return this.http.get<any>(this.apiURL + '/Cars', {params:{
       modelName: carParam.ModelName, 
       brandName: carParam.BrandName,
       minYear: carParam.minYear,
-      maxYear: carParam.maxYear
+      maxYear: carParam.maxYear,
+      PageNumber:currentPage || 1
     }});
   }
   getOneCar(id: number): Observable<any>{

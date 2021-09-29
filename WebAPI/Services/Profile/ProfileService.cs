@@ -135,7 +135,7 @@ namespace Services.Profile
 
             var cars = await _repositoryManager.Car.GetListByParametersAsync(userId, carsParametersInProfile);
 
-            var carDtoList = _mapper.Map<List<CarDto>>(cars);
+            var carDtoList = _mapper.Map<PagedList<CarDto>>(cars);
 
             return BaseResponse.Success(carDtoList);
         }

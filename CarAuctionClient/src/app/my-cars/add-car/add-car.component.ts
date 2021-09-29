@@ -32,7 +32,7 @@ export class AddCarComponent implements OnInit {
     model = this.modelForCreatingLot;
     this.service.addCar(model).subscribe(
       ()=>{
-        this.router.navigate(['/myCars']);
+        this.router.navigate(['/profile/myCars']);
       }
     );
   }
