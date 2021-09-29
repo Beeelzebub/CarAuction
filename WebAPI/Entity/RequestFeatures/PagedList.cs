@@ -17,7 +17,7 @@ namespace Entity.RequestFeatures
             TotalCount = count;
             PageSize = pageSize;
             CurrentPage = pageNumber;
-            TotalPages = (int)(count / (double)pageSize) + 1;
+            TotalPages = (int)Math.Ceiling((double)count / pageSize);
             Items = items;
         }
 
