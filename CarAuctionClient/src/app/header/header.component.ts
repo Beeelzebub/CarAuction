@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
       this.dialog.open(LoginComponent, {width:'500px'});
     }
     else{
-      this.router.navigate(['/myCars']);
+      this.router.navigate(['profile/myCars']);
     }
   }
   openMyBids(){
@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
       this.dialog.open(LoginComponent, {width:'500px'});
     }
     else{
-      this.router.navigate(['/myBids']);
+      this.router.navigate(['profile/myBids']);
     }
   }
   

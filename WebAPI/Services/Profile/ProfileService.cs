@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DTO;
@@ -13,7 +10,6 @@ using Entity.RequestFeatures;
 using Enums;
 using Microsoft.AspNetCore.Identity;
 using Repositories;
-using Services.Exceptions;
 
 namespace Services.Profile
 {
@@ -30,18 +26,18 @@ namespace Services.Profile
             _mapper = mapper;
         }
         
-        public async Task<BaseResponse> RemoveLotAsync(int lotId, ClaimsPrincipal sellerClaims)
+        public async Task<BaseResponse> RemoveLotAsync(int id, ClaimsPrincipal sellerClaims)
         {
-            var lot = await GetLotAsync(lotId);
+            var car = await _repositoryManager.Car.GetCarAsync(id);
 
-            var checkResult = LotCheck(lot, sellerClaims);
+            var checkResult = LotCheck(car, sellerClaims);
 
             if (checkResult != ErrorCode.Success)
             {
                 return BaseResponse.Fail(checkResult);
             }
 
-            _repositoryManager.Lot.Delete(lot);
+            _repositoryManager.Car.Delete(car);
 
             await _repositoryManager.SaveAsync();
 
@@ -105,18 +101,19 @@ namespace Services.Profile
             return BaseResponse.Success();
         }
 
-        public async Task<BaseResponse> GetUsersCarInfoAsync(int lotId, ClaimsPrincipal userClaims)
+        public async Task<BaseResponse> GetUsersCarInfoAsync(int id, ClaimsPrincipal userClaims)
         {
-            var lot = await GetLotAsync(lotId);
+            var car = await _repositoryManager.Car.GetCarAsync(id);
 
-            var checkResult = LotCheck(lot, userClaims);
+            var checkResult = LotCheck(car, userClaims);
 
             if (checkResult != ErrorCode.Success)
             {
                 return BaseResponse.Fail(checkResult);
             }
 
-            var carDto = _mapper.Map<CarDto>(lot.Car);
+            var carDto = _mapper.Map<GetOneCarDto>(car);
+            _mapper.Map(car.Lot, carDto);
 
             return BaseResponse.Success(carDto);
         }
@@ -142,21 +139,19 @@ namespace Services.Profile
 
             return BaseResponse.Success(carDtoList);
         }
+        
 
-        private async Task<Lot> GetLotAsync(int lotId) => 
-            await _repositoryManager.Lot.GetAsync(lotId);
-            
 
-        private ErrorCode LotCheck(Lot lot, ClaimsPrincipal userClaims)
+        private ErrorCode LotCheck(Car car, ClaimsPrincipal userClaims)
         {
             var userId = _userManager.GetUserId(userClaims);
 
-            if (lot == null)
+            if (car == null)
             {
                 return ErrorCode.LotNotFoundError;
             }
 
-            if (lot.SellerId != userId)
+            if (car.Lot.SellerId != userId)
             {
                 return ErrorCode.NoPermissionsError;
             }
